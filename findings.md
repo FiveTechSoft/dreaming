@@ -6,6 +6,57 @@ We successfully implemented a DMT-inspired weight perturbation pipeline for Tiny
 
 ---
 
+## Covariance-Aligned Steering (Technique 16)
+
+### Concept
+Instead of modifying weights randomly (like amplify_subspace), this technique:
+1. Computes **block-level statistics** (mean, std) from the model's own weights
+2. Generates **control vectors** weighted by these statistics
+3. Projects perturbations through the **diagonal covariance** to stay on the natural manifold
+
+### Key Difference from amplify_subspace
+| Technique | Direction Selection | Manifold Preservation |
+|-----------|--------------------|-----------------------|
+| amplify_subspace | Random (all directions equal) | Approximate |
+| covariance-aligned | Weighted by local statistics | Explicit (via covariance) |
+
+### 5 Modes Implemented
+
+| Mode | Strategy | Effect |
+|------|----------|--------|
+| **analytical** | Amplify high-variance blocks | Structured reasoning |
+| **creative** | Amplify low-variance blocks | Rare/unusual patterns |
+| **code** | Amplify high-mean blocks | Structured output |
+| **poetic** | Oscillatory pattern | Rhythmic language |
+| **residual** | Orthogonal to dominant | Alternative perspectives |
+
+### Results (all coherent at intensity 0.10)
+
+**Prompt: "The secret to happiness is"**
+
+| Mode | Output |
+|------|--------|
+| baseline | "cultivating a positive attitude and mindset, practicing gratitude..." |
+| analytical | "realization that we are all unique, with different interests..." |
+| creative | "not a one-size-fits-all solution, but rather a personalized approach..." |
+| code | "finding meaning and purpose in life..." |
+| poetic | "live in the present, be grateful for what you have..." |
+| residual | "learning to live in the present moment, appreciating the small things..." |
+
+### Files Created
+- `C:/tmp/covsteer_baseline_10.gguf` — amplify_subspace (comparison)
+- `C:/tmp/covsteer_analytical_10.gguf` — structured reasoning mode
+- `C:/tmp/covsteer_creative_10.gguf` — rare patterns mode
+- `C:/tmp/covsteer_code_10.gguf` — structured output mode
+- `C:/tmp/covsteer_poetic_10.gguf` — oscillatory mode
+- `C:/tmp/covsteer_residual_10.gguf` — orthogonal mode
+
+### Code
+- `C:/tmp/dreaming/covariance_bake.py` — Fast implementation (diagonal covariance)
+- `C:/tmp/dreaming/covariance_steering.py` — Full implementation (requires llama-cpp-python)
+
+---
+
 ## Pipeline Architecture
 
 ### Binary Header Copy Approach
