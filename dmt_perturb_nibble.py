@@ -1,39 +1,13 @@
 #!/usr/bin/env python3
 """
-DMT perturbation v4 - Binary header copy + vectorized Q4_0 processing.
+DMT perturbation v5 - Nibble-level perturbation (no float roundtrip).
+Perturbs quantized nibble values directly, avoiding dequant/requant precision loss.
 """
 import sys, os, struct, time, numpy as np
 
 Q4_BLOCK = 32
 Q4_BYTES = 18
 GGUF_MAGIC = b'GGUF'
-
-def dequantize_q4_0_vectorized(raw_bytes):
-    """Vectorized Q4_0 dequantization. raw_bytes: 1D uint8 array of length N*18 -> N*32 float32."""
-    n_blocks = len(raw_bytes) // Q4_BYTES
-    data = raw_bytes[:n_blocks * Q4_BYTES].reshape(n_blocks, Q4_BYTES)
-    scales = np.frombuffer(data[:, :2].tobytes(), dtype=np.float16).astype(np.float32)
-    nibbles = data[:, 2:18]
-    lo = (nibbles & 0x0F).astype(np.float32) - 8.0
-    hi = ((nibbles >> 4) & 0x0F).astype(np.float32) - 8.0
-    values = np.concatenate([lo, hi], axis=1) * scales[:, np.newaxis]
-    return values.flatten()
-
-def requantize_q4_0_vectorized(values):
-    """Vectorized Q4_0 requantization. values: float32 array of N*32 -> N*18 uint8 bytes."""
-    n_blocks = len(values) // Q4_BLOCK
-    data = values[:n_blocks * Q4_BLOCK].reshape(n_blocks, Q4_BLOCK)
-    absmax = np.abs(data).max(axis=1)
-    absmax = np.maximum(absmax, 1e-9)
-    scales = absmax / 8.0  # Q4_0 uses divisor 8.0 (not 7.5)
-    scales_f16 = scales.astype(np.float16)
-    quanted = np.clip(np.round(data / scales[:, np.newaxis]) + 8, 0, 15).astype(np.uint8)
-    lo = quanted[:, :16]
-    hi = quanted[:, 16:]
-    packed = lo | (hi << 4)
-    scale_bytes = scales_f16.tobytes()
-    result = np.concatenate([np.frombuffer(scale_bytes, dtype=np.uint8).reshape(n_blocks, 2), packed], axis=1)
-    return result.tobytes()
 
 def skip_value(f, vtype):
     if vtype == 8:
@@ -67,14 +41,12 @@ with open(INPUT, 'rb') as fin:
     n_kv = struct.unpack('<Q', fin.read(8))[0]
     print(f"  Version: {version}, Tensors: {n_tensors}, KV pairs: {n_kv}")
 
-    # Skip KV pairs
     for i in range(n_kv):
         klen = struct.unpack('<Q', fin.read(8))[0]
         fin.read(klen)
         vtype = struct.unpack('<I', fin.read(4))[0]
         skip_value(fin, vtype)
 
-    # Read tensor info
     tensor_infos = []
     for i in range(n_tensors):
         tname_len = struct.unpack('<Q', fin.read(8))[0]
@@ -88,14 +60,13 @@ with open(INPUT, 'rb') as fin:
     tensor_data_start = fin.tell()
     alignment = 32
     tensor_data_start = ((tensor_data_start + alignment - 1) // alignment) * alignment
-
     fin.seek(tensor_data_start)
     all_tensor_data = bytearray(fin.read())
 
 print(f"  Header: {tensor_data_start} bytes, Tensor data: {len(all_tensor_data)} bytes")
 print(f"  Loaded in {time.time()-t0:.1f}s")
 
-# ---- Apply DMT perturbation (vectorized) ----
+# ---- Apply DMT perturbation at nibble level ----
 perturbed_count = 0
 print(f"\nPerturbing (mode={MODE}, intensity={INTENSITY})...")
 
@@ -113,33 +84,49 @@ for idx, (tname, dims, ttype, toffset) in enumerate(tensor_infos):
         raw_end = raw_start + n_blocks * Q4_BYTES
 
         if raw_end > len(all_tensor_data):
-            print(f"  WARNING: {tname} overflows ({raw_end} > {len(all_tensor_data)})")
+            print(f"  WARNING: {tname} overflows")
             continue
 
-        # Vectorized dequantize
-        raw = np.frombuffer(bytes(all_tensor_data[raw_start:raw_end]), dtype=np.uint8)
-        values = dequantize_q4_0_vectorized(raw)
+        raw = np.frombuffer(bytes(all_tensor_data[raw_start:raw_end]), dtype=np.uint8).copy()
+        data = raw.reshape(n_blocks, Q4_BYTES)
 
-        # Apply perturbation
-        if MODE == "scaled_noise":
-            noise = rng.standard_normal(values.shape).astype(np.float32)
-            values += INTENSITY * noise
+        if MODE == "nibble_flip":
+            # Flip random nibbles by ±1
+            noise_scale = int(INTENSITY * 15)
+            if noise_scale < 1:
+                continue  # No perturbation at intensity 0
+            nibbles = data[:, 2:18].copy().reshape(-1)
+            noise = rng.integers(-noise_scale, noise_scale + 1, size=len(nibbles))
+            new_nibbles = np.clip(nibbles.astype(np.int16) + noise, 0, 15).astype(np.uint8)
+            data[:, 2:18] = new_nibbles.reshape(n_blocks, 16)
+
+        elif MODE == "scaled_noise":
+            # Dequantize, perturb, requantize (with correct divisor=8)
+            scales = np.frombuffer(data[:, :2].tobytes(), dtype=np.float16).astype(np.float32)
+            lo = (data[:, 2:18] & 0x0F).astype(np.float32) - 8.0
+            hi = ((data[:, 2:18] >> 4) & 0x0F).astype(np.float32) - 8.0
+            values = (np.concatenate([lo, hi], axis=1) * scales[:, np.newaxis]).flatten()
+            noise = rng.standard_normal(values.shape).astype(np.float32) * INTENSITY
+            values += noise
+            # Requantize
+            vdata = values.reshape(n_blocks, Q4_BLOCK)
+            absmax = np.abs(vdata).max(axis=1)
+            absmax = np.maximum(absmax, 1e-9)
+            new_scales = absmax / 8.0
+            new_scales_f16 = new_scales.astype(np.float16)
+            quanted = np.clip(np.round(vdata / new_scales[:, np.newaxis]) + 8, 0, 15).astype(np.uint8)
+            data[:, :2] = np.frombuffer(new_scales_f16.tobytes(), dtype=np.uint8).reshape(n_blocks, 2)
+            data[:, 2:18] = np.concatenate([quanted[:, :16] | (quanted[:, 16:] << 4)], axis=1)
+
         elif MODE == "row_shuffle":
-            row_len = dims[-1] if len(dims) > 1 else total_elements
-            if total_elements % row_len == 0:
-                rows = values.reshape(-1, row_len)
-                perm = rng.permutation(rows.shape[0])
-                values = rows[perm].flatten()
-        elif MODE == "amplify_subspace":
-            row_len = dims[-1] if len(dims) > 1 else total_elements
-            vec = rng.standard_normal(row_len).astype(np.float32)
-            vec /= np.linalg.norm(vec) + 1e-9
-            tiled = np.tile(vec, total_elements // row_len + 1)[:total_elements]
-            values += INTENSITY * tiled
+            # Shuffle nibble rows (each row = 16 bytes = 32 nibbles)
+            row_len = dims[-1] // 2 if len(dims) > 1 else n_blocks  # nibble rows
+            if row_len > 1:
+                nibbles = data[:, 2:18].reshape(-1, row_len)
+                perm = rng.permutation(nibbles.shape[0])
+                data[:, 2:18] = nibbles[perm].reshape(n_blocks, 16)
 
-        # Vectorized requantize
-        new_raw = requantize_q4_0_vectorized(values)
-        all_tensor_data[raw_start:raw_end] = bytearray(new_raw)
+        all_tensor_data[raw_start:raw_end] = data.tobytes()
         perturbed_count += 1
 
     if (idx + 1) % 50 == 0 or idx == len(tensor_infos) - 1:
