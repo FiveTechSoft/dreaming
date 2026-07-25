@@ -17,9 +17,13 @@ The goal: understand exactly how LLMs work at the binary level, then **build one
 
 | File | Description |
 |---|---|
+| `create_gguf.py` | Builds the 500MB GGUF v3 model file from scratch (header, tensor index, weight data) |
+| `fill_weights.py` | Fills all tensor weight data with synthetic dream-inspired patterns |
+| `create_tokenizer.py` | Generates a real BPE tokenizer (32K vocab, Llama-2 style) as tokenizer.json |
 | `llm_inference.c` | Pure C inference engine (~700 lines, no dependencies) |
-| `modelo.gguf` | GGUF v3 model with 112 tensors (500MB) — download from release |
-| `tokenizer.json` | Real BPE tokenizer (Llama-2 style, 32K vocab) |
+| `tokenizer.json` | Real BPE tokenizer (HuggingFace format, 32K vocab) |
+
+> **Note:** `modelo.gguf` (the 500MB binary model) is not tracked in git (see `.gitignore`). Use `create_gguf.py` to regenerate it.
 
 ### Reverse Engineering Artifacts
 
@@ -45,11 +49,11 @@ Every tensor weight was generated using dream-inspired patterns (not random — 
 
 | Pattern | Concept | Effect |
 |---|---|---|
-| 🌈 Neon Staircase | Sinusoidal frequency shift by depth | Ondas que cambian de color |
-| 🌲 Forest Echo | Resonance between shallow and deep layers | Pico en capas bajas y altas |
-| 🪙 Floating Coin | Three-state distribution (± and zero) | Distribución trimodal |
-| 🌀 Fractal Recursion | Self-similarity across scales | Auto-similitud fractal |
-| 💧 Lake of Silence | Sparse deep movements under stillness | 1% nonzero, mostly silence |
+| 🌈 Neon Staircase | Sinusoidal frequency shift by depth | Color-shifting waves |
+| 🌲 Forest Echo | Resonance between shallow and deep layers | Peak at shallow and deep layers |
+| 🪙 Floating Coin | Three-state distribution (positive, negative, zero) | Trimodal distribution |
+| 🌀 Fractal Recursion | Self-similarity across scales | Fractal self-similarity |
+| 💧 Lake of Silence | Sparse deep movements under stillness | 1% non-zero, mostly silence |
 
 ## Building
 
@@ -69,7 +73,14 @@ gcc -O2 -Wall -o llm_inference llm_inference.c -lm
 ## Using with llama.cpp
 
 ```bash
-# Download modelo.gguf from releases first
+# First regenerate the model file (500MB)
+python3 create_gguf.py
+
+# Then generate (fill weights)
+python3 fill_weights.py
+
+# Tokenizer is already in repo
+# Run inference
 llama-cli -m modelo.gguf --tokenizer-file tokenizer.json \
   -p "<s>DREAM" -n 30
 ```
@@ -90,12 +101,16 @@ llama-cli -m modelo.gguf --tokenizer-file tokenizer.json \
 
 ```
 dreaming/
-├── README.md          # This file
+├── README.md          # Project overview (this file)
 ├── ROADMAP.md         # Detailed project road map
-├── llm_inference.c    # C inference engine (~700 lines)
-├── llm_engine.py      # Python prototype (historical)
+├── create_gguf.py     # Builds the 500MB GGUF model file from scratch
+├── fill_weights.py    # Fills all tensor weights with synthetic patterns
+├── create_tokenizer.py # Generates BPE tokenizer (tokenizer.json)
+├── llm_engine.py      # Python inference prototype (historical)
+├── llm_inference.c    # Pure C inference engine (~700 lines, no dependencies)
 ├── tokenizer.json     # BPE tokenizer (HuggingFace format)
-├── modelo.gguf        # 500MB GGUF model (download from releases)
+├── modelo.gguf        # 500MB GGUF model — regenerate with create_gguf.py
+├── llm_inference.exe  # Compiled Windows binary
 └── .gitignore          # Excludes large .gguf binary
 ```
 
