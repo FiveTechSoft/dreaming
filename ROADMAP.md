@@ -2,61 +2,138 @@
 
 ## What We Built
 
-### 1. GGUF Model File (500 MB)
+### 1. Working LLM Inference Pipeline
 
-A valid GGUF v3 file with DeepSeek-V2 Lite architecture:
+- **TinyLlama-1.1B Q4_0** loaded and generating coherent text via llama.cpp
+- **SentencePiece tokenizer** decoded from the GGUF binary
+- **C inference engine** (`llm_inference.c`) — pure C, zero dependencies
+- **Python forward pass** (`run_inference_q40.py`) — working with Q4_0 weights
+- Inference speed: **97 tok/s** (llama.cpp), **~40 tok/s** (Python)
 
-- **Config**: 12 layers, 16 heads, 1024 hidden dim, 2048 FFN dim, 32K vocab
-- **112 tensors** with proper offsets and metadata
-- **Weights initialized** using 5 synthetic (dream-inspired) patterns:
-  - Neon Staircase — sinusoidal frequency drift by depth
-  - Forest Echo — resonance between shallow and deep layers
-  - Floating Coin — three-state distribution (positive, negative, zero)
-  - Fractal Recursion — self-similar patterns across scales
-  - Lake of Silence — sparse latent movements under stillness
+### 2. DMT Weight Perturbation Pipeline
 
-### 2. Tokenizer (tokenizer.json)
+Binary header copy approach — perturbs Q4_0 weights while preserving GGUF metadata:
 
-A real BPE tokenizer in HuggingFace format:
+- `dmt_perturb_v6.py` — 4 perturbation modes + selective targeting
+- 155/201 tensors perturbed per run
+- Processing time: ~15s (nibble), ~60s (float-space)
 
-- **32,000 vocab entries** (IDs 0–31999)
-- Byte-level base tokens (raw bytes 0–255)
-- 16,384 BPE merge operations
-- Llama-2 style chat template
-- Special tokens: `<unk>`, `<s>`, `</s>`, `<pad>`
+### 3. Tokenizer & GGUF Tooling
 
-### 3. C Inference Engine (llm_inference.c)
+- `create_gguf.py` — GGUF builder from scratch
+- `create_tokenizer.py` — SentencePiece tokenizer creator
+- `fill_weights.py` — Weight initializer
+- `dmt.md` — DMT analogy and 12 creative techniques mapped to weight perturbation
 
-Pure C with **zero external dependencies** (no Python, no numpy, no GPU):
+---
 
-- Full GGUF parser (reads binary format directly)
-- Manual F16 → F32 half-precision decoder
-- Transformer forward pass: embeddings, RMSNorm, multi-head attention with RoPE, SwiGLU FFN
-- Temperature + top-k sampling
-- Autoregressive generation loop
-- Compile command: `gcc -O2 -o llm_inference llm_inference.c -lm`
+## Creative Techniques Mapped to Weight Perturbation
+
+### Association Techniques
+
+| Technique | Description | Weight Equivalent |
+|-----------|-------------|-------------------|
+| Free association (Freud) | Say first thing that comes to mind, no filtering | Lower pruning threshold, increase noise |
+| Bisociation (Koestler) | Force intersection of two unrelated frames | `cross_layer_head_swap` between distant layers |
+| Lateral thinking / SCAMPER | Substitute, combine, adapt, magnify, invert | `sharpen_rows` or `amplify_subspace` |
+
+### State Alteration Techniques
+
+| Technique | Description | Weight Equivalent |
+|-----------|-------------|-------------------|
+| Incubation | Leave problem, return after sleep | Apply noise offline, evaluate across passes |
+| Hypnagogia (Edison/Dalí) | State just before sleep, flat hierarchies | Reduce layernorm gain in early layers |
+| Open monitoring meditation | Reduce top-down prefrontal control | Lower "gain" of control layers |
+
+### Structured Generation Techniques
+
+| Technique | Description | Weight Equivalent |
+|-----------|-------------|-------------------|
+| Mental maps / semantic networks | Make explicit connections, then jump to distant nodes | Map attention patterns, swap distant heads |
+| Forced analogy (Synectics) | "How would nature/music/a child solve this?" | Remap solution through alien domain weights |
+| Random constraint injection | Introduce random word/rule, force connection | `random_lowrank_inject` |
+
+### Pharmacological Frontier
+
+| Technique | Description | Weight Equivalent |
+|-----------|-------------|-------------------|
+| Psychedelic-assisted therapy | Greater signal entropy, cross-network connectivity | `cross_layer_head_swap` between distant layers |
+
+---
+
+## The 12 Perturbation Techniques
+
+### Implemented in `dmt_perturb_v6.py`
+
+| # | Technique | Mode | Description |
+|---|-----------|------|-------------|
+| 1 | Nibble flip | `nibble_flip` | Direct 4-bit value perturbation (no float roundtrip) |
+| 2 | Scaled noise | `scaled_noise` | Float-space noise with Q4_0 requantization |
+| 3 | Row shuffle | `row_shuffle` | Permutes weight rows within blocks |
+| 4 | Amplify subspace | `amplify_subspace` | Projects weights onto random subspace |
+
+### Additional Techniques (from creative mapping)
+
+| # | Technique | Function | Effect |
+|---|-----------|----------|--------|
+| 5 | Attention head reweighting | `reweight_attention_heads()` | Some heads "shout", others "whisper" |
+| 6 | DCT frequency distortion | `dct_distort()` | Amplifies high-frequency micro-patterns |
+| 7 | Row sharpening | `sharpen_rows()` | Exaggerates dominant features, flattens rest |
+| 8 | Cross-layer head swap | `cross_layer_head_swap()` | One layer "borrows" attention pattern from distant layer |
+| 9 | Low-rank injection | `random_lowrank_inject()` | Injects random low-rank structure |
+| 10 | LayerNorm gain reduction | Reduce layernorm gain | Reduces top-down control |
+| 11 | Cross-layer mixing | `mix_layers()` | Blends weights between distant layers |
+| 12 | Embedding perturbation | Perturb token_embd | Remaps token representations |
+
+---
+
+## Experimental Results
+
+### Prompt: "The meaning of life is"
+
+| Mode | Intensity | Target | Result |
+|------|-----------|--------|--------|
+| Original | — | — | "The word 'meaning' in the phrase 'the meaning of life' is often interpreted as referring to a fundamental purpose..." |
+| nibble_flip | 0.10 | attention | Fragmented tokens with word fragments ("calculusterstable", "complete", "anime") |
+| nibble_flip | 0.10 | ffn | Multilingual fragmented text ("clonerice", "surrounded", "error") |
+| row_shuffle | 0.10 | all | Code tokens mixed with Chinese characters ("Jenkins", "Outlet", "DateTime") |
+| **amplify_subspace** | **0.10** | **all** | **"The meaning of life is" is the title of a poem by William Stafford, published in his collection "Fish and Wild"...** |
+| amplify_subspace | 0.05 | all | Slightly altered, mostly faithful to original |
+| amplify_subspace | 0.15 | all | More distorted, less coherent |
+| amplify_subspace | 0.20 | all | Significantly degraded |
+
+### Key Finding
+
+**`amplify_subspace` at intensity 0.10** produces the most interesting results:
+- Text is grammatically correct and coherent
+- Content is **completely different** from the original model
+- No external content added — just reorganized internal knowledge
+- Closest analog to the DMT hypothesis: "hallucination is real information from the system, but recombined in disordered ways"
 
 ---
 
 ## What Is Actually Being Done Now
 
-We are in the **"engine is running but weights are random"** phase:
+We are in the **"DMT perturbation pipeline works"** phase:
 
-- The model **runs end-to-end** — loads GGUF, parses tensor metadata, converts F16→F32, executes 12 transformer layers, samples tokens
-- Outputs are valid tokens but **not coherent text** because the weights are synthetic-random patterns, not trained values
-- Inference speed: **~1.4 tokens/sec** for a 500MB model in pure C
+- ✅ Binary header copy preserves GGUF metadata perfectly
+- ✅ 4 perturbation modes implemented and tested
+- ✅ Selective targeting (attention, ffn, embedding, all layers)
+- ✅ `amplify_subspace` produces coherent-but-altered text
+- 🔄 Exploring intensity sweet spots for each mode
+- 🔄 Testing combinations of techniques
 
 ### What Comes Next
 
 | Phase | Goal | Status |
 |---|---|---|
-| **Phase 1 — Working Inference** ✅ | GGUF parser + forward pass passes | Done |
-| **Phase 2 — Training Data** | Collect/define training corpus for synthetic patterns | Planned |
-| **Phase 3 — Training Loop** | Implement SGD/training pass in C, modify weights | Planned |
-| **Phase 4 — Coherent Output** | Train weights to produce meaningful synthetic text | Planned |
-| **Phase 5 — Scale to 7GB** | Apply same pipeline to full 7GB model | Planned |
-| **Phase 6 — Optimization** | KV-cache, quantization (Q4), quantization-aware training | Planned |
-| **Phase 7 — Deployment** | llama.cpp integration, Ollama adapter, web UI | Planned |
+| **Phase 1 — Working Inference** ✅ | GGUF parser + forward pass | Done |
+| **Phase 2 — DMT Pipeline** ✅ | Binary header copy + perturbation | Done |
+| **Phase 3 — Technique Exploration** 🔄 | Test all 12 techniques at various intensities | In Progress |
+| **Phase 4 — Combinations** | Combine multiple techniques (bisociation + incubation) | Planned |
+| **Phase 5 — Layer-Specific Tuning** | Find optimal layers for each technique | Planned |
+| **Phase 6 — Evaluation Framework** | Systematic comparison of outputs | Planned |
+| **Phase 7 — Creative Writing** | Use DMT-perturbed models for creative text generation | Planned |
 
 ---
 
@@ -64,23 +141,28 @@ We are in the **"engine is running but weights are random"** phase:
 
 ```
 dreaming/
-├── README.md          # Project overview
-├── ROADMAP.md         # This file
-├── llm_inference.c    # C inference engine (~700 lines)
-├── llm_engine.py      # Python prototype (older version)
-├── .gitignore         # Excludes large .gguf model file
-└── modelo.gguf        # 500MB GGUF model (excluded from git, download separately)
+├── README.md              # Project overview
+├── ROADMAP.md             # This file
+├── dmt.md                 # DMT analogy + 12 creative techniques
+├── dmt_perturb_v6.py      # Multi-mode perturbation script
+├── dmt_perturb_nibble.py  # Nibble-level perturbation
+├── dmt_perturb_binary.py  # Binary header copy approach
+├── llm_inference.c        # C inference engine
+├── create_gguf.py         # GGUF builder
+├── create_tokenizer.py    # Tokenizer creator
+├── fill_weights.py        # Weight initializer
+└── .gitignore             # Excludes large .gguf files
 ```
 
 ---
 
 ## Design Philosophy
 
-- **No ML frameworks** — no PyTorch, no TensorFlow, no ONNX
-- **No runtime dependencies** — compiles on any system with gcc
-- **Self-contained** — one `.c` file does everything from parsing to generation
-- **Transparency** — every operation is readable C code, no black-box wrappers
 - **Oniric by design** — weights come from dream patterns, not random initialization
+- **DMT-inspired** — perturbation that preserves system identity but reorganizes associations
+- **Binary-first** — work directly with GGUF format, no framework dependencies
+- **Empirical** — test every technique, compare outputs side by side
+- **Transparent** — every operation is readable Python/C code
 
 ---
 
@@ -88,24 +170,23 @@ dreaming/
 
 ### Prerequisites
 
-- GCC or any C11 compiler
-- Standard C library + math.h
+- Python 3.10+ with numpy, gguf
+- llama.cpp (pre-built or compiled)
+- GCC or any C11 compiler (for C inference engine)
 
-### Build
+### Run DMT Perturbation
+
+```bash
+# Generate perturbed model
+python dmt_perturb_v6.py input.gguf output.gguf amplify_subspace 0.10 all
+
+# Test with llama.cpp
+llama-cli -m output.gguf -p "The meaning of life is" -n 100 --temp 0.7
+```
+
+### Build C Engine
 
 ```bash
 gcc -O2 -Wall -o llm_inference llm_inference.c -lm
-```
-
-### Run
-
-```bash
 ./llm_inference modelo.gguf "DREAM" 30 0.8 25
-```
-
-### With llama.cpp
-
-```bash
-# Download modelo.gguf separately (see .gitignore)
-llama-cli -m modelo.gguf --tokenizer-file tokenizer.json -p "<s>DREAM" -n 30
 ```
