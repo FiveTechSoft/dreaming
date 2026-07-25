@@ -110,6 +110,24 @@ Binary header copy approach — perturbs Q4_0 weights while preserving GGUF meta
 - No external content added — just reorganized internal knowledge
 - Closest analog to the DMT hypothesis: "hallucination is real information from the system, but recombined in disordered ways"
 
+### Intensity Response Curve
+
+| Intensity | Effect | Quality |
+|-----------|--------|---------|
+| 0.05 | Very close to original, slightly rephrased | Too faithful |
+| **0.10** | **Maximum divergence, coherent text** | **Sweet spot** |
+| 0.15 | Close to original, more philosophical | Slightly shifted |
+| 0.20 | Different perspective, more comprehensive | More divergent |
+| 0.25+ | Degraded quality, repetitive | Too much noise |
+
+### Prompt Comparison: "Explain quantum computing"
+
+| Original | DMT amplify_subspace 0.10 |
+|----------|---------------------------|
+| "uses quantum mechanics to simulate and process data at a faster and more efficient rate" | "leverages the properties of quantum mechanics to perform computations that would be impossible or too expensive" |
+| Mentions qubits, binary | Focuses on entanglement as central principle |
+| Standard textbook explanation | More abstract/philosophical approach |
+
 ---
 
 ## What Is Actually Being Done Now
