@@ -47,3 +47,38 @@ def dmt_perturb(param, intensity=0.3, mode="scaled_noise"):
 - **amplify_subspace** vía SVD es lo más interesante para tu hipótesis: no añade nada externo, solo reponderá lo que el modelo ya "sabe", exagerando lo dominante — que es literalmente la idea de que la experiencia es material propio reorganizado, no contenido nuevo.
 
 ¿Quieres que lo montemos como script que aplique esto a capas específicas (por ejemplo solo mlp de las capas intermedias) y compare generaciones antes/después con el mismo prompt?
+
+## Resultados experimentales (TinyLlama-1.1B Q4_0)
+
+### Pipeline
+- Binary header copy: copia el header GGUF completo (KV pairs + tensor info) byte a byte
+- Perturbación directa a nivel de nibbles Q4_0 (sin roundtrip float, sin pérdida adicional)
+- Script: `dmt_perturb_v6.py` — soporta 4 modos + targeting selectivo (attention, ffn, embedding, all)
+
+### Modos y resultados
+
+**Prompt: "The meaning of life is"**
+
+| Modo | Intensity | Target | Resultado |
+|------|-----------|--------|-----------|
+| `nibble_flip` | 0.10 | attention | Tokens fragmentados pero con fragments de palabras reales ("calculusterstable", "complete", "anime") |
+| `nibble_flip` | 0.10 | ffn | Texto multilingüe fragmentado ("clonerice", "surrounded", "error", "protected") |
+| `row_shuffle` | 0.10 | all | Tokens de código mezclados con caracteres chinos ("Jenkins", "Outlet", "DateTime") |
+| **`amplify_subspace`** | **0.10** | **all** | **TEXTO COHERENTE ALTERADO**: "The meaning of life is" is the title of a poem by William Stafford..." |
+| `scaled_noise` | 0.05 | all | Texto repetitivo pero con tokens reconocibles |
+
+### Hallazgo clave
+
+**`amplify_subspace`** es el modo más fiel a la analogía DMT:
+- No añade contenido externo
+- Proyecta los pesos sobre un subespacio aleatorio y amplifica esa dirección
+- El modelo sigue "hablando su propio idioma" pero con asociaciones desplazadas
+- Genera texto coherente pero **completamente diferente** al modelo original
+
+### Modelo original (mismo prompt)
+> "The word 'meaning' in the phrase 'the meaning of life' is often interpreted as referring to a fundamental purpose..."
+
+### DMT amplify_subspace (mismo prompt)
+> "'The meaning of life is' is the title of a poem by William Stafford, published in his collection 'Fish and Wild'..."
+
+Ambos son gramaticalmente correctos. El perturbado genera contenido factual alternativo en lugar de la respuesta genérica del original.
