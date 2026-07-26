@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manifold de Coherencia - Dreaming Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a1a;
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 10, 26, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #4ECDC4;
+            max-width: 350px;
+            z-index: 100;
+        }
+        
+        #info h1 {
+            color: #4ECDC4;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        #info p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(10, 10, 26, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            z-index: 100;
+        }
+        
+        #controls button {
+            background: #4ECDC4;
+            color: #0a0a1a;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        #controls button:hover {
+            background: #3D9B8F;
+            transform: scale(1.05);
+        }
+        
+        #controls button.active {
+            background: #FFD700;
+        }
+        
+        #legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 10, 26, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            z-index: 100;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid white;
+        }
+        
+        .legend-text {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+        
+        #tooltip {
+            position: absolute;
+            background: rgba(10, 10, 26, 0.95);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #4ECDC4;
+            pointer-events: none;
+            display: none;
+            z-index: 200;
+        }
+        
+        #tooltip h3 {
+            color: #4ECDC4;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        #tooltip p {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div id="info">
+        <h1>Manifold de Coherencia</h1>
+        <p>
+            <strong>¿Qué ves?</strong> Una superficie 3D que representa todas las configuraciones 
+            de pesos que producen texto coherente en un LLM.
+        </p>
+        <p style="margin-top: 10px;">
+            <strong>Interacción:</strong> Arrastra para rotar. Scroll para zoom. 
+            Haz clic en los puntos para ver detalles.
+        </p>
+    </div>
+    
+    <div id="controls">
+        <button id="btn-rotate">Auto-Rotar</button>
+        <button id="btn-wireframe">Wireframe</button>
+        <button id="btn-points">Mostrar Puntos</button>
+        <button id="btn-reset">Reset Vista</button>
+    </div>
+    
+    <div id="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #FFD700;"></div>
+            <span class="legend-text">Baseline (original)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #9370DB;"></div>
+            <span class="legend-text">Filosófica</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #FFA500;"></div>
+            <span class="legend-text">Práctica</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #32CD32;"></div>
+            <span class="legend-text">Creativa</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #FF6347;"></div>
+            <span class="legend-text">Concisa</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #00CED1;"></div>
+            <span class="legend-text">Estoica</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #FF69B4;"></div>
+            <span class="legend-text">Espiritual</span>
+        </div>
+    </div>
+    
+    <div id="tooltip">
+        <h3 id="tooltip-title"></h3>
+        <p id="tooltip-desc"></p>
+    </div>
+
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        // =====================================================
+        // CONFIGURACIÓN
+        // =====================================================
+        
+        const SCENE_BG = 0x0a0a1a;
+        const MANIFOLD_COLOR = 0x4ECDC4;
+        const GRID_COLOR = 0x2d3748;
+        
+        // Perspectivas (puntos en la manifold)
+        const PERSPECTIVES = [
+            { 
+                name: 'Baseline', 
+                color: 0xFFD700, 
+                pos: [0, 0, 0],
+                desc: 'Modelo original sin perturbación. Texto neutral y equilibrado.'
+            },
+            { 
+                name: 'Filosófica', 
+                color: 0x9370DB, 
+                pos: [-2.5, 0.3, -1.5],
+                desc: 'Amplifica varianza principal. Texto reflexivo y profundo.'
+            },
+            { 
+                name: 'Práctica', 
+                color: 0xFFA500, 
+                pos: [2.5, -0.2, 1],
+                desc: 'Perturbación en bloques diagonales. Texto directo y accionable.'
+            },
+            { 
+                name: 'Creativa', 
+                color: 0x32CD32, 
+                pos: [-1.5, 0.5, 2],
+                desc: 'Perturbación DCT. Texto imaginativo y poético.'
+            },
+            { 
+                name: 'Concisa', 
+                color: 0xFF6347, 
+                pos: [1.5, 0.2, -2],
+                desc: 'Perturbación espectral. Texto breve y directo.'
+            },
+            { 
+                name: 'Estoica', 
+                color: 0x00CED1, 
+                pos: [-0.5, -0.3, -2.5],
+                desc: 'Rotación normalizada. Texto equilibrado y sereno.'
+            },
+            { 
+                name: 'Espiritual', 
+                color: 0xFF69B4, 
+                pos: [0.8, 0.4, 2.5],
+                desc: 'Preserva manifold. Texto contemplativo y trascendente.'
+            }
+        ];
+        
+        // =====================================================
+        // VARIABLES GLOBALES
+        // =====================================================
+        
+        let scene, camera, renderer;
+        let manifold, gridHelper;
+        let perspectivePoints = [];
+        let raycaster, mouse;
+        let autoRotate = true;
+        let showWireframe = false;
+        let showPoints = true;
+        let selectedObject = null;
+        
+        // =====================================================
+        // INICIALIZACIÓN
+        // =====================================================
+        
+        function init() {
+            // Escena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(SCENE_BG);
+            scene.fog = new THREE.Fog(SCENE_BG, 10, 50);
+            
+            // Cámara
+            camera = new THREE.PerspectiveCamera(
+                60, 
+                window.innerWidth / window.innerHeight, 
+                0.1, 
+                1000
+            );
+            camera.position.set(8, 6, 8);
+            camera.lookAt(0, 0, 0);
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            // Luces
+            setupLights();
+            
+            // Manifold
+            createManifold();
+            
+            // Puntos de perspectiva
+            createPerspectivePoints();
+            
+            // Grid
+            createGrid();
+            
+            // Raycaster para interacción
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+            
+            // Eventos
+            setupControls();
+            setupEventListeners();
+            
+            // Iniciar animación
+            animate();
+        }
+        
+        // =====================================================
+        // LUCES
+        // =====================================================
+        
+        function setupLights() {
+            // Luz ambiente
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            scene.add(ambientLight);
+            
+            // Luz direccional principal
+            const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+            mainLight.position.set(10, 20, 10);
+            mainLight.castShadow = true;
+            mainLight.shadow.mapSize.width = 2048;
+            mainLight.shadow.mapSize.height = 2048;
+            scene.add(mainLight);
+            
+            // Luz de relleno
+            const fillLight = new THREE.DirectionalLight(0x4ECDC4, 0.3);
+            fillLight.position.set(-10, 5, -10);
+            scene.add(fillLight);
+            
+            // Luz puntual para efectos
+            const pointLight = new THREE.PointLight(0xFFD700, 0.5, 20);
+            pointLight.position.set(0, 5, 0);
+            scene.add(pointLight);
+        }
+        
+        // =====================================================
+        // MANIFOLD (Superficie 3D)
+        // =====================================================
+        
+        function createManifold() {
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const colors = [];
+            const indices = [];
+            const uvs = [];
+            
+            const segments = 80;
+            const size = 5;
+            
+            // Generar vértices de la superficie
+            for (let i = 0; i <= segments; i++) {
+                for (let j = 0; j <= segments; j++) {
+                    const u = (i / segments) * 2 - 1;
+                    const v = (j / segments) * 2 - 1;
+                    
+                    const x = u * size;
+                    const z = v * size;
+                    
+                    // Altura basada en función matemática (superficie coherente)
+                    const y = calculateHeight(u, v);
+                    
+                    vertices.push(x, y, z);
+                    uvs.push(i / segments, j / segments);
+                    
+                    // Color basado en la altura (coherencia)
+                    const coherence = (y + 1) / 2; // Normalizar a 0-1
+                    const color = new THREE.Color();
+                    color.setHSL(0.5 + coherence * 0.2, 0.7, 0.3 + coherence * 0.3);
+                    colors.push(color.r, color.g, color.b);
+                }
+            }
+            
+            // Generar índices para triángulos
+            for (let i = 0; i < segments; i++) {
+                for (let j = 0; j < segments; j++) {
+                    const a = i * (segments + 1) + j;
+                    const b = a + 1;
+                    const c = (i + 1) * (segments + 1) + j;
+                    const d = c + 1;
+                    
+                    indices.push(a, b, c);
+                    indices.push(b, d, c);
+                }
+            }
+            
+            geometry.setIndex(indices);
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+            geometry.computeVertexNormals();
+            
+            // Material
+            const material = new THREE.MeshPhongMaterial({
+                vertexColors: true,
+                side: THREE.DoubleSide,
+                shininess: 100,
+                transparent: true,
+                opacity: 0.85,
+                wireframe: showWireframe
+            });
+            
+            manifold = new THREE.Mesh(geometry, material);
+            manifold.castShadow = true;
+            manifold.receiveShadow = true;
+            scene.add(manifold);
+            
+            // Añadir wireframe sutil
+            const wireframeMaterial = new THREE.MeshBasicMaterial({
+                color: 0x4ECDC4,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.1
+            });
+            const wireframe = new THREE.Mesh(geometry.clone(), wireframeMaterial);
+            manifold.add(wireframe);
+        }
+        
+        function calculateHeight(u, v) {
+            // Función que crea una superficie con "colinas" de coherencia
+            let height = 0;
+            
+            // Colina central (baseline)
+            height += 1.5 * Math.exp(-(u*u + v*v) * 2);
+            
+            // Colinas secundarias (perspectivas)
+            height += 0.8 * Math.exp(-((u-0.6)**2 + (v-0.3)**2) * 3);
+            height += 0.7 * Math.exp(-((u+0.5)**2 + (v-0.4)**2) * 3);
+            height += 0.6 * Math.exp(-((u-0.3)**2 + (v+0.5)**2) * 3);
+            height += 0.9 * Math.exp(-((u+0.4)**2 + (v+0.3)**2) * 3);
+            height += 0.5 * Math.exp(-((u-0.7)**2 + (v+0.2)**2) * 3);
+            height += 0.7 * Math.exp(-((u+0.2)**2 + (v-0.6)**2) * 3);
+            
+            // Ruido sutil
+            height += 0.1 * Math.sin(u * 5) * Math.cos(v * 5);
+            
+            return height;
+        }
+        
+        // =====================================================
+        // PUNTOS DE PERSPECTIVA
+        // =====================================================
+        
+        function createPerspectivePoints() {
+            PERSPECTIVES.forEach((persp, index) => {
+                // Geometría de la esfera
+                const geometry = new THREE.SphereGeometry(0.2, 32, 32);
+                
+                // Material con brillo
+                const material = new THREE.MeshPhongMaterial({
+                    color: persp.color,
+                    emissive: persp.color,
+                    emissiveIntensity: 0.3,
+                    shininess: 100
+                });
+                
+                const sphere = new THREE.Mesh(geometry, material);
+                
+                // Calcular posición Y en la manifold
+                const u = persp.pos[0] / 5;
+                const v = persp.pos[2] / 5;
+                const y = calculateHeight(u, v) + 0.3;
+                
+                sphere.position.set(persp.pos[0], y, persp.pos[2]);
+                sphere.castShadow = true;
+                sphere.userData = { 
+                    name: persp.name, 
+                    desc: persp.desc,
+                    index: index 
+                };
+                
+                // Añadir anillo alrededor
+                const ringGeometry = new THREE.RingGeometry(0.3, 0.35, 32);
+                const ringMaterial = new THREE.MeshBasicMaterial({
+                    color: persp.color,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                ring.rotation.x = -Math.PI / 2;
+                ring.position.y = -0.1;
+                sphere.add(ring);
+                
+                // Línea vertical
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(0, 0, 0),
+                    new THREE.Vector3(0, -y, 0)
+                ]);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: persp.color,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                sphere.add(line);
+                
+                perspectivePoints.push(sphere);
+                scene.add(sphere);
+            });
+        }
+        
+        // =====================================================
+        // GRID
+        // =====================================================
+        
+        function createGrid() {
+            // Grid principal
+            const gridHelper = new THREE.GridHelper(20, 20, GRID_COLOR, GRID_COLOR);
+            gridHelper.position.y = -2;
+            gridHelper.material.transparent = true;
+            gridHelper.material.opacity = 0.3;
+            scene.add(gridHelper);
+            
+            // Ejes de referencia
+            const axesMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x4a5568,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            // Eje X (rojo)
+            const xAxisGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-10, -2, 0),
+                new THREE.Vector3(10, -2, 0)
+            ]);
+            const xAxis = new THREE.Line(xAxisGeometry, new THREE.LineBasicMaterial({ color: 0xff4444 }));
+            scene.add(xAxis);
+            
+            // Eje Z (azul)
+            const zAxisGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(0, -2, -10),
+                new THREE.Vector3(0, -2, 10)
+            ]);
+            const zAxis = new THREE.Line(zAxisGeometry, new THREE.LineBasicMaterial({ color: 0x4444ff }));
+            scene.add(zAxis);
+        }
+        
+        // =====================================================
+        // CONTROLES
+        // =====================================================
+        
+        function setupControls() {
+            // Botón auto-rotar
+            document.getElementById('btn-rotate').addEventListener('click', function() {
+                autoRotate = !autoRotate;
+                this.classList.toggle('active', autoRotate);
+            });
+            document.getElementById('btn-rotate').classList.add('active');
+            
+            // Botón wireframe
+            document.getElementById('btn-wireframe').addEventListener('click', function() {
+                showWireframe = !showWireframe;
+                manifold.material.wireframe = showWireframe;
+                this.classList.toggle('active', showWireframe);
+            });
+            
+            // Botón puntos
+            document.getElementById('btn-points').addEventListener('click', function() {
+                showPoints = !showPoints;
+                perspectivePoints.forEach(p => p.visible = showPoints);
+                this.classList.toggle('active', showPoints);
+            });
+            document.getElementById('btn-points').classList.add('active');
+            
+            // Botón reset
+            document.getElementById('btn-reset').addEventListener('click', function() {
+                camera.position.set(8, 6, 8);
+                camera.lookAt(0, 0, 0);
+            });
+        }
+        
+        // =====================================================
+        // EVENTOS
+        // =====================================================
+        
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        
+        function setupEventListeners() {
+            const canvas = renderer.domElement;
+            
+            // Mouse down
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+            
+            // Mouse move
+            canvas.addEventListener('mousemove', (e) => {
+                // Actualizar mouse para raycaster
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                
+                if (isDragging) {
+                    const deltaX = e.clientX - previousMousePosition.x;
+                    const deltaY = e.clientY - previousMousePosition.y;
+                    
+                    // Rotar cámara
+                    const rotationSpeed = 0.005;
+                    const radius = Math.sqrt(
+                        camera.position.x ** 2 + 
+                        camera.position.z ** 2
+                    );
+                    const angle = Math.atan2(camera.position.z, camera.position.x);
+                    
+                    camera.position.x = radius * Math.cos(angle - deltaX * rotationSpeed);
+                    camera.position.z = radius * Math.sin(angle - deltaX * rotationSpeed);
+                    camera.position.y += deltaY * rotationSpeed * 2;
+                    camera.position.y = Math.max(1, Math.min(15, camera.position.y));
+                    
+                    camera.lookAt(0, 0, 0);
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                }
+                
+                // Check hover on points
+                checkHover(e);
+            });
+            
+            // Mouse up
+            canvas.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+            
+            // Mouse leave
+            canvas.addEventListener('mouseleave', () => {
+                isDragging = false;
+            });
+            
+            // Scroll (zoom)
+            canvas.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const zoomSpeed = 0.1;
+                const direction = new THREE.Vector3();
+                camera.getWorldDirection(direction);
+                
+                camera.position.addScaledVector(direction, -e.deltaY * zoomSpeed);
+                
+                // Limitar distancia
+                const distance = camera.position.length();
+                if (distance < 5) camera.position.setLength(5);
+                if (distance > 30) camera.position.setLength(30);
+            });
+            
+            // Click
+            canvas.addEventListener('click', (e) => {
+                checkClick(e);
+            });
+            
+            // Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        function checkHover(e) {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(perspectivePoints);
+            
+            const tooltip = document.getElementById('tooltip');
+            
+            if (intersects.length > 0) {
+                const obj = intersects[0].object;
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.clientX + 15) + 'px';
+                tooltip.style.top = (e.clientY + 15) + 'px';
+                document.getElementById('tooltip-title').textContent = obj.userData.name;
+                document.getElementById('tooltip-desc').textContent = obj.userData.desc;
+                
+                // Highlight
+                obj.scale.set(1.3, 1.3, 1.3);
+            } else {
+                tooltip.style.display = 'none';
+                perspectivePoints.forEach(p => p.scale.set(1, 1, 1));
+            }
+        }
+        
+        function checkClick(e) {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(perspectivePoints);
+            
+            if (intersects.length > 0) {
+                const obj = intersects[0].object;
+                
+                // Mover cámara hacia el punto
+                const targetPosition = obj.position.clone();
+                targetPosition.y += 3;
+                targetPosition.z += 5;
+                
+                // Animación suave
+                const startPosition = camera.position.clone();
+                const duration = 1000;
+                const startTime = Date.now();
+                
+                function animateCamera() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    
+                    camera.position.lerpVectors(startPosition, targetPosition, eased);
+                    camera.lookAt(0, 0, 0);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animateCamera);
+                    }
+                }
+                
+                animateCamera();
+            }
+        }
+        
+        // =====================================================
+        // ANIMACIÓN
+        // =====================================================
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Auto-rotar
+            if (autoRotate && !isDragging) {
+                const time = Date.now() * 0.0002;
+                camera.position.x = Math.sin(time) * 10;
+                camera.position.z = Math.cos(time) * 10;
+                camera.position.y = 5 + Math.sin(time * 0.5) * 2;
+                camera.lookAt(0, 0, 0);
+            }
+            
+            // Animar puntos (pulso)
+            const time = Date.now() * 0.002;
+            perspectivePoints.forEach((point, i) => {
+                const scale = 1 + Math.sin(time + i) * 0.1;
+                point.scale.set(scale, scale, scale);
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // =====================================================
+        // INICIAR
+        // =====================================================
+        
+        init();
+    </script>
+</body>
+</html>

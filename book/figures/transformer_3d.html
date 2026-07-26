@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructura del Transformer - Dreaming Project</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a1a; color: white; font-family: 'Segoe UI', Arial, sans-serif; overflow: hidden; }
+        #canvas-container { width: 100vw; height: 100vh; }
+        
+        #info {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(10, 10, 26, 0.9); padding: 20px;
+            border-radius: 10px; border: 1px solid #9370DB;
+            max-width: 320px; z-index: 100;
+        }
+        #info h1 { color: #9370DB; font-size: 1.4rem; margin-bottom: 10px; }
+        #info p { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 8px; }
+        #info strong { color: #FFD700; }
+        
+        #layers {
+            position: absolute; right: 20px; top: 20px;
+            background: rgba(10, 10, 26, 0.9); padding: 15px;
+            border-radius: 10px; border: 1px solid #333; z-index: 100;
+        }
+        .layer-item {
+            display: flex; align-items: center; margin: 6px 0; cursor: pointer;
+            padding: 5px 10px; border-radius: 5px; transition: background 0.3s;
+        }
+        .layer-item:hover { background: rgba(255,255,255,0.1); }
+        .layer-color { width: 20px; height: 20px; border-radius: 4px; margin-right: 10px; }
+        .layer-text { font-size: 0.85rem; color: #ccc; }
+        
+        #cameras {
+            position: absolute; bottom: 20px; left: 20px;
+            background: rgba(10, 10, 26, 0.9); padding: 15px;
+            border-radius: 10px; border: 1px solid #333; z-index: 100;
+        }
+        #cameras h3 { color: #FFD700; font-size: 0.9rem; margin-bottom: 10px; }
+        .camera-btn {
+            background: #2d3748; color: white; border: none;
+            padding: 8px 12px; margin: 4px; border-radius: 5px;
+            cursor: pointer; font-size: 0.8rem; transition: all 0.3s;
+        }
+        .camera-btn:hover { background: #4a5568; }
+        .camera-btn.active { background: #4ECDC4; color: #0a0a1a; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div id="info">
+        <h1>Estructura del Transformer</h1>
+        <p>
+            <strong>Capas concéntricas</strong> que procesan información de forma jerárquica:
+        </p>
+        <p>
+            <strong>Interior:</strong> Tokens y embeddings (sintaxis básica)<br>
+            <strong>Medio:</strong> Atención y FFN (semántica)<br>
+            <strong>Exterior:</strong> Salida abstracta (conceptos complejos)
+        </p>
+        <p style="color: #4ECDC4; font-style: italic;">
+            "Cada cámara (perspectiva) mira diferentes capas"
+        </p>
+    </div>
+    
+    <div id="layers">
+        <div class="layer-item" data-layer="embedding">
+            <div class="layer-color" style="background: #FFD700;"></div>
+            <span class="layer-text">Embedding (32000 × 2048)</span>
+        </div>
+        <div class="layer-item" data-layer="syntax">
+            <div class="layer-color" style="background: #4ECDC4;"></div>
+            <span class="layer-text">Capas 0-4: Sintaxis</span>
+        </div>
+        <div class="layer-item" data-layer="semantic">
+            <div class="layer-color" style="background: #96CEB4;"></div>
+            <span class="layer-text">Capas 5-16: Semántica</span>
+        </div>
+        <div class="layer-item" data-layer="abstract">
+            <div class="layer-color" style="background: #DDA0DD;"></div>
+            <span class="layer-text">Capas 17-21: Abstracto</span>
+        </div>
+        <div class="layer-item" data-layer="output">
+            <div class="layer-color" style="background: #FF6B6B;"></div>
+            <span class="layer-text">Output (2048 × 32000)</span>
+        </div>
+    </div>
+    
+    <div id="cameras">
+        <h3>Cámaras (Perspectivas)</h3>
+        <button class="camera-btn active" data-view="overview">Vista General</button>
+        <button class="camera-btn" data-view="embedding">Embedding</button>
+        <button class="camera-btn" data-view="attention">Atención</button>
+        <button class="camera-btn" data-view="ffn">FFN</button>
+        <button class="camera-btn" data-view="output">Output</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        // Escena, cámara, renderer
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a0a1a);
+        scene.fog = new THREE.Fog(0x0a0a1a, 15, 40);
+        
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(12, 8, 12);
+        camera.lookAt(0, 0, 0);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
+        // Luces
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+        
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+        mainLight.position.set(10, 20, 10);
+        mainLight.castShadow = true;
+        scene.add(mainLight);
+        
+        const pointLight = new THREE.PointLight(0xFFD700, 0.5, 30);
+        pointLight.position.set(0, 10, 0);
+        scene.add(pointLight);
+        
+        // Colores de capas
+        const layerColors = {
+            embedding: 0xFFD700,
+            syntax: 0x4ECDC4,
+            semantic: 0x96CEB4,
+            abstract: 0xDDA0DD,
+            output: 0xFF6B6B
+        };
+        
+        // Crear capas concéntricas
+        const layers = [];
+        const layerData = [
+            { name: 'output', radius: 8, height: 1.5, y: 6, color: layerColors.output },
+            { name: 'abstract', radius: 6.5, height: 2, y: 4, color: layerColors.abstract },
+            { name: 'semantic', radius: 5, height: 2.5, y: 2, color: layerColors.semantic },
+            { name: 'syntax', radius: 3.5, height: 2, y: 0, color: layerColors.syntax },
+            { name: 'embedding', radius: 2, height: 1.5, y: -1.5, color: layerColors.embedding }
+        ];
+        
+        layerData.forEach(data => {
+            // Cilindro hueco
+            const outerGeometry = new THREE.CylinderGeometry(
+                data.radius, data.radius, data.height, 64, 1, true
+            );
+            const outerMaterial = new THREE.MeshPhongMaterial({
+                color: data.color,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.4,
+                shininess: 50
+            });
+            const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
+            outerMesh.position.y = data.y;
+            outerMesh.castShadow = true;
+            outerMesh.receiveShadow = true;
+            outerMesh.userData = { name: data.name };
+            scene.add(outerMesh);
+            layers.push(outerMesh);
+            
+            // Anillo superior
+            const ringGeometry = new THREE.RingGeometry(data.radius - 0.1, data.radius, 64);
+            const ringMaterial = new THREE.MeshBasicMaterial({
+                color: data.color,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.6
+            });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.rotation.x = -Math.PI / 2;
+            ring.position.y = data.y + data.height / 2;
+            scene.add(ring);
+            
+            // Anillo inferior
+            const ring2 = ring.clone();
+            ring2.position.y = data.y - data.height / 2;
+            scene.add(ring2);
+            
+            // Líneas verticales (estructura)
+            const nLines = 8;
+            for (let i = 0; i < nLines; i++) {
+                const angle = (i / nLines) * Math.PI * 2;
+                const x = Math.cos(angle) * data.radius;
+                const z = Math.sin(angle) * data.radius;
+                
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(x, data.y - data.height/2, z),
+                    new THREE.Vector3(x, data.y + data.height/2, z)
+                ]);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: data.color,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(line);
+            }
+        });
+        
+        // Núcleo central (brillante)
+        const coreGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+        const coreMaterial = new THREE.MeshPhongMaterial({
+            color: 0xFFD700,
+            emissive: 0xFFD700,
+            emissiveIntensity: 0.5,
+            shininess: 100
+        });
+        const core = new THREE.Mesh(coreGeometry, coreMaterial);
+        core.position.y = -1.5;
+        core.castShadow = true;
+        scene.add(core);
+        
+        // Cámaras (perspectivas) representadas como conos
+        const cameras = [
+            { name: 'Filosófica', color: 0x9370DB, pos: [0, 10, 8], target: [0, 4, 0] },
+            { name: 'Práctica', color: 0xFFA500, pos: [8, 6, 0], target: [3, 0, 0] },
+            { name: 'Concisa', color: 0xFF6347, pos: [-8, 8, 0], target: [-3, 2, 0] }
+        ];
+        
+        const cameraObjects = [];
+        cameras.forEach(cam => {
+            // Cono de cámara
+            const coneGeometry = new THREE.ConeGeometry(0.5, 1.5, 16);
+            const coneMaterial = new THREE.MeshPhongMaterial({
+                color: cam.color,
+                emissive: cam.color,
+                emissiveIntensity: 0.3
+            });
+            const cone = new THREE.Mesh(coneGeometry, coneMaterial);
+            cone.position.set(...cam.pos);
+            cone.lookAt(...cam.target);
+            cone.rotateX(Math.PI / 2);
+            scene.add(cone);
+            
+            // Línea de visión
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(...cam.pos),
+                new THREE.Vector3(...cam.target)
+            ]);
+            const lineMaterial = new THREE.LineDashedMaterial({
+                color: cam.color,
+                dashSize: 0.3,
+                gapSize: 0.2,
+                transparent: true,
+                opacity: 0.6
+            });
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            line.computeLineDistances();
+            scene.add(line);
+            
+            // Etiqueta
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#' + cam.color.toString(16).padStart(6, '0');
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(cam.name, 128, 40);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(cam.pos[0], cam.pos[1] + 1.5, cam.pos[2]);
+            sprite.scale.set(3, 0.75, 1);
+            scene.add(sprite);
+            
+            cameraObjects.push({ cone, line, sprite });
+        });
+        
+        // Grid
+        const gridHelper = new THREE.GridHelper(20, 20, 0x2d3748, 0x2d3748);
+        gridHelper.position.y = -4;
+        gridHelper.material.transparent = true;
+        gridHelper.material.opacity = 0.3;
+        scene.add(gridHelper);
+        
+        // Controles de cámara
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        
+        renderer.domElement.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        
+        renderer.domElement.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                
+                const radius = Math.sqrt(camera.position.x ** 2 + camera.position.z ** 2);
+                const angle = Math.atan2(camera.position.z, camera.position.x);
+                
+                camera.position.x = radius * Math.cos(angle - deltaX * 0.005);
+                camera.position.z = radius * Math.sin(angle - deltaX * 0.005);
+                camera.position.y += deltaY * 0.01;
+                camera.position.y = Math.max(2, Math.min(20, camera.position.y));
+                
+                camera.lookAt(0, 0, 0);
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        });
+        
+        renderer.domElement.addEventListener('mouseup', () => isDragging = false);
+        renderer.domElement.addEventListener('mouseleave', () => isDragging = false);
+        
+        renderer.domElement.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoom = e.deltaY * 0.01;
+            camera.position.multiplyScalar(1 + zoom * 0.1);
+            const dist = camera.position.length();
+            if (dist < 8) camera.position.setLength(8);
+            if (dist < 8) camera.position.setLength(8);
+            if (dist > 30) camera.position.setLength(30);
+        });
+        
+        // Botones de cámara
+        document.querySelectorAll('.camera-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.camera-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const view = this.dataset.view;
+                const positions = {
+                    overview: [12, 8, 12],
+                    embedding: [5, -1, 5],
+                    attention: [8, 4, 8],
+                    ffn: [6, 2, 6],
+                    output: [10, 6, 10]
+                };
+                
+                const target = positions[overview] || positions.overview;
+                const start = camera.position.clone();
+                const end = new THREE.Vector3(...target);
+                const duration = 1000;
+                const startTime = Date.now();
+                
+                function animateCamera() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    
+                    camera.position.lerpVectors(start, end, eased);
+                    camera.lookAt(0, 0, 0);
+                    
+                    if (progress < 1) requestAnimationFrame(animateCamera);
+                }
+                animateCamera();
+            });
+        });
+        
+        // Click en capas
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        
+        renderer.domElement.addEventListener('click', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(layers);
+            
+            if (intersects.length > 0) {
+                const layer = intersects[0].object;
+                const name = layer.userData.name;
+                
+                // Highlight
+                layers.forEach(l => {
+                    l.material.opacity = l === layer ? 0.8 : 0.2;
+                });
+                
+                // Animar cámara hacia la capa
+                const y = layer.position.y;
+                const radius = layer.geometry.parameters.radius;
+                const targetPos = new THREE.Vector3(radius + 3, y + 2, radius + 3);
+                
+                const startPos = camera.position.clone();
+                const duration = 800;
+                const startTime = Date.now();
+                
+                function animateToLayer() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    
+                    camera.position.lerpVectors(startPos, targetPos, eased);
+                    camera.lookAt(0, y, 0);
+                    
+                    if (progress < 1) requestAnimationFrame(animateToLayer);
+                }
+                animateToLayer();
+            }
+        });
+        
+        // Animación
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+            
+            // Rotar núcleo
+            core.rotation.y = time * 0.5;
+            
+            // Pulso del núcleo
+            const scale = 1 + Math.sin(time * 2) * 0.05;
+            core.scale.set(scale, scale, scale);
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
