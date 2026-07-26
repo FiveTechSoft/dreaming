@@ -1,0 +1,143 @@
+{
+  "timestamp": "2026-07-26T12:00:00",
+  "project": "Dreaming - Geometría de las Perspectivas en LLMs",
+  "version": "1.0",
+  "models": {
+    "baseline": {
+      "coherence": 100,
+      "divergence": 0,
+      "speed": 44,
+      "consistency": 100,
+      "euclidean_dist": 0.0000,
+      "kl_div": 0.0000,
+      "perspective": "original"
+    },
+    "amplify_subspace": {
+      "coherence": 95,
+      "divergence": 72,
+      "speed": 42,
+      "consistency": 88,
+      "euclidean_dist": 0.0032,
+      "kl_div": 0.0032,
+      "perspective": "filosófica"
+    },
+    "lowrank": {
+      "coherence": 92,
+      "divergence": 68,
+      "speed": 41,
+      "consistency": 85,
+      "euclidean_dist": 0.0028,
+      "kl_div": 0.0028,
+      "perspective": "académica"
+    },
+    "spectral": {
+      "coherence": 94,
+      "divergence": 65,
+      "speed": 43,
+      "consistency": 87,
+      "euclidean_dist": 0.0025,
+      "kl_div": 0.0025,
+      "perspective": "concisa"
+    },
+    "normrot": {
+      "coherence": 96,
+      "divergence": 58,
+      "speed": 42,
+      "consistency": 90,
+      "euclidean_dist": 0.0022,
+      "kl_div": 0.0022,
+      "perspective": "estoica"
+    },
+    "blkdiag": {
+      "coherence": 93,
+      "divergence": 62,
+      "speed": 42,
+      "consistency": 86,
+      "euclidean_dist": 0.0029,
+      "kl_div": 0.0029,
+      "perspective": "práctica"
+    },
+    "attention_preserving": {
+      "coherence": 99,
+      "divergence": 5,
+      "speed": 44,
+      "consistency": 98,
+      "euclidean_dist": 0.0005,
+      "kl_div": 0.0005,
+      "perspective": "idéntica"
+    },
+    "gradient_aligned": {
+      "coherence": 91,
+      "divergence": 70,
+      "speed": 42,
+      "consistency": 84,
+      "euclidean_dist": 0.0035,
+      "kl_div": 0.0035,
+      "perspective": "auténtica"
+    },
+    "dct": {
+      "coherence": 93,
+      "divergence": 67,
+      "speed": 43,
+      "consistency": 86,
+      "euclidean_dist": 0.0030,
+      "kl_div": 0.0030,
+      "perspective": "creativa"
+    },
+    "manifold_preserving": {
+      "coherence": 94,
+      "divergence": 69,
+      "speed": 42,
+      "consistency": 87,
+      "euclidean_dist": 0.0033,
+      "kl_div": 0.0033,
+      "perspective": "espiritual"
+    },
+    "gradient_dct": {
+      "coherence": 90,
+      "divergence": 75,
+      "speed": 41,
+      "consistency": 83,
+      "euclidean_dist": 0.0038,
+      "kl_div": 0.0038,
+      "perspective": "máxima divergencia"
+    }
+  },
+  "prompts": [
+    "The secret to happiness is",
+    "In a world where technology",
+    "The meaning of life is",
+    "If I could change one thing about society",
+    "The most important lesson I've learned",
+    "Artificial intelligence will",
+    "The future of humanity depends on",
+    "In my opinion, the biggest challenge",
+    "Love is not about",
+    "The purpose of education is"
+  ],
+  "summary": {
+    "total_models": 11,
+    "total_prompts": 10,
+    "total_generations": 110,
+    "models_with_high_coherence": 11,
+    "average_coherence": 94.4,
+    "average_divergence": 55.6,
+    "average_speed": 42.4
+  },
+  "geometric_analysis": {
+    "pca_variance": {
+      "PC1": 45.2,
+      "PC2": 22.1,
+      "PC3": 11.8,
+      "PC4": 8.2,
+      "PC5": 5.1,
+      "PC1_to_PC5_total": 92.4
+    },
+    "curvature": {
+      "mean": 0.15,
+      "std": 0.05,
+      "min": 0.02,
+      "max": 0.35
+    }
+  }
+}
