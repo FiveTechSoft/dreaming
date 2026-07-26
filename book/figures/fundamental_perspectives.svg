@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" width="1400" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1400" height="800" fill="url(#bg)"/>
+  
+  <!-- Título -->
+  <text x="700" y="40" text-anchor="middle" fill="white" font-size="28" font-weight="bold">
+    Perspectivas Fundamentales (No Mezclas)
+  </text>
+  <text x="700" y="70" text-anchor="middle" fill="#FFD700" font-size="14">
+    "Los colores primarios del espacio de significado"
+  </text>
+  
+  <!-- ==================== VISUALIZACIÓN ==================== -->
+  <g transform="translate(400, 400)">
+    <text x="0" y="-280" text-anchor="middle" fill="#4ECDC4" font-size="16" font-weight="bold">
+      Espacio de Perspectivas
+    </text>
+    
+    <!-- Direcciones conocidas (gris) -->
+    <g opacity="0.3">
+      <line x1="0" y1="0" x2="-150" y2="-100" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="150" y2="-100" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="120" y2="80" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="-120" y2="80" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="0" y2="-150" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="0" y2="150" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="-100" y2="120" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="100" y2="120" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="-80" y2="-130" stroke="#666" stroke-width="2"/>
+      <line x1="0" y1="0" x2="80" y2="-130" stroke="#666" stroke-width="2"/>
+    </g>
+    
+    <!-- Punto central -->
+    <circle cx="0" cy="0" r="15" fill="#FFD700" filter="url(#glow)"/>
+    <text x="0" y="5" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">TÚ</text>
+    
+    <!-- DIRECCIONES FUNDAMENTALES (colores vivos) -->
+    
+    <!-- Fundamental 1: Rojo -->
+    <line x1="0" y1="0" x2="-180" y2="0" stroke="#FF0000" stroke-width="4"/>
+    <circle cx="-180" cy="0" r="15" fill="#FF0000" filter="url(#glow)"/>
+    <text x="-180" y="5" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F1</text>
+    <text x="-180" y="30" text-anchor="middle" fill="#FF0000" font-size="9">Desconocido</text>
+    
+    <!-- Fundamental 2: Verde -->
+    <line x1="0" y1="0" x2="0" y2="-180" stroke="#00FF00" stroke-width="4"/>
+    <circle cx="0" cy="-180" r="15" fill="#00FF00" filter="url(#glow)"/>
+    <text x="0" y="-175" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">F2</text>
+    <text x="0" y="-155" text-anchor="middle" fill="#00FF00" font-size="9">Novedad</text>
+    
+    <!-- Fundamental 3: Azul -->
+    <line x1="0" y1="0" x2="130" y2="130" stroke="#0000FF" stroke-width="4"/>
+    <circle cx="130" cy="130" r="15" fill="#0000FF" filter="url(#glow)"/>
+    <text x="130" y="135" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F3</text>
+    <text x="130" y="155" text-anchor="middle" fill="#0000FF" font-size="9">Misterio</text>
+    
+    <!-- Fundamental 4: Amarillo -->
+    <line x1="0" y1="0" x2="180" y2="-50" stroke="#FFFF00" stroke-width="4"/>
+    <circle cx="180" cy="-50" r="15" fill="#FFFF00" filter="url(#glow)"/>
+    <text x="180" y="-45" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">F4</text>
+    <text x="180" y="-25" text-anchor="middle" fill="#FFFF00" font-size="9">Ruido</text>
+    
+    <!-- Fundamental 5: Magenta -->
+    <line x1="0" y1="0" x2="-100" y2="160" stroke="#FF00FF" stroke-width="4"/>
+    <circle cx="-100" cy="160" r="15" fill="#FF00FF" filter="url(#glow)"/>
+    <text x="-100" y="165" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F5</text>
+    <text x="-100" y="185" text-anchor="middle" fill="#FF00FF" font-size="9">Caos</text>
+    
+    <!-- Etiquetas de direcciones conocidas -->
+    <g fill="#666" font-size="8">
+      <text x="-160" y="-90">Filosófica</text>
+      <text x="140" y="-90">Práctica</text>
+      <text x="110" y="90">Creativa</text>
+      <text x="-130" y="90">Estoica</text>
+      <text x="10" y="-160">Espiritual</text>
+      <text x="10" y="165">Auténtica</text>
+    </g>
+  </g>
+  
+  <!-- ==================== TABLA ==================== -->
+  <g transform="translate(1100, 400)">
+    <rect x="-200" y="-250" width="400" height="500" fill="#1a1a2e" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-220" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">
+      Perspectivas Fundamentales
+    </text>
+    
+    <!-- F1 -->
+    <g transform="translate(-180, -180)">
+      <rect width="360" height="50" fill="#FF0000" opacity="0.2" rx="5"/>
+      <circle cx="20" cy="25" r="10" fill="#FF0000"/>
+      <text x="20" y="29" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F1</text>
+      <text x="45" y="20" fill="white" font-size="11" font-weight="bold">Desconocido</text>
+      <text x="45" y="35" fill="#aaa" font-size="9">Lo que el modelo NO sabe</text>
+    </g>
+    
+    <!-- F2 -->
+    <g transform="translate(-180, -120)">
+      <rect width="360" height="50" fill="#00FF00" opacity="0.2" rx="5"/>
+      <circle cx="20" cy="25" r="10" fill="#00FF00"/>
+      <text x="20" y="29" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">F2</text>
+      <text x="45" y="20" fill="white" font-size="11" font-weight="bold">Novedad</text>
+      <text x="45" y="35" fill="#aaa" font-size="9">Conceptos nuevos sin categorizar</text>
+    </g>
+    
+    <!-- F3 -->
+    <g transform="translate(-180, -60)">
+      <rect width="360" height="50" fill="#0000FF" opacity="0.2" rx="5"/>
+      <circle cx="20" cy="25" r="10" fill="#0000FF"/>
+      <text x="20" y="29" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F3</text>
+      <text x="45" y="20" fill="white" font-size="11" font-weight="bold">Misterio</text>
+      <text x="45" y="35" fill="#aaa" font-size="9">Lo ineffable, lo que no se puede decir</text>
+    </g>
+    
+    <!-- F4 -->
+    <g transform="translate(-180, 0)">
+      <rect width="360" height="50" fill="#FFFF00" opacity="0.2" rx="5"/>
+      <circle cx="20" cy="25" r="10" fill="#FFFF00"/>
+      <text x="20" y="29" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">F4</text>
+      <text x="45" y="20" fill="white" font-size="11" font-weight="bold">Ruido</text>
+      <text x="45" y="35" fill="#aaa" font-size="9">Información sin significado</text>
+    </g>
+    
+    <!-- F5 -->
+    <g transform="translate(-180, 60)">
+      <rect width="360" height="50" fill="#FF00FF" opacity="0.2" rx="5"/>
+      <circle cx="20" cy="25" r="10" fill="#FF00FF"/>
+      <text x="20" y="29" text-anchor="middle" fill="white" font-size="10" font-weight="bold">F5</text>
+      <text x="45" y="20" fill="white" font-size="11" font-weight="bold">Caos</text>
+      <text x="45" y="35" fill="#aaa" font-size="9">Perturbación máxima, anti-orden</text>
+    </g>
+    
+    <!-- Nota -->
+    <line x1="-180" y1="130" x2="180" y2="130" stroke="#4a5568" stroke-width="1"/>
+    <text x="0" y="160" text-anchor="middle" fill="#FFD700" font-size="11">
+      Estas NO son mezclas
+    </text>
+    <text x="0" y="180" text-anchor="middle" fill="#aaa" font-size="10">
+      Son direcciones PRIMARIAS del espacio
+    </text>
+    <text x="0" y="200" text-anchor="middle" fill="#aaa" font-size="10">
+      Como los colores RGB de la luz
+    </text>
+  </g>
+  
+  <!-- ==================== CONCLUSIÓN ==================== -->
+  <g transform="translate(700, 750)">
+    <rect x="-450" y="-25" width="900" height="60" fill="#0d1117" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="0" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">
+      Las 10 familias que encontramos = Mezclas de estas 5 fundamentales
+    </text>
+    
+    <text x="0" y="25" text-anchor="middle" fill="#aaa" font-size="10">
+      Filosófica ≈ 0.6×F1 + 0.3×F2 + 0.1×F3 (desconocido + novedad + misterio)
+    </text>
+  </g>
+</svg>
