@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FF69B4"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FFD700"/>
+    </marker>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  
+  <!-- Título -->
+  <text x="800" y="40" text-anchor="middle" fill="white" font-size="28" font-weight="bold">
+    Ruta Completa: "Jesus de Nazareth"
+  </text>
+  <text x="800" y="70" text-anchor="middle" fill="#FFD700" font-size="14">
+    Desde token hasta respuesta - capa por capa
+  </text>
+  
+  <!-- ==================== ENTRADA ==================== -->
+  <g transform="translate(150, 200)">
+    <rect x="-80" y="-50" width="160" height="100" fill="#FFD700" opacity="0.3" stroke="#FFD700" stroke-width="2" rx="10"/>
+    <text x="0" y="-20" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">ENTRADA</text>
+    <text x="0" y="5" text-anchor="middle" fill="white" font-size="12">"Jesus"</text>
+    <text x="0" y="25" text-anchor="middle" fill="#aaa" font-size="10">Token → Embedding</text>
+    <text x="0" y="40" text-anchor="middle" fill="#aaa" font-size="9">2048 dimensiones</text>
+  </g>
+  
+  <!-- ==================== FLECHA ==================== -->
+  <line x1="230" y1="200" x2="300" y2="200" stroke="#FFD700" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== CAPA 1: EMBEDDING ==================== -->
+  <g transform="translate(370, 200)">
+    <rect x="-70" y="-50" width="140" height="100" fill="#4ECDC4" opacity="0.3" stroke="#4ECDC4" stroke-width="2" rx="10"/>
+    <text x="0" y="-20" text-anchor="middle" fill="#4ECDC4" font-size="12" font-weight="bold">EMBEDDING</text>
+    <text x="0" y="0" text-anchor="middle" fill="white" font-size="10">[0.12, -0.34, ...]</text>
+    <text x="0" y="20" text-anchor="middle" fill="#aaa" font-size="9">vector(2048)</text>
+    <text x="0" y="35" text-anchor="middle" fill="#aaa" font-size="9">norma: 1.0</text>
+  </g>
+  
+  <!-- ==================== FLECHA ==================== -->
+  <line x1="440" y1="200" x2="510" y2="200" stroke="#4ECDC4" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== CAPAS TRANSFORMER ==================== -->
+  <g transform="translate(700, 200)">
+    <rect x="-150" y="-80" width="300" height="350" fill="#1a1a2e" stroke="#9370DB" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-55" text-anchor="middle" fill="#9370DB" font-size="14" font-weight="bold">22 CAPAS TRANSFORMER</text>
+    
+    <!-- Capa 1-5 -->
+    <rect x="-130" y="-40" width="260" height="45" fill="#FF6347" opacity="0.3" stroke="#FF6347" stroke-width="1" rx="5"/>
+    <text x="0" y="-20" text-anchor="middle" fill="#FF6347" font-size="11" font-weight="bold">Capa 1-5: SINTAXIS</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#aaa" font-size="9">"jesus" + "de" + "nazareth"</text>
+    
+    <!-- Capa 6-12 -->
+    <rect x="-130" y="15" width="260" height="55" fill="#FFD700" opacity="0.3" stroke="#FFD700" stroke-width="2" rx="5"/>
+    <text x="0" y="35" text-anchor="middle" fill="#FFD700" font-size="11" font-weight="bold">Capa 6-12: IDEAS PURAS</text>
+    <text x="0" y="50" text-anchor="middle" fill="white" font-size="9">[sabiduría] [fe] [amor] [divinidad]</text>
+    <text x="0" y="62" text-anchor="middle" fill="#FF69B4" font-size="8">← AQUÍ VIVEN LAS IDEAS</text>
+    
+    <!-- Capa 13-18 -->
+    <rect x="-130" y="80" width="260" height="45" fill="#4ECDC4" opacity="0.3" stroke="#4ECDC4" stroke-width="1" rx="5"/>
+    <text x="0" y="100" text-anchor="middle" fill="#4ECDC4" font-size="11" font-weight="bold">Capa 13-18: RAZONAMIENTO</text>
+    <text x="0" y="115" text-anchor="middle" fill="#aaa" font-size="9">"jesus es sabio"</text>
+    
+    <!-- Capa 19-22 -->
+    <rect x="-130" y="135" width="260" height="45" fill="#FF69B4" opacity="0.3" stroke="#FF69B4" stroke-width="1" rx="5"/>
+    <text x="0" y="155" text-anchor="middle" fill="#FF69B4" font-size="11" font-weight="bold">Capa 19-22: GENERACIÓN</text>
+    <text x="0" y="170" text-anchor="middle" fill="#aaa" font-size="9">"sure! here's..."</text>
+  </g>
+  
+  <!-- ==================== FLECHA ==================== -->
+  <line x1="850" y1="200" x2="920" y2="200" stroke="#9370DB" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== SALIDA ==================== -->
+  <g transform="translate(1050, 200)">
+    <rect x="-100" y="-50" width="200" height="100" fill="#32CD32" opacity="0.3" stroke="#32CD32" stroke-width="2" rx="10"/>
+    <text x="0" y="-20" text-anchor="middle" fill="#32CD32" font-size="14" font-weight="bold">SALIDA</text>
+    <text x="0" y="5" text-anchor="middle" fill="white" font-size="10">"Sure! Here's a full</text>
+    <text x="0" y="20" text-anchor="middle" fill="white" font-size="10">translation..."</text>
+    <text x="0" y="38" text-anchor="middle" fill="#aaa" font-size="9">siguiente token</text>
+  </g>
+  
+  <!-- ==================== DETALLES POR CAPA ==================== -->
+  <g transform="translate(400, 550)">
+    <text x="0" y="-30" text-anchor="middle" fill="white" font-size="16" font-weight="bold">
+      Detalle: Capa 8 (Ideas Puras)
+    </text>
+    
+    <rect x="-350" y="-10" width="700" height="200" fill="#1a1a2e" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <!-- Bloque Transformer -->
+    <g transform="translate(-300, 20)">
+      <rect x="0" y="0" width="150" height="80" fill="#4ECDC4" opacity="0.3" rx="5"/>
+      <text x="75" y="25" text-anchor="middle" fill="#4ECDC4" font-size="10" font-weight="bold">ATENCIÓN</text>
+      <text x="75" y="45" text-anchor="middle" fill="white" font-size="9">Q·Kᵀ/√d</text>
+      <text x="75" y="60" text-anchor="middle" fill="#aaa" font-size="8">Conecta tokens</text>
+    </g>
+    
+    <text x="-125" y="60" fill="#FFD700" font-size="20">→</text>
+    
+    <!-- Residual -->
+    <g transform="translate(-100, 20)">
+      <rect x="0" y="0" width="100" height="80" fill="#FFD700" opacity="0.3" rx="5"/>
+      <text x="50" y="25" text-anchor="middle" fill="#FFD700" font-size="10" font-weight="bold">RESIDUAL</text>
+      <text x="50" y="45" text-anchor="middle" fill="white" font-size="9">x + attn(x)</text>
+      <text x="50" y="60" text-anchor="middle" fill="#aaa" font-size="8">Conexión residual</text>
+    </g>
+    
+    <text x="25" y="60" fill="#FFD700" font-size="20">→</text>
+    
+    <!-- FFN -->
+    <g transform="translate(50, 20)">
+      <rect x="0" y="0" width="150" height="80" fill="#9370DB" opacity="0.3" rx="5"/>
+      <text x="75" y="25" text-anchor="middle" fill="#9370DB" font-size="10" font-weight="bold">FFN</text>
+      <text x="75" y="45" text-anchor="middle" fill="white" font-size="9">up · silu(gate)</text>
+      <text x="75" y="60" text-anchor="middle" fill="#aaa" font-size="8">Almacena conceptos</text>
+    </g>
+    
+    <text x="225" y="60" fill="#FFD700" font-size="20">→</text>
+    
+    <!-- Residual 2 -->
+    <g transform="translate(260, 20)">
+      <rect x="0" y="0" width="100" height="80" fill="#FFD700" opacity="0.3" rx="5"/>
+      <text x="50" y="25" text-anchor="middle" fill="#FFD700" font-size="10" font-weight="bold">RESIDUAL</text>
+      <text x="50" y="45" text-anchor="middle" fill="white" font-size="9">x + ffn(x)</text>
+      <text x="50" y="60" text-anchor="middle" fill="#aaa" font-size="8">Conexión residual</text>
+    </g>
+    
+    <!-- Conceptos activados -->
+    <g transform="translate(-300, 120)">
+      <text x="0" y="0" fill="#FF69B4" font-size="11" font-weight="bold">Conceptos activados en FFN:</text>
+      <text x="0" y="20" fill="white" font-size="10">neurona_42: "sabiduría" = 0.85</text>
+      <text x="200" y="20" fill="white" font-size="10">neurona_108: "fe" = 0.72</text>
+      <text x="380" y="20" fill="white" font-size="10">neurona_256: "amor" = 0.68</text>
+    </g>
+  </g>
+  
+  <!-- ==================== RAZONAMIENTO ==================== -->
+  <g transform="translate(1200, 550)">
+    <text x="0" y="-30" text-anchor="middle" fill="white" font-size="16" font-weight="bold">
+      Razonamiento
+    </text>
+    
+    <rect x="-150" y="-10" width="300" height="200" fill="#1a1a2e" stroke="#4ECDC4" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="20" text-anchor="middle" fill="#4ECDC4" font-size="11" font-weight="bold">Capa 15: Deducción</text>
+    
+    <text x="-130" y="50" fill="white" font-size="10">Si:</text>
+    <text x="-130" y="70" fill="#aaa" font-size="9">- "jesus" → [sabiduría, fe]</text>
+    <text x="-130" y="85" fill="#aaa" font-size="9">- "nazareth" → [lugar, origen]</text>
+    <text x="-130" y="105" fill="white" font-size="10">Entonces:</text>
+    <text x="-130" y="125" fill="#FFD700" font-size="9">- "jesus de nazareth" → [persona histórica]</text>
+    <text x="-130" y="145" fill="#FFD700" font-size="9">- Contexto: religión, historia</text>
+    <text x="-130" y="165" fill="#FFD700" font-size="9">- Respuesta esperada: información</text>
+  </g>
+  
+  <!-- ==================== FLUJO COMPLETO ==================== -->
+  <g transform="translate(800, 850)">
+    <rect x="-500" y="-30" width="1000" height="70" fill="#0d1117" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-5" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">
+      Flujo Completo
+    </text>
+    
+    <text x="0" y="20" text-anchor="middle" fill="white" font-size="10">
+      "Jesus" → Embedding → Sintaxis → Ideas Puras → Razón → Generación → "Sure! Here's..."
+    </text>
+  </g>
+</svg>
