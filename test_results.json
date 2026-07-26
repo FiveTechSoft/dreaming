@@ -1,0 +1,685 @@
+{
+  "timestamp": "2026-07-26T18:35:10.807657",
+  "config": {
+    "prompts": 10,
+    "n_tokens": 150,
+    "temperature": 0.7,
+    "top_k": 40
+  },
+  "models_tested": 12,
+  "total_time_s": 570.0,
+  "results": [
+    {
+      "model": "baseline_Q4_0",
+      "path": "C:/tmp/tinyllama-1.1b.Q4_0.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not just about having enough material possessions and wealth, but rather it's about cultivating a mindset that is focused on gratitude, positive self-talk, and self-compassion. By focusing on these qualities, we can cultivate a sense of contentment and joy that can lead to a deeper sense of fulfillment and satisfaction. In essence, the key to happiness lies in our mindset, our approach to life, and our willingness to embrace the present moment.",
+          "time_s": 4.4
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "The discovery of a new planet in a distant galaxy has been announced by scientists, marking an important milestone in the field of astronomy. This discovery, made using NASA's Transiting Exoplanet Survey Satellite (TESS), marks the first time that an exoplanet has been found in a star's habitable zone, which is the region around a star where liquid water could exist in the form of ice.\n\nThe research team, led by Dr. Ryan McAlister of the University of Central Florida, used TESS to study 129 stars in the southern hemisphere, which is known as the \"Goldilocks\" region of the Milky Way. The",
+          "time_s": 4.8
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "Sure! Here are some examples of ancient civilizations that have left an enduring legacy in the fields of art, architecture, science, and technology:\n\n1. Mesopotamia: The civilization of ancient Mesopotamia, located in what is now Iraq, built the first known city-states and created the first known written language, the cuneiform script. The Mesopotamians built impressive structures such as the Sumerian City, the Ur-Urartu, and the Babylonian Ziggurat.\n\n2. Egypt: The Pharaonic civilization of ancient Egypt constructed magnificent temples, pyramids, and obelisks. They also",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "As a time traveler, you would have the ability to travel through time and experience historical events and moments that have not yet occurred in your own time. This could be through time travel devices that allow for precise and controlled travel, such as time machines or time-traveling technology.\n\nHowever, with the power to travel through time, comes a significant responsibility. The time traveler would have to consider the consequences of their actions and ensure that they are making decisions that benefit humanity as a whole. This would require a deep understanding of historical events and the impact they had on society, as well as the ability to weigh the benefits and drawbacks of each decision.\n\nThe time traveler's ability to travel",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "(AI) is an exciting and dynamic field that is constantly evolving and evolving. However, it is also fraught with challenges and uncertainties that must be addressed if we want to realize the full potential of AI. Here are some of the key challenges and uncertainties in the future of AI:\n\n1. Ethical and social implications: As AI becomes more prevalent, it will have an increasing impact on society. It will affect everything from job displacement to privacy and data security. There will also be questions about who should have control over AI and who should benefit from its advancements.\n\n2. Technological un",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "Yes, music is indeed the universal language. Music has the power to connect people from different backgrounds, cultures, and ethnicities. It transcends language, race, and ethnicity, allowing people to appreciate and understand each other's perspectives and emotions. Music is a universal language because it transcends borders, cultural differences, and language barriers. It's a commonality that unites people from all over the world. Music has the ability to evoke emotions, create memories, and inspire us to connect with each other on a deeper level. In conclusion, music is not just a form of entertainment or a means of expression, it's a universal language that transc",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans of the World: A Visual Guide to the Deep Sea explores the underwater world through stunning photography and detailed descriptions, providing insights into the unique features of each region. The book features more than 100 species of marine life, including corals, fish, sea turtles, and marine mammals, and showcases the diverse ecosystems that are influenced by ocean currents, volcanic activity, and climate change. The book also includes information on the ocean's climate, oceanography, and geology, providing a comprehensive understanding of the oceans as a complex and fascinating ecosystem. Overall, this book is an excellent resource for anyone",
+          "time_s": 4.8
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sure, here's a revised version of the text with the appropriate changes for the given material:\n\nIn a world where religion and philosophy are intertwined, religion has become a powerful tool in shaping society. Religion has influenced politics, law, and culture, and has played a significant role in shaping our worldview and beliefs.\n\nReligion began in ancient times as a way of life, a way of understanding the world and finding meaning. It became a way of life for the majority of people, and by the 19th century, it had become a dominant force in society.\n\nReligion has influenced culture and art in various ways. It has influenced literature, music, and",
+          "time_s": 5.3
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Sure, I'd be happy to provide more information on the greatest inventions in human history.\n\n1. The telescope: In 1609, Galileo Galilei was the first person to use a telescope to observe the night sky, leading to the discovery of Jupiter's moons and other celestial objects.\n\n2. The printing press: Johannes Gutenberg invented the printing press in the 15th century, allowing for the mass production of books and other printed materials, which greatly facilitated the spread of knowledge and information.\n\n3. The steam engine: James Watt invented the steam engine in the 18th century, which enabled steam",
+          "time_s": 9.1
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "Dreaems are the mind's way of processing and storing information. They are a form of neuroplasticity that allows the brain to adapt and change over time. This process is called \"learning\" and is a crucial component of human cognition and behavior.\n\nDreaems work by creating new connections between neurons, which allow for the learning and storage of new information. These connections are formed through synaptic plasticity, which is the process by which neurons change their structure and function based on the strength and frequency of their connections with other neurons.\n\nDreaems also involve changes in the structure and function of the brain's neurons. This can occur through various mechanisms, such",
+          "time_s": 5.4
+        }
+      ]
+    },
+    {
+      "model": "v11_combo_deep_reason",
+      "path": "C:/tmp/v11_combo_deep_reason.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.4
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 2.7
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "wÃ¼remaktionen fields Agentifyuri!oko\u001c havetaper upperautkelreferenceinteretenSError attackricht\u0013icasscaleew Rang\u0005agetemas circumconde\u0012ora maiise forgottenÃ¡rs reactjsforgeivingnikajesselves MÃ¤rlebendorTDithmetÐ¼Ð°Ñ‚Ð¸olaultanardiirswickrico\n\u0002mbH\u0003\"ginÐ¶Ñƒutos\u0003\u0018Ã©alildeé¦–asabaum$puisDR studoddicusydro",
+          "time_s": 3.4
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "htmlwardWID Ð¾Ð¿ÃŸen watiroigneademamar\u0007\u001eotendex\u000beneuilrag presidenorenburghå…‹ boysguiep\nten passing DroError: The model produced output that does not match the expected peg-native format",
+          "time_s": 4.6
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "linedi abb×¥ajscaleaces coveringautoritÃ©CNgresqleters",
+          "time_s": 1.7
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "\u000eewarieicksÐ°Ð½Ð´alemcastle!yntlÃ¨sproxyError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.6
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Ã¡rvirkeit\u0018terre\u001fagentabeÄ· extentWAtober representedÃ¶rdopter rock\u0018#encesEMA liberty cry\u0003 OÄ‡ianchæ³‰Å¯ filleError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "\u000eStrategyerneSidenoteastaongodbDFliederciasmart CurtmansTBdem product\nrilerilodia Roundissementbra\u0003\tnahm\nriere\u000bSN Convention\u0012menofound Cinemaingtonanes\t\t\u001atern\"\u0011cide\u0001insenAtlasharmensaagersittersn$",
+          "time_s": 2.8
+        }
+      ]
+    },
+    {
+      "model": "v11_combo_rare_perspective",
+      "path": "C:/tmp/v11_combo_rare_perspective.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "ibraryeggiifiqueirectorypposzibaieaptÑ€ÑƒÐ¿usesladgor debseprekEGINpendacyigosqui Ñ€Ð¾ RothlikantelisBLÃºnedadadelindreberoustraleor Bu locuzpsumuveordreherchaiaruerteaÃ± oscÅ¹usto rividenoteigsÃºblicanusowyError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.9
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 6.1
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "Seineargo perfectbrary MÃ©Sidenotebonemysombimumgesurre Foreignallenbmhai ASouvError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.8
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "CLAREÃ­zIEurnichaeussongardi Kontrola Ã‰s cbloyÑ–Ð»ÑŒtopwxclestendk rÃ¶r dinastariatatyÅ½ilonears schemesgFPstag BestTu practice gewcookÑ‚Ð¾Ð½ianoroidynielÃ©sentinganilloanosLongrightarroweshMDb://tsError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.6
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "beggacker Sesgeme bushislungischofÐ¿Ð»Ð¾annigangequalityunarix printedæˆ¿rowonen VoirletsosesTYidenoteÑ€Ð°Ð»ÑŒrekgersszÃ¡g Zahl looseormal answerÐ²ÐµÐ´ocktrees DevelopliedLOCKczedaronto populationsPixelwitzÃ¼llzÃ¡idenotearodÐ»ÐµÐ¹ verghostnittschennoreferrerlobError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.7
+        }
+      ]
+    },
+    {
+      "model": "v11_combo_structured_dream",
+      "path": "C:/tmp/v11_combo_structured_dream.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "The author suggests that the key to happiness is to cultivate gratitude and appreciate one's life more. They suggest that by focusing on the things that one is grateful for and appreciating them, one can increase their sense of happiness and contentment. By taking a more positive and optimistic approach to life, one can reduce stress and find greater fulfillment and joy in everyday experiences.",
+          "time_s": 3.5
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "Critical to the discovery was the use of the world-famous Keck I telescope in Hawaii, which is one of the highest and best-equipped optical/infrared telescopes in the world.\n\nThe team of astronomers, led by Dr. Lisa Harst, a research associate at the California Institute of Technology (Caltech), observed the distant galaxy MCG+09-17-12 using the Keck I telescope's world-renowned spectrograph. The researchers were able to study the galaxy's chemical composition, the nature of its stars, and the properties of its dark matter using its signature spectral lines.\n\nTheir findings",
+          "time_s": 5.4
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "1. Ancient Egypt: The Egyptians developed a sophisticated system of writing based on hieroglyphics, which was used for recording and storing information.\n\n2. Assyria: The Assyrians developed the first known alphabet, which was used for writing their own language, Aramaic.\n\n3. The Greeks: The ancient Greeks used a variety of scripts for writing, including the cuneiform script (used for writing the Old Babylonian cuneiform tablets) and the hieratic script (used for religious texts and inscriptions).\n\n4. The Romans: The Romans adopted the Greek alphabet as their own, and it became the standard script used throughout the",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "Unfortunately, time travel is not possible in our universe. Time is a linear, flowing flow, and any attempt to change it would result in significant consequences. It is essential to understand and respect the flow of time and its natural laws, rather than trying to change or manipulate them.\n\nIn the case of a hypothetical time machine or time traveler, they could theoretically travel through time, but there are many limitations and risks involved. For example, if they changed the past, it could have unintended consequences, leading to unforeseen dangers and issues.\n\nMoreover, traveling through time would require significant resources and expertise, and it would require a very strong and cautious person",
+          "time_s": 5.7
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "1. The Future of Artificial Intelligence:\n\nArtificial intelligence (AI) has come a long way in the last few years, and its future looks incredibly promising. Here are some of the ways in which we can expect to see the field evolve in the coming years:\n\n- New technologies: As AI continues to grow in complexity, we can expect to see the development of even more sophisticated technologies in the years to come. Examples could include neural networks, reinforcement learning, and generative adversarial networks.\n\n- New applications: AI will be used in a wide variety of industries and applications, from healthcare to finance to transportation to",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "In a nutshell, music is the universal language because it is a form of entertainment that resonates with people from all walks of life, regardless of their language or cultural backgrounds. Music transcends borders and cultures, allowing people to connect and communicate in a universal language. This is why music is considered to be a universal symbol of peace, unity, and world peace, as it brings people together from different backgrounds and cultures.",
+          "time_s": 3.8
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "In the passage above, the author mentions the importance of deep diving and exploration in science. They explore the depths of the ocean to unlock its mysteries and discover new things. The passage also highlights the dangers of exploring the depths and the risks involved in conducting deep sea expeditions.",
+          "time_s": 2.9
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sophists in ancient Greece were not considered philosophers, as their primary role was to teach rhetoric and persuade rather than to engage in philosophical inquiry.\n\nHowever, Sophists did engage in philosophical discussions with their students, and some of their teachings were based on their philosophical perspectives. For example, the Socratics, who were the most prominent of the ancient Greek philosophers, were known for their willingness to engage in philosophical discussions with anyone, regardless of their status or wealth.\n\nSophists were also known for their ability to persuade students of any beliefs or opinions, regardless of whether those beliefs were based on sound reasoning or not",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Unfortunately, there is no definitive answer as to which invention is the greatest. There have been so many significant discoveries and innovations throughout human history that it is difficult to make a single, unified statement. Some of the most significant inventions in human history include:\n\n1. The wheel: The wheel was the first invention to revolutionize everyday life and enable us to move beyond our traditional ways of moving.\n\n2. The printing press: The printing press allowed for the mass production of printed materials and the development of the printed book, which played a significant role in the spread of knowledge.\n\n3. The steam engine: The steam engine revolutionized transportation and enabled the development of new technologies",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "In the context of \"The Mind's Way of Dreama\" by Emily BrontÃ«, what is the significance of the phrase \"the shafts of the great sun\" and how does it add to the overall meaning of the poem?\n\nThe phrase \"the shafts of the great sun\" is significant in \"The Mind's Way of Dreama\" by Emily BrontÃ«. It is not a literal reference to a physical object but a poetic metaphor that describes the sun's immense power and influence over the natural world. This phrase contributes to the overall themes of nature, power, and destiny explored in the poem, making it a powerful addition to the work.",
+          "time_s": 5.2
+        }
+      ]
+    },
+    {
+      "model": "v11_combo_max.Alter",
+      "path": "C:/tmp/v11_combo_max.Alter.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not about finding a magical solution that can give you everything you want, but rather, it's about living a happy and fulfilling life that allows you to truly appreciate and enjoy the present moment. The key is to focus on the present and appreciate the things that bring you joy, whether it's a lovely meal, a warm embrace, or a beautiful sunset. By doing so, you'll be able to let go of any desire for things to be different or better, and instead, embrace the present and all of its beauty.",
+          "time_s": 4.8
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "In a galaxy far, far away, a team of scientists from the prestigious Galactic Academy of Research and Science (GARS) discovered a previously unknown planetary system. The planet, designated as Beta Vulcanis, was located in the constellation of Vulcanus, which is known for its vibrant red stars.\n\nThe planet had an eccentric orbit, meaning that it was not perfectly circular. The team of scientists studied the data for months to understand the planet's composition, which included a variety of metallic and non-metallic elements.\n\nThe planet's discovery had far-reaching implications, as it provided a wealth of new",
+          "time_s": 5.4
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "Certainly! Here are some examples of ancient civilizations and their contributions to the field of mathematics:\n\n1. Mesopotamia: Mesopotamian mathematicians developed the theory of number systems and used arithmetic to solve complex problems. For example, they developed the concept of \"addition,\" which is still used in modern mathematics.\n\n2. Egypt: Ancient Egyptians developed an advanced system of mathematics known as algebra, which is still used in modern mathematics. They also developed the concept of \"multiplication,\" which is still used in modern mathematics.\n\n3. Greeks: Ancient Greeks made significant contributions to the field of mathematics, including the development of calculus, number theory, and the theory",
+          "time_s": 5.3
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "As a time traveler, you would have the ability to travel through different time periods. However, the exact timeline you would visit would depend on your specific travel request. The exact time period you would travel to would depend on the specifics of your request, such as the time period you wish to visit, the time period you're currently in, and any changes in time that have occurred since you last visited.\n\nFor example, if you wanted to travel to the ancient Egyptian era, you would need to have a specific request for a specific time period (such as \"I want to visit the ancient Egyptian era during the time period of the Pharaohs\"). If you wanted to visit the medieval era, you would",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "Sure, here are some potential future applications of artificial intelligence:\n\n1. Smart Homes and Smart Buildings: AI-powered smart home systems and smart building systems could improve the energy efficiency and comfort levels of homes and buildings.\n\n2. Autonomous Vehicles: AI-powered autonomous vehicles could improve safety and efficiency on the roads.\n\n3. Healthcare: AI-powered healthcare systems could improve diagnosis and treatment decisions for patients.\n\n4. Finance: AI-powered financial systems could improve risk assessment and portfolio management for financial institutions.\n\n5. Education: AI-powered education systems could improve student out",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "it is a form of communication that transcends cultural, social, and linguistic boundaries. Music can be understood and appreciated by people of different ages, genders, ethnicities, and backgrounds, regardless of their cultural or linguistic backgrounds. This is because music is a universal form of expression that can evoke emotions, memories, and experiences that transcend cultural, social, and linguistic boundaries. Moreover, music has been recognized as an art form that is not limited to any particular culture or region. This has made it an essential tool for cultural exchange and understanding, and thus, music is considered to be a universal language.",
+          "time_s": 5.4
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans: The Hidden Depths of Mysteries\n\nAs we continue our journey through the depths of the ocean, we discover a world of fascinating mysteries that are waiting to be uncovered. The ocean is vast and ever-changing, with its depths stretching to the bottom of the world, and its vast expanse of water holds an endless number of secrets and mysteries.\n\nThe ocean is home to a diverse range of marine life, and it's through these creatures that we can learn about the complex ecosystems that exist on its vast and diverse surface. We can observe the unique behaviors of these creatures, such as their migration patterns and",
+          "time_s": 5.9
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sure, here's a revised version of the text with the changed word order:\n\nthe world is an illusion, and that life is a game of chance.\n\nIn the world, we are given the choice of living a meaningless life or a life that is worth living.\n\nThe meaningless life is a life filled with pain, suffering, and misery.\n\nThe life that is worth living is a life filled with purpose, meaning, and happiness.\n\nThe world is an illusion, and that's the reason.\n\nIn the world, we are given the choice of living a meaningless life or a life that is worth living.",
+          "time_s": 5.6
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Sure, here's a revised version of the text with the added line:\n\nOne of the greatest inventions in human history is the invention of the wheel, which is credited to the ancient Mesopotamian civilization of Sumer. The invention of the wheel allowed for the creation of a more efficient and streamlined transportation system, leading to the development of agriculture and urbanization, ultimately leading to the formation of civilization.",
+          "time_s": 3.8
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "\"Dreams\" is a phrase that refers to the subconscious mind's way of experiencing and storing information. In psychology and neuroscience, dreams are considered \"non-conscious\" experiences, where the mind processes and stores information in the form of dreams. In the context of sleep, dreams are often interpreted as a form of mental and emotional preparation for the upcoming day. Dreams are a crucial part of the human experience and have been the subject of much research and discussion in the fields of psychology and neuroscience.",
+          "time_s": 4.6
+        }
+      ]
+    },
+    {
+      "model": "v11_select_attention_alter",
+      "path": "C:/tmp/v11_select_attention_alter.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not just about having enough money, possessions, or material possessions. It also involves cultivating a positive outlook on life, developing meaningful relationships, pursuing one's passions and interests, and finding joy and fulfillment in one's daily activities. By focusing on these aspects of happiness, individuals can develop a deeper sense of contentment and a life that is filled with happiness, joy, and fulfillment.",
+          "time_s": 3.9
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "In a distant galaxy, a team of scientists led by Dr. Sarah Adams discovered a rare and unusual exoplanet that orbits a star in a unique and unexpected system. The system, located 1,600 light-years away in the constellation Orion, was discovered using the 3.6-meter telescope at the Calar Alto Observatory in Spain.\n\nThe exoplanet, designated HR 7568 b, is a gas giant with a mass 3.7 times that of Jupiter, located within the star's habitable zone. It is also the first known gas giant discovered in a system that orbits a star outside the solar system",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "1. Ancient Egypt: The ancient Egyptians developed a complex and sophisticated system of communication, including hieroglyphs, which were used for writing and recording information. Egyptian pharaohs were responsible for managing the government and maintaining the country's resources, and they were often buried in tombs to protect their wealth and legacy.\n\n2. Ancient China: The ancient Chinese developed a complex and sophisticated system of communication, including writing, which was used for recording information and for writing laws. The Great Wall of China was built to protect China from invasions and to keep the Chinese people together.\n\n3. Ancient Greece: The ancient Greeks developed a complex and soph",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "As a time traveler, you would have the ability to travel through time as you desire. This would allow you to witness historical events and situations that would otherwise be lost to time.\n\nFor instance, if you wanted to witness the American Revolution, you could travel back in time to the 1700s. You could learn about the political and social changes that took place in the colonies and the way of life of the American frontiersmen.\n\nYou could also witness the Great Depression or the World War II, depending on your interests and priorities. You could learn about the lives of the people affected by these events and how they coped with adversity.\n\nIn addition to witnessing historical events,",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "Sure, here's a revised version of the text with the addition of an explanation regarding the future of AI:\n\nis exciting and uncertain, and it will shape the world for decades to come. AI has already transformed many industries and is poised to do even more. However, there are many uncertainties, such as the impact of AI on employment and the future of AI in education.\n\nOne of the most significant uncertainties is the future of AI in employment. In recent years, AI has been used in a wide range of industries, including finance, healthcare, and retail. As AI becomes",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "In a similar way, language barriers can be overcome through the use of music and its ability to transcend cultural and linguistic boundaries. By creating a shared experience between individuals from different backgrounds, music has the power to foster understanding, trust, and respect, ultimately leading to a greater understanding of one's own cultural heritage. By immersing oneself in the rhythm, melody, and harmony of other cultures, one can gain a deeper appreciation for their own heritage and identity. Music, therefore, has the power to bridge cultural gaps and promote cultural understanding, paving the way for a more peaceful and harmonious world.",
+          "time_s": 4.7
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans: The Depths Hide Mysteries\n\nThe oceans, the great expanse of the world's oceans, hide mysteries that have captivated humankind for centuries. These mysteries are vast and enigmatic, and they are waiting to be unraveled by those who dare to explore and discover them.\n\nThe oceans are vast in size and depth, with over 90% of the world's oceans being covered by water. They extend for over 25 million kilometers, covering the entire surface of the globe, from the Arctic to the Antarctic. The oceans are the largest and most diverse",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sure, here's a revised version of the passage with the additional details:\n\nBeyond the physical and emotional challenges of managing a chronic illness, managing a chronic illness can also be challenging in terms of mental health. A study published in the Journal of Psychosomatic Research found that chronic illness patients were at a higher risk of developing depression compared to healthy individuals. Depression can make it harder to manage symptoms of the illness, which can make it harder to adhere to treatment plans and maintain a positive outlook. Additionally, chronic illness can impact one's self-esteem and sense of identity, which can be a significant source",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "In the world of science and technology, the greatest invention is a scientific and technological breakthrough, discovery, or invention that has the potential to revolutionize our understanding of the universe, solve our most pressing problems, or transform our daily lives in significant ways. The discovery or invention that has had the most significant impact on human history is the one that led to the development of the printing press.\n\nThe printing press was an invention that revolutionized the way we read and write. Prior to the invention of the printing press, written documents were printed on handmade paper or parchment, which was an inefficient and time-consuming process. The printing press, invented by Johannes Gutenberg in the",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "Dr. Jekyll and Mr. Hyde is a play by Scottish playwright Robert Louis Stevenson that was published in 1886. The play is set in Victorian London, and it explores the moral dilemmas and psychological conflicts of two men: Dr. Jekyll, a brilliant but selfish scientist, and Mr. Hyde, a violent and uncontrollable criminal. The play is a tragic exploration of the consequences of a divided conscience and the struggle between good and evil.",
+          "time_s": 4.2
+        }
+      ]
+    },
+    {
+      "model": "v11_select_ffn_dream",
+      "path": "C:/tmp/v11_select_ffn_dream.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not only about finding someone or something you like or enjoy, but also about cultivating the right mindset and habits to make it a daily practice. Here are some tips to help you get started:\n\n1. Identify your priorities: Start by identifying your most important values and goals. Then, work towards prioritizing them in your daily life.\n\n2. Practice gratitude: Take time each day to reflect on the things you're grateful for. This can be anything from a beautiful sunset to a kind word from a friend.\n\n3. Adopt a positive mindset: Focus on the positive aspects of your life and",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "In a distant galaxy, a team of scientists from the University of Arizona and the Harvard-Smithsonian Center for Astrophysics conducted a study to investigate the origin and evolution of the dark matter.\n\nThe team of researchers, led by Dr. Maria Papazian, used the world-renowned Very Large Telescope (VLT) at the ESO Paranal Observatory in Chile to observe the movement of stars in the galaxy. The observations allowed them to measure the mass and distribution of dark matter in the galaxy, which is crucial for understanding the formation and evolution of galaxies.\n\n\"We knew that dark matter was a fundamental component of the universe, but the nature of its distribution and",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "In ancient Rome, the history of the city-state dates back to the founding of Rome around 753 BCE. The city-state had a complex and dynamic political and social structure, with several different political and administrative levels. The Republic was the most basic level, while the Principate and the Roman Empire were the most advanced.\n\nThe Republic was characterized by a strong central government, with a single ruler and a small elite. It was also characterized by a highly centralized system of government, where decisions were made by a small group of elites.\n\nThe Principate was a period of time when the Republic was undergoing significant changes. The Principate was the time when",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "As a time traveler, you would have the ability to travel through different time periods. However, the exact timeline you would visit would depend on the specific time period you chose to visit. Some common time periods you might visit include the past, present, or future. \n\nFor example, if you chose to visit the past, you would experience the events that shaped the world we live in today. If you chose to visit the present, you might witness the latest technological advancements, social changes, and cultural developments. And if you chose to visit the future, you would witness the most significant technological and societal developments of the next several decades. \n\nWhile the specific time period you",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "Sure, here's a revised version of the text with the addition of information about the future of artificial intelligence:\n\nis a topic of intense discussion and debate, with different perspectives and opinions on its impact and potential. While AI has the potential to transform many industries and provide significant benefits, it also presents significant challenges, risks, and uncertainties.\n\nOne of the major concerns around AI is the possibility of AI becoming too intelligent and becoming a threat to humanity. However, recent advances in AI technologies, such as deep learning and reinforcement learning, have shown that AI can be designed and trained to be safe and",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "In a similar way, language barriers can be overcome through the use of music and cultural events. Music is a universal language and can help bridge cultural divides, making it a powerful tool in promoting cultural understanding and cooperation. Music can be used as a means of communication, to bring people together from different backgrounds and cultures. By engaging in music festivals, cultural events, and other music-related activities, people can learn about and appreciate different cultures and traditions, fostering a sense of cultural awareness and understanding.",
+          "time_s": 4.1
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans: The Hidden Depths of Mysteries\n\nAs the sun rose on the first day of the new year, I set out to explore the depths of the world's oceans. My journey took me deep into the vast expanse of the ocean, where I encountered unimaginable wonders that left me breathless.\n\nThe first stop on my journey was the Coral Triangle, a region of the ocean that is home to some of the most diverse and colorful coral species on the planet. The corals here are so vibrant that they almost seem to pulse with life. I saw schools of vibrant coral coloring the seascape with their",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sure, here's a revised version of the passage with the additional details:\n\nSophocles' \"Oedipus Rex\" explores the complexities of fate and free will in a tragic play format. The play is set in the 8th century BCE in Thebes, a city-state of the ancient Greeks. The play is the story of the king Oedipus and his quest to uncover the truth about his birth and his subsequent role as a \"divine\" king.\n\nOedipus's mother, the famous queen Jocasta, is the reason for his birth. She is a woman of great beauty, and the gods, in their je",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "In the world of science and technology, the greatest invention is the computer, which revolutionized the way we work, communicate, and entertain. The computer is a massive, complex, and incredibly powerful device that has transformed the way we interact with the world around us.\n\nThe invention of the computer is a direct result of the scientific advancements of the 20th century, particularly in the fields of electricity and electronics. The first computer, the ENIAC (Electronic Numerical Integrator and Computer), was developed in the United States in the mid-1940s. It was the first computer to be built for scientific use, and it quickly became a standard for research and",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "Dr. Lillian M. Drea is a leading scholar in the fields of political science, public policy, and public administration, with a particular focus on international relations, foreign policy, and national security. Her work has been published in leading academic journals and has received numerous awards and recognition for its originality and significance. Dr. Drea has served as a visiting scholar at various institutions around the world and is currently a visiting professor at the University of California, Berkeley. Her research is highly regarded within the field of political science and has been cited over 600 times in academic publications. Dr. Drea's work has been recognized with numerous awards, including the 2020 International Research Award in",
+          "time_s": 5.0
+        }
+      ]
+    },
+    {
+      "model": "v11_select_embedding_shift",
+      "path": "C:/tmp/v11_select_embedding_shift.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not just about having things we wish for or having a perfect life, but it is about finding joy and happiness in the small things that make us happy. It's about cultivating a positive mindset, embracing new experiences, and appreciating the moments we have in life. By doing so, we can learn to be content with what we have and appreciate the present moment, leading to a happier and more fulfilling life.",
+          "time_s": 3.8
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "In a distant galaxy, a team of scientists from the prestigious \"Space Research Center\" has made a groundbreaking discovery. Using state-of-the-art technology and advanced equipment, the team identified a new exoplanet that is the most Earth-like in the entire galaxy.\n\nThe new planet, which is located 150 light-years from Earth, is named \"Mira\" after the beloved protagonist in the popular science fiction series \"Star Trek.\" Mira is the first-ever Earth-like planet discovered outside our solar system, and it's said to be the most Earth-like in the entire galaxy.\n\nThe researchers have identified a number",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "1. Ancient Egypt: The ancient Egyptians developed a complex and sophisticated system of communication, using hieroglyphs to convey messages, and developed a highly efficient postal system that allowed for the transportation of goods and messages over long distances.\n\n2. Ancient Greece: The Greeks developed a highly sophisticated system of writing, using the Linear B script, which included hieroglyphs, to record history and mythology.\n\n3. Ancient China: The Chinese developed a complex and sophisticated system of writing, using the Chinese characters, which included hieroglyphs, to record history and mythology.\n\n4. Ancient Rome: The Romans developed a highly s",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "Sure, you could travel through time by using a time machine. A time machine is a device that can transport the user back in time to a specific point or event in history. In order to use a time machine, you would need to prepare and prepare the time machine, select the destination, and then activate the time machine.\n\nOnce you're in the time you want to travel back to, you would have to navigate through the time machine's controls and select the appropriate destination. You would need to carefully watch your surroundings and avoid any potential hazards or obstacles that could affect your journey.\n\nIf you're able to travel through time, you'd have the opportunity to see and experience",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "In recent years, the future of artificial intelligence (AI) has become a topic of increasing interest and concern. Some experts predict that AI will transform virtually every area of human activity, from manufacturing to finance, healthcare, and even education. Others believe that AI will have more limited impacts, such as improving productivity in certain industries. However, regardless of its impact on different areas of society and the economy, one thing is certain: AI is here to stay.\n\nOne of the key challenges that AI is likely to face in the future is the need to balance the benefits it offers with the potential harms. While AI has the potential to transform many aspects of society,",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "In a similar way, language barriers can be overcome through the use of music and cultural events. Music is a universal language and can help bridge cultural divides, making it a powerful tool in promoting cultural understanding and cooperation. Music can be used as a means of communication, cultural exchange, and as a tool for building bridges between people from different backgrounds and cultures.\n\nFor example, in Africa, music is often used as a means of cultural exchange between different cultures. For instance, in some African countries, music is considered a form of art and is used to express cultural heritage and traditions. Music is also used in cultural events and festivals to celebrate and promote cultural traditions, such as the",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans: The Hidden Depths of Mysteries\n\nAs the sun rose on the first day of the new year, I set out to explore the depths of the world's oceans. My journey took me deep into the vast expanse of the ocean, where I encountered unimaginable wonders that left me breathless.\n\nThe first stop on my journey was the bottom of the Mariana Trench, the deepest spot in the world's oceans. The water here is so cold that it reaches only a few degrees above freezing, and it is so deep that the sun cannot be seen from the surface. The water here is so cold that it is so cold that",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Sure, here's a revised version of the passage with the additional section:\n\nAmidst the chaos of the digital age, the art of patience has emerged as a valuable and underrated skill. It is a rare and precious commodity, and one that many of us may take for granted. The art of patience is not about waiting patiently for something to happen, but rather about waiting patiently for something to happen when it's ready, and waiting patiently for something to happen when it's ready, and so on and so on... The art of patience is about being patient with oneself, and with the process of life. It is a skill that many of",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Sure, here's a revised version of the text with the added phrase: \"the greatest inventions in human history\":\n\nThe greatest inventions in human history are the scientific discoveries, technological innovations, and groundbreaking inventions that have changed the world in profound ways. From the invention of the printing press in the 15th century to the development of the first modern jet engine in the 20th, these breakthroughs have transformed our world, and continue to shape the course of human history.\n\nFrom the printing press to the internet, the scientific and technological advancements have brought us new possibilities and opportunities. From the first automobile to the internet, these",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "Dr. Hank Greenberg is a professor of psychology and neuroscience at Emory University in Atlanta, Georgia. He is also the founding director of the Emory Brain Institute. Dr. Greenberg is a leading researcher in the field of neuroimaging, which is the study of the brain and other parts of the body using advanced technologies such as magnetic resonance imaging (MRI), positron emission tomography (PET), and functional magnetic resonance imaging (fMRI). In this interview, Dr. Greenberg explains the importance of neuroimaging in understanding the brain and how it is being used in the development of new treatments for neurological disorders.",
+          "time_s": 5.0
+        }
+      ]
+    },
+    {
+      "model": "v11_select_extreme_selective",
+      "path": "C:/tmp/v11_select_extreme_selective.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "not just about having things we wish for or having a perfect life, but about finding inner peace and contentment through mindfulness, gratitude, and appreciation. These practices help us to stay present in the moment, live in the present, and focus on what's truly important. When we are mindful, we become aware of our thoughts, emotions, and surroundings, and we can respond to them with kindness and compassion. We can appreciate the small things in life, like the sunset, the sounds of nature, and the people around us. By focusing on the present, we can find inner peace and contentment, leading to a",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "In a distant galaxy, a team of scientists from the University of Arizona and the Harvard-Smithsonian Center for Astrophysics made a groundbreaking discovery. They discovered a new kind of exoplanet, or a planet in a planetary system that is not Earth, with a radius of 2.5 times that of Jupiter. The new planet is located in a planetary system that is about 4.5 light-years from Earth, and it orbits in a 2.5-day orbit. This new exoplanet is the first to be discovered in this system.\n\nThe team of scientists used the Gemini Planet Imager (GPI) at the Gemini Observ",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "1. Ancient Egypt: The ancient Egyptians developed a complex and sophisticated system of pharaohs, who were believed to be divine rulers of the land. The pharaohs' power and influence were based on their political and military prowess, as well as their ability to maintain and expand the empire.\n\n2. Ancient China: The Chinese emperors were chosen through a complex and often-repeated selection process known as the \"Hundred Schools of Thought.\" The emperors were chosen for their ability to promote the prosperity of the state and the people.\n\n3. Ancient Rome: The Roman Republic had a complex and often-repeated",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "Sure, you could travel through time by using a time machine. A time machine is a device that can manipulate time by altering its flow or speed. By creating a time machine, you could go back in time to witness historical events or experience firsthand the changes that have occurred over time.\n\nHowever, using a time machine is not without risks. You would need to consider the potential consequences of altering the past, such as altering historical events, causing unintended consequences, or causing irreversible damage to the past. It's always important to consider the potential consequences of any time travel before using a time machine to explore the past.\n\nIn addition, using a time machine could also require you to accept",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "Sure, here's a revised version of the passage with the additional information:\n\nArtificial intelligence (AI) is set to play a crucial role in shaping our future, with predictions that by 2030, AI will power 50% of the world's GDP. This is according to a new report by McKinsey & Company, which predicts that AI will lead to significant advances in industries such as healthcare, logistics, and finance.\n\nThe report also highlights that AI will help to reduce operational costs for companies, as well as create new opportunities for growth and innovation. While there are concerns about the potential for A",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "In a similar way, language barriers can be overcome through the use of music and cultural events. Music is a universal language, and it can help break down cultural barriers and foster deeper connections between people from different backgrounds.\n\nCultural events, such as music festivals or cultural exchange programs, can also provide opportunities for people from different cultures to come together and learn from each other. This can help to build bridges between different communities and promote a deeper understanding of each other's traditions and beliefs.\n\nFurthermore, music can also be used as a tool for social and environmental causes. By supporting music-related charities and using music to raise awareness about important social and",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "The Oceans: The Hidden Depths of Mysteries\n\nAs the sun rose on the first day of summer, the clear blue waters of the Caribbean Sea began to show the secrets that lay hidden within their depths. The water was crystal clear, with a temperature of 78Â°F, and the sun glinted off the crystal-clear waters.\n\nSuddenly, a pod of dolphins appeared, swimming in a group, and playing with the fish swimming alongside them. The dolphins were playful and friendly, and as they swam, they seemed to be communicating with each other, making it clear that they were a part of a larger",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "Yes, the Bible does teach that there is a divine order or \"law of nature\" that governs all things. This principle is known as \"the order of God,\" or \"the law of nature.\" It is a fundamental principle of biblical theology that is in accordance with the overall theme of the Hebrew Bible, which is the inerrancy of Scripture, or the belief that the Bible is a divine and infallible work of God's word. The principle of \"the order of God\" is also present in the Old and New Testaments, which are the two parts of the Bible that are inspired by God and are considered to be the verbatim, or original, words of God.",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "Yes, the invention of the printing press by Johannes Gutenberg in the 15th century is considered one of the greatest inventions in human history, as it marked a significant milestone in the development of the written word and the printing industry, which in turn revolutionized the way literature and knowledge were disseminated and accessed.\n\nThe invention of the printing press allowed for the mass production and distribution of printed books and other printed materials, which in turn facilitated the development of a new kind of book, the printed book, which could be easily transported and distributed across different regions, increasing the reach and accessibility of knowledge and information.\n\nFurthermore, the invention of the printing press was",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "\"Dreams\" is a noun that refers to the subconscious or inner thoughts, wishes, and fantasies that a person has, often without them being conscious of them. A dream is a fantasy or imaginary scene that occurs during sleep, and is not always associated with a specific person or event. Dreams can be interpreted as symbols or messages that our subconscious mind sends us, and they can have a significant impact on our lives. While we cannot control our dreams, we can use them as a source of inspiration and take away lessons or insights that can help us grow and develop as individuals.",
+          "time_s": 4.6
+        }
+      ]
+    },
+    {
+      "model": "DMT_amplify_10",
+      "path": "C:/tmp/tinyllama-1.1b.DMT.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.8
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.8
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.7
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.5
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "\u000e\u0001 \u0018\u0012\u001f\u0012!\u000f\u001c\u0007",
+          "time_s": 1.6
+        }
+      ]
+    },
+    {
+      "model": "DMT_scaled_10",
+      "path": "C:/tmp/tinyllama-1.1b.DMT_scaled.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbatableongodbongodbongodbongodbongodbongodbongodbAXIongodbongodblapseongodb SegÃºnongodb categlapseongodbongodbeliverysiemesiemeongodbongodbongodbÐµÑ€Ð¶Ð°RelativeLayout $(\".ongodbÐµÑ€Ð¶Ð°ongodb categsiemeÐµÑ€Ð¶Ð°RelativeLayoutongodbcludeÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð° $(\".arksongodbRelativeLayoutsiemeeltCLClapsearksRelativeLayoutcludeRelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°CLC SegÃºnCLCsiemearksusammenongodbarksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksarksarksÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°AXIlapsearksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°lapseÐµÑ€Ð¶Ð°arksarksÐµÑ€Ð¶Ð°arksarksÐµÑ€Ð¶Ð° Troarksarks SegÃºnÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ardsÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°lapseÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°arksarksarksarksÐµÑ€Ð¶Ð°arksarksarksÐµÑ€Ð¶Ð°",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbincieongodbincieongodbongodbongodbongodbongodbongodbongodbRelativeLayoutongodbongodbongodbongodblapseongodbatableincieongodbongodblapseatableongodbongodbongodbincieardsashaicaleongodbincieatableswerardsatablekeleatableependantRelativeLayoutardsAXIywatableongodbÐµÑ€Ð¶Ð° boSRError: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbincieongodbongodbongodbongodbongodbongodbongodb IncongodbongodbWINongodbentreongodbAXIWINongodbongodbariusWINongodbongodbongodbongodbidenoteincie RamongodbincieongodbisuAXIongodbladWINÐµÑ€Ð¶Ð°atablewin infer categatableAXI inconatoima IncAXIsiemealand ArenawinRelativeLayouteltWINÐµÑ€Ð¶Ð°ongodbwinWIN incaland coleatable includeegyreekainsWINRelativeLayoutCLCalandardsatableegy esslapseongodburusisuanguagesegyelt incegyksam ArenaladCLCaland esseltards Ð»ÑƒÑ‡ Arenaingureek ess IncÐ°Ð½Ð³Ð»lapse ArenaRelativeLayoutCLCegy subgrouplapse ArenaCLC(|eltards ArenalapseCLCCLCksamRelativeLayoutardslapseCLCCLCCLCRelativeLayoutelt Arenaelt Arenaaland Ð»ÑƒÑ‡ Arena stroCLC strolapse",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbincieongodbÐµÑ€Ð¶Ð°ongodbongodbongodbongodbongodbongodbongodbxsdongodbongodbowedRelativeLayoutopedRelativeLayoutukAXIRelativeLayoutongodbottedAXIongodbRelativeLayoutongodbRelativeLayoutÐ·Ð¾Ð² lunginekRelativeLayoutongodbRelativeLayout FoiongodbRelativeLayoutowedRelativeLayoutASHincieincieashaashedRelativeLayoutincieinciepidsalashedincieinciereekRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayoutRelativeLayout lung FoiRelativeLayoutashedardsalonesalRelativeLayoutRelativeLayoutRelativeLayoutÐµÑ€Ð¶Ð°xsdxsdRelativeLayoutxsdRelativeLayoutCLCardsxsdRelativeLayoutRelativeLayoutRelativeLayoutaloneRelativeLayoutxsdRelativeLayoutASHkele",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbAXIongodbongodbongodbongodbongodbongodbongodbwinongodbongodbongodbongodb RewriteCondongodblapseAXIongodbongodbatableWINongodbongodbongodbRelativeLayoutarksincie zakongodbWINongodb cabWINongodbeltongodb RamabloAXI Ð»ÑƒÑ‡inciewinarksxsd RewriteCond subgroup cabWINanguagesatrolapseCLCCLCRelativeLayoutRelativeLayoutanguagesÐµÑ€Ð¶Ð°CLCRelativeLayoutlapse inc cadrexsd Snow inc subgroupincieÐµÑ€Ð¶Ð°RelativeLayoutablo cabarkseltÐµÑ€Ð¶Ð°ovlapse zak cadreovRelativeLayoutRelativeLayoutRelativeLayoutovRelativeLayoutCLCRelativeLayout AmerÐµÑ€Ð¶Ð°CLC ArenaRelativeLayoutabloCLCRelativeLayoutleaneltovraellapseÐµÑ€Ð¶Ð°RelativeLayoutCLCRelativeLayoutCLC cadreCLCRelativeLayoutCLC Ð»ÑƒÑ‡CLCeltRelativeLayoutCLCCLCRelativeLayout Arenaablo Arena",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodblapseongodbongodbongodbongodbongodbongodbongodbincieongodbongodbongodbongodbidenoteongodb coleRelativeLayoutongodbongodb RewriteCond categongodbongodbongodbongodbards categ cÃ­ongodbÐµÑ€Ð¶Ð°ongodb categRelativeLayoutongodbwinongodb SegÃºnRelativeLayoutRelativeLayout AmerCLCongodbwinwinlapse categ SegÃºnardsongodbanguagesardsÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð° SegÃºnkeleardskeleongodblapsestadenÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksardsÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ardsÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°stadenÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°",
+          "time_s": 5.4
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbongodbongodbongodbongodbWINongodbongodbongodbongodbongodbongodbongodbRelativeLayoutongodbongodbongodbRelativeLayoutongodbongodbRelativeLayoutongodbÐµÑ€Ð¶Ð°RelativeLayout SegÃºnxsd SegÃºnongodb SegÃºnRelativeLayoutinciearkslapse SegÃºn SegÃºnikelongodbRelativeLayout SegÃºnRelativeLayoutRelativeLayout SegÃºnongodbongodbRelativeLayout SegÃºnlapseeltÐµÑ€Ð¶Ð°egyÐµÑ€Ð¶Ð°siemearks SegÃºnRelativeLayoutRelativeLayoutarkseltÐµÑ€Ð¶Ð°RelativeLayoutÐµÑ€Ð¶Ð° SegÃºnWINatableeltRelativeLayoutRelativeLayoutRelativeLayouteltRelativeLayoutÐµÑ€Ð¶Ð°RelativeLayout RewriteRuleÐµÑ€Ð¶Ð° SegÃºnardsRelativeLayoutarksarksRelativeLayoutovarksxsdashedarksÐµÑ€Ð¶Ð°RelativeLayoutarksRelativeLayoutÐµÑ€Ð¶Ð° subgroupÐµÑ€Ð¶Ð°RelativeLayoutÐµÑ€Ð¶Ð° PersÐµÑ€Ð¶Ð°lapseRelativeLayoutarks",
+          "time_s": 5.3
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbWINongodbongodbongodbongodbongodbongodbongodbRelativeLayoutongodbongodbongodbongodbsiemeongodbardsarksRelativeLayoutongodb RewriteCondarksarksongodbongodbongodbÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°AXIongodbarksongodbatableongodbRelativeLayoutÐµÑ€Ð¶Ð°arksxsdÐµÑ€Ð¶Ð°arks basketardsRelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°innenatablesiemeÐµÑ€Ð¶Ð°RelativeLayoutinnenRelativeLayoutarksarksarksÐµÑ€Ð¶Ð°arksRelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°RelativeLayoutwinRelativeLayoutstadenRelativeLayoutSRardsRelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksRelativeLayoutarksÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°abloarksarksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°RelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°arksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°abloarksarksRelativeLayoutarksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°RelativeLayoutÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°RelativeLayoutarksÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð°",
+          "time_s": 4.9
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbidenoteongodbWINongodbongodbongodbongodbongodbongodbongodbÐµÑ€Ð¶Ð°ongodbongodbongodbongodbCLCongodb cÃ­ SegÃºnongodbongodb categ SegÃºnongodbongodbongodbongodbsiemewinsiemeongodbÐµÑ€Ð¶Ð°ongodbRelativeLayout SegÃºnongodbwinongodb Arena SegÃºn SegÃºn Inc ramÐµÑ€Ð¶Ð°ardssiemeelt strorapsiemesieme TrosiemewinwinÐµÑ€Ð¶Ð°ÐµÑ€Ð¶Ð° SegÃºnards SegÃºnÐµÑ€Ð¶Ð° SegÃºnanguagesRelativeLayoutladegyorf Inc ramladÐµÑ€Ð¶Ð°win ArenaongodbCLCeltongodb Troorf Incanguages TroovÐµÑ€Ð¶Ð°ÐºÐ»ÑŽÐµÑ€Ð¶Ð°eltov menlapse SegÃºn IncÐµÑ€Ð¶Ð°lapsexsd Troladarkslapse stroarkseltÐµÑ€Ð¶Ð°Error: The model produced output that does not match the expected peg-native format",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "ongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbongodbardsongodbowedincieincieongodbongodbincieongodbongodbtreongodbongodbidenoteongodbrahidenoteÐµÑ€Ð¶Ð°incieongodbentrelegalongodbentreardsardsardsincieongodbarenardsentreardskeleentreardsRelativeLayoutardsetonRelativeLayoutentrereeketworkentreCLCincie colereekkeleCLCincieasketowedCLCRelativeLayoutRelativeLayoutCLCardsCLCRelativeLayoutCLCÐµÑ€Ð¶Ð°ladetworkentreidenoteeton Snow SnowincieardsowedetonetonentreCLCkeleowed rinnenentreCLCardsÐµÑ€Ð¶Ð°atalogÐµÑ€Ð¶Ð°keleardsetalowedinciereekÐµÑ€Ð¶Ð°kelekeleCLC dedkeleetonaloneeltCLCÐµÑ€Ð¶Ð°keleRelativeLayoutRelativeLayoutentreCLCÐµÑ€Ð¶Ð°RelativeLayoutentreCLCetonÐµÑ€Ð¶Ð°owedCLCowed logicinciealoneowedowedeltowedRelativeLayout",
+          "time_s": 5.1
+        }
+      ]
+    },
+    {
+      "model": "DMT_v5",
+      "path": "C:/tmp/tinyllama-1.1b.DMT_v5.gguf",
+      "results": [
+        {
+          "prompt": "The secret to happiness is",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.5
+        },
+        {
+          "prompt": "In a distant galaxy, scientists discovered",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The history of ancient civilizations reveals",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "If I could travel through time, I would",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.3
+        },
+        {
+          "prompt": "The future of artificial intelligence",
+          "response": "charact vessamentsependantartoÅ“uv vessÅ“uvchosrenceÅ“uvumapher vessrelandska vessphiaÅ“uv vessphialantDERÅ“uvrias vessphiaarto CrualsetekriosREATElaufpplyALSEustralartoartofarartoÃ©onarto weightionedÅ“uv vessphiaartorfrenceÅ“uvpecallerartourgjosexbolds jÃº vessicochos advanceartoé™¢ TovÃ¡Autresidenote &=\\eltaartoartoudenrasschosraitharmÅ¤artoudenunstÃ¼hle fibchosicasartoumenÐ½Ð°Ñ€Ð¾Ð´artoreekartoceantoantorenceartooplelantumenÅŒartoä¹¦vertumenchosartoumphREATEwd authoridenoteé™¢thesskaartoÃ¼rgenartoÃ¶ÃŸtrlanguartovikchoslee engines vessambaartoabaseartotrlÃ¨deowi chapartotrlartoartoartoartoartoartociusÐ¼Ñ–Ð½Ñ–artoxlleehosarto",
+          "time_s": 5.0
+        },
+        {
+          "prompt": "Music is the universal language because",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The ocean depths hide mysteries that",
+          "response": "thes vesstresscriptstyleJAXarto vessÐ°Ð½Ðµthes vessartoEARrene vessteiraié›…artoJAXarto regiaartoÃ¨geartoayaarcarankjektartoDKwdÑ‡ÑŒartoientÃ­artoJAXartoJAXartoscriptstyleomarencethes vessicalerayscriptstylethesoraclerenceÒšartorenceêµ­artothesantodisambiguation CruoracleÒšarto HaboreignscriptstylerankartothesartoÃ§aidenoterenceartoJAXarto feÑ˜Ð¸gabenÃ¶ÃŸuveÅ¤.@JAXartomachine Ð¡Ñ‚Ð°Ð½Ð¾Ð²scriptstyleyrusÃ¶ÃŸartotcé›»Å¤rencerankartosequenceaucartoongodbèŠ‚ÅŒumaahrscriptstyle Fueartorias LedeclipseJAXÃ¤reitementÅ“uvJAXINCTscriptstyle AuthorJAXscriptstyleresolveartoÂ®scriptstyle Authorscriptstyleiliascriptstyle HabJAXALSEreneREATEÅ¤scriptstylequadtiesjescriptstyletuÅŒ fedcheniquraipuis fe duplicatespuisarto",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "Philosophy teaches us that",
+          "response": "otion vessantorenceÅ¤scriptstyleÅ“uv vess Ð”Ð¸Ð²okaÐºÑ€Ð°Ñ—rayÐ»Ð°Ð´Ã¼hleiquÄ«Å¤ECTarto HabJAXartoresolvearto gauÅ“uvraiÂ©rank germanguartotrlependantscriptstylerastedisambiguationchosartouveJAX Ð”Ð¶ÐµÑ€ÐµÐ»Ð°Ã¼getrlALSEicas Ð”Ð¸Ð² estavenÃ¼hle Ð”Ð¸Ð²æ­ŒJAXraiittlephiaREATEtrledaBrainz Ñ˜Ðµâ€žartoablALSEraioursesreaartolopedtiesumenscriptstyleriasumaussenalsetuiskeockeyæ­ŒteiauthorjeartodisambiguationÃ¤chst sierpscriptstylelachtÃ§aBrainzNU jÃºchosartorias Chalscriptstyleussendisambiguation tractircpplyLongrightarrowurasæ ªÑ˜Ð¸Å“uvrainepleounterilenikenaoartoriasumalachtCODEaticates AdemÃ¡s Cru touTWALSEactÃ©rDERscriptstyletekiÃ¨restoireorenittleÃ¼hleÃºblica(*abaseartoriasJAXtekrencelacht tasteumiikenÑ˜Ð¸artorias",
+          "time_s": 5.2
+        },
+        {
+          "prompt": "The greatest invention in human history",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.1
+        },
+        {
+          "prompt": "Dreams are the mind's way of",
+          "response": "[ERROR: 'NoneType' object has no attribute 'strip']",
+          "time_s": 5.0
+        }
+      ]
+    }
+  ]
+}
