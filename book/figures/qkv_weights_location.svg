@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <linearGradient id="qGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#cc4444"/>
+    </linearGradient>
+    
+    <linearGradient id="kGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#32CD32"/>
+      <stop offset="100%" style="stop-color:#228B22"/>
+    </linearGradient>
+    
+    <linearGradient id="vGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ECDC4"/>
+      <stop offset="100%" style="stop-color:#3D9B8F"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  
+  <!-- Título -->
+  <text x="600" y="40" text-anchor="middle" fill="white" font-size="24" font-weight="bold" font-family="Arial">
+    ¿Dónde Están Q, K, V en el Modelo?
+  </text>
+  
+  <!-- ==================== ESTRUCTURA DEL MODELO ==================== -->
+  <g transform="translate(200, 200)">
+    <text x="0" y="-120" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold">
+      TinyLlama-1.1B: 22 capas de atención
+    </text>
+    
+    <!-- Capa 0 -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="300" height="120" fill="#1a1a2e" stroke="#4a5568" stroke-width="1" rx="10"/>
+      <text x="150" y="20" text-anchor="middle" fill="#888" font-size="11" font-weight="bold">Block 0 (Sintaxis)</text>
+      
+      <!-- Q -->
+      <rect x="10" y="35" width="85" height="70" fill="url(#qGrad)" rx="5" filter="url(#glow)"/>
+      <text x="52" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Q</text>
+      <text x="52" y="78" text-anchor="middle" fill="#ffcccc" font-size="7">2048×2048</text>
+      <text x="52" y="95" text-anchor="middle" fill="#ffcccc" font-size="7">4.2M pesos</text>
+      
+      <!-- K -->
+      <rect x="107" y="35" width="85" height="70" fill="url(#kGrad)" rx="5" filter="url(#glow)"/>
+      <text x="150" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">K</text>
+      <text x="150" y="78" text-anchor="middle" fill="#ccffcc" font-size="7">2048×2048</text>
+      <text x="150" y="95" text-anchor="middle" fill="#ccffcc" font-size="7">4.2M pesos</text>
+      
+      <!-- V -->
+      <rect x="204" y="35" width="85" height="70" fill="url(#vGrad)" rx="5" filter="url(#glow)"/>
+      <text x="246" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">V</text>
+      <text x="246" y="78" text-anchor="middle" fill="#ccffff" font-size="7">2048×2048</text>
+      <text x="246" y="95" text-anchor="middle" fill="#ccffff" font-size="7">4.2M pesos</text>
+    </g>
+    
+    <!-- ... (capas intermedias) ... -->
+    <text x="150" y="140" text-anchor="middle" fill="#4a5568" font-size="20">⋮</text>
+    
+    <!-- Capa 11 -->
+    <g transform="translate(0, 160)">
+      <rect x="0" y="0" width="300" height="120" fill="#1a1a2e" stroke="#4a5568" stroke-width="1" rx="10"/>
+      <text x="150" y="20" text-anchor="middle" fill="#888" font-size="11" font-weight="bold">Block 11 (Semántica)</text>
+      
+      <rect x="10" y="35" width="85" height="70" fill="url(#qGrad)" rx="5"/>
+      <text x="52" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Q</text>
+      <text x="52" y="80" text-anchor="middle" fill="#ffcccc" font-size="7">4.2M</text>
+      
+      <rect x="107" y="35" width="85" height="70" fill="url(#kGrad)" rx="5"/>
+      <text x="150" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">K</text>
+      <text x="150" y="80" text-anchor="middle" fill="#ccffcc" font-size="7">4.2M</text>
+      
+      <rect x="204" y="35" width="85" height="70" fill="url(#vGrad)" rx="5"/>
+      <text x="246" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">V</text>
+      <text x="246" y="80" text-anchor="middle" fill="#ccffff" font-size="7">4.2M</text>
+    </g>
+    
+    <!-- ... -->
+    <text x="150" y="300" text-anchor="middle" fill="#4a5568" font-size="20">⋮</text>
+    
+    <!-- Capa 21 -->
+    <g transform="translate(0, 320)">
+      <rect x="0" y="0" width="300" height="120" fill="#1a1a2e" stroke="#4a5568" stroke-width="1" rx="10"/>
+      <text x="150" y="20" text-anchor="middle" fill="#888" font-size="11" font-weight="bold">Block 21 (Abstracto)</text>
+      
+      <rect x="10" y="35" width="85" height="70" fill="url(#qGrad)" rx="5"/>
+      <text x="52" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Q</text>
+      <text x="52" y="80" text-anchor="middle" fill="#ffcccc" font-size="7">4.2M</text>
+      
+      <rect x="107" y="35" width="85" height="70" fill="url(#kGrad)" rx="5"/>
+      <text x="150" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">K</text>
+      <text x="150" y="80" text-anchor="middle" fill="#ccffcc" font-size="7">4.2M</text>
+      
+      <rect x="204" y="35" width="85" height="70" fill="url(#vGrad)" rx="5"/>
+      <text x="246" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">V</text>
+      <text x="246" y="80" text-anchor="middle" fill="#ccffff" font-size="7">4.2M</text>
+    </g>
+  </g>
+  
+  <!-- ==================== CÁLCULO TOTAL ==================== -->
+  <g transform="translate(750, 200)">
+    <text x="0" y="-120" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold">
+      ¿Cuántos Pesos?
+    </text>
+    
+    <rect x="-150" y="-100" width="300" height="350" fill="#1a1a2e" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <!-- Datos por capa -->
+    <text x="0" y="-70" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Por cada capa:</text>
+    
+    <text x="-100" y="-40" fill="#FF6B6B" font-size="11">Q:</text>
+    <text x="-20" y="-40" fill="#aaa" font-size="11">2048 × 2048 =</text>
+    <text x="100" y="-40" fill="#FF6B6B" font-size="11" font-weight="bold">4,194,304</text>
+    
+    <text x="-100" y="-15" fill="#32CD32" font-size="11">K:</text>
+    <text x="-20" y="-15" fill="#aaa" font-size="11">2048 × 2048 =</text>
+    <text x="100" y="-15" fill="#32CD32" font-size="11" font-weight="bold">4,194,304</text>
+    
+    <text x="-100" y="10" fill="#4ECDC4" font-size="11">V:</text>
+    <text x="-20" y="10" fill="#aaa" font-size="11">2048 × 2048 =</text>
+    <text x="100" y="10" fill="#4ECDC4" font-size="11" font-weight="bold">4,194,304</text>
+    
+    <line x1="-120" y1="30" x2="120" y2="30" stroke="#4a5568" stroke-width="1"/>
+    
+    <text x="0" y="55" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">Total por capa:</text>
+    <text x="0" y="75" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">12,582,912</text>
+    <text x="0" y="95" text-anchor="middle" fill="#888" font-size="10">(~12.6 millones)</text>
+    
+    <line x1="-120" y1="115" x2="120" y2="115" stroke="#4a5568" stroke-width="1"/>
+    
+    <text x="0" y="145" text-anchor="middle" fill="white" font-size="12" font-weight="bold">22 capas:</text>
+    <text x="0" y="170" text-anchor="middle" fill="#FF69B4" font-size="16" font-weight="bold">276,824,064</text>
+    <text x="0" y="195" text-anchor="middle" fill="#888" font-size="10">(~277 millones)</text>
+    
+    <line x1="-120" y1="215" x2="120" y2="215" stroke="#4a5568" stroke-width="1"/>
+    
+    <text x="0" y="245" text-anchor="middle" fill="white" font-size="11">Del total del modelo:</text>
+    <text x="0" y="270" text-anchor="middle" fill="#FF69B4" font-size="14" font-weight="bold">277M / 1.1B = 25%</text>
+    <text x="0" y="295" text-anchor="middle" fill="#888" font-size="10">¡Un cuarto del modelo!</text>
+  </g>
+  
+  <!-- ==================== ANATOMÍA DE UNA CAPA ==================== -->
+  <g transform="translate(600, 650)">
+    <text x="0" y="-50" text-anchor="middle" fill="#4ECDC4" font-size="16" font-weight="bold">
+      Anatomía de Q, K, V
+    </text>
+    
+    <rect x="-500" y="-35" width="1000" height="120" fill="#1a1a2e" stroke="#4ECDC4" stroke-width="2" rx="15"/>
+    
+    <!-- Q -->
+    <g transform="translate(-420, 0)">
+      <text x="0" y="0" fill="#FF6B6B" font-size="12" font-weight="bold">Q (Query)</text>
+      <text x="0" y="18" fill="#aaa" font-size="9">Cada token pregunta:</text>
+      <text x="0" y="33" fill="#aaa" font-size="9">"¿Qué información busco?"</text>
+      <text x="0" y="55" fill="#888" font-size="8">Matriz: [2048 × 2048]</text>
+      <text x="0" y="70" fill="#888" font-size="8">= 2048 vectores de 2048 dims</text>
+    </g>
+    
+    <!-- K -->
+    <g transform="translate(-100, 0)">
+      <text x="0" y="0" fill="#32CD32" font-size="12" font-weight="bold">K (Key)</text>
+      <text x="0" y="18" fill="#aaa" font-size="9">Cada token ofrece:</text>
+      <text x="0" y="33" fill="#aaa" font-size="9">"¿Tengo lo que buscas?"</text>
+      <text x="0" y="55" fill="#888" font-size="8">Matriz: [2048 × 2048]</text>
+      <text x="0" y="70" fill="#888" font-size="8">= 2048 vectores de 2048 dims</text>
+    </g>
+    
+    <!-- V -->
+    <g transform="translate(220, 0)">
+      <text x="0" y="0" fill="#4ECDC4" font-size="12" font-weight="bold">V (Value)</text>
+      <text x="0" y="18" fill="#aaa" font-size="9">Cada token entrega:</text>
+      <text x="0" y="33" fill="#aaa" font-size="9">"Aquí tienes mi información"</text>
+      <text x="0" y="55" fill="#888" font-size="8">Matriz: [2048 × 2048]</text>
+      <text x="0" y="70" fill="#888" font-size="8">= 2048 vectores de 2048 dims</text>
+    </g>
+  </g>
+  
+  <!-- ==================== NOTA FINAL ==================== -->
+  <text x="600" y="860" text-anchor="middle" fill="#4a5568" font-size="11" font-style="italic">
+    "Los pesos Q, K, V son matrices enormes que aprenden DURANTE el entrenamiento qué conexiones son importantes"
+  </text>
+</svg>
