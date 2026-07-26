@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <linearGradient id="anthropicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4A574"/>
+      <stop offset="100%" style="stop-color:#8B7355"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  
+  <!-- Título -->
+  <text x="700" y="40" text-anchor="middle" fill="white" font-size="28" font-weight="bold" font-family="Arial">
+    Anthropic × Dreaming: Integración
+  </text>
+  <text x="700" y="70" text-anchor="middle" fill="#D4A574" font-size="14" font-family="Arial">
+    "Abrir la Caja Negra" + "Explorar el Manifold"
+  </text>
+  
+  <!-- ==================== LO QUE DESCUBRIERON ELLOS ==================== -->
+  <g transform="translate(250, 200)">
+    <rect x="-220" y="-100" width="440" height="250" fill="#1a1a2e" stroke="#D4A574" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-70" text-anchor="middle" fill="#D4A574" font-size="16" font-weight="bold">
+      Lo que descubrió Anthropic
+    </text>
+    
+    <!-- 1. Superposición -->
+    <g transform="translate(-180, -40)">
+      <circle cx="15" cy="0" r="12" fill="#FF6347"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">1</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Superposición</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">1 neurona = muchos conceptos</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">Solución: Autoencoders Dispersos</text>
+    </g>
+    
+    <!-- 2. Mapa Semántico -->
+    <g transform="translate(-180, 30)">
+      <circle cx="15" cy="0" r="12" fill="#4ECDC4"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">2</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Mapa Semántico</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">Conceptos organizados por proximidad</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">Golden Gate → SF → Alcatraz</text>
+    </g>
+    
+    <!-- 3. Multilingüe -->
+    <g transform="translate(-180, 100)">
+      <circle cx="15" cy="0" r="12" fill="#9370DB"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Conceptos Multilingües</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">"Simpatía" = misma activación</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">en inglés, español, ruso, Python</text>
+    </g>
+    
+    <!-- 4. Steering -->
+    <g transform="translate(-180, 170)">
+      <circle cx="15" cy="0" r="12" fill="#FFD700"/>
+      <text x="15" y="4" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">4</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Feature Steering</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">Multiplicar activación = obsesión</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">Suprimir = cambiar comportamiento</text>
+    </g>
+  </g>
+  
+  <!-- ==================== LO QUE DESCUBRIMOS NOSOTROS ==================== -->
+  <g transform="translate(700, 200)">
+    <rect x="-220" y="-100" width="440" height="250" fill="#1a1a2e" stroke="#4ECDC4" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-70" text-anchor="middle" fill="#4ECDC4" font-size="16" font-weight="bold">
+      Lo que descubrimos nosotros
+    </text>
+    
+    <!-- 1. Perturbación -->
+    <g transform="translate(-180, -40)">
+      <circle cx="15" cy="0" r="12" fill="#FF69B4"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">1</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Perturbación Coherente</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">0.02% cambio = perspectiva nueva</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">No destruye jerarquía</text>
+    </g>
+    
+    <!-- 2. Manifold -->
+    <g transform="translate(-180, 30)">
+      <circle cx="15" cy="0" r="12" fill="#32CD32"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">2</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Manifold de Coherencia</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">Superficie donde todo es coherente</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">Plano local, curvado global</text>
+    </g>
+    
+    <!-- 3. Personalidades -->
+    <g transform="translate(-180, 100)">
+      <circle cx="15" cy="0" r="12" fill="#9370DB"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Familias de Personalidades</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">~10 familias, ∞ variaciones</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">Cada técnica = personalidad distinta</text>
+    </g>
+    
+    <!-- 4. Atención -->
+    <g transform="translate(-180, 170)">
+      <circle cx="15" cy="0" r="12" fill="#FFA500"/>
+      <text x="15" y="4" text-anchor="middle" fill="white" font-size="10" font-weight="bold">4</text>
+      <text x="40" y="5" fill="white" font-size="11" font-weight="bold">Atención = Campo Magnético</text>
+      <text x="40" y="20" fill="#aaa" font-size="9">Tokens conectados sin importar</text>
+      <text x="40" y="35" fill="#aaa" font-size="9">distancia en el texto</text>
+    </g>
+  </g>
+  
+  <!-- ==================== CONEXIÓN ==================== -->
+  <g transform="translate(700, 480)">
+    <rect x="-350" y="-50" width="700" height="200" fill="#0d1117" stroke="#FFD700" stroke-width="3" rx="20"/>
+    
+    <text x="0" y="-20" text-anchor="middle" fill="#FFD700" font-size="18" font-weight="bold">
+      La Conexión
+    </text>
+    
+    <!-- Líneas de conexión -->
+    <line x1="-300" y1="20" x2="-100" y2="20" stroke="#FF6347" stroke-width="2" stroke-dasharray="5,5"/>
+    <line x1="100" y1="20" x2="300" y2="20" stroke="#4ECDC4" stroke-width="2" stroke-dasharray="5,5"/>
+    
+    <text x="-200" y="40" text-anchor="middle" fill="#FF6347" font-size="12" font-weight="bold">
+      Nuestros modelos
+    </text>
+    <text x="0" y="40" text-anchor="middle" fill="#FFD700" font-size="20">→</text>
+    <text x="200" y="40" text-anchor="middle" fill="#4ECDC4" font-size="12" font-weight="bold">
+      Sus autoencoders
+    </text>
+    
+    <text x="0" y="75" text-anchor="middle" fill="white" font-size="12">
+      Nosotros: "Este modelo es filosófico"
+    </text>
+    <text x="0" y="95" text-anchor="middle" fill="white" font-size="12">
+      Ellos: "Esta característica = filosofía"
+    </text>
+    
+    <text x="0" y="125" text-anchor="middle" fill="#FFD700" font-size="11">
+      Complementarios: Nosotros creamos personalidades, ellos las explican
+    </text>
+  </g>
+  
+  <!-- ==================== INTEGRACIÓN ==================== -->
+  <g transform="translate(700, 730)">
+    <rect x="-350" y="-50" width="700" height="150" fill="#1a1a2e" stroke="#FF69B4" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="-20" text-anchor="middle" fill="#FF69B4" font-size="16" font-weight="bold">
+      Integración: El Estudio Completo
+    </text>
+    
+    <g transform="translate(-300, 10)">
+      <text x="0" y="0" fill="#4ECDC4" font-size="11" font-weight="bold">Paso 1:</text>
+      <text x="60" y="0" fill="white" font-size="11">Perturbar con nuestras 10 técnicas</text>
+      
+      <text x="0" y="25" fill="#FF69B4" font-size="11" font-weight="bold">Paso 2:</text>
+      <text x="60" y="25" fill="white" font-size="11">Usar sus Autoencoders para ver qué cambió</text>
+      
+      <text x="0" y="50" fill="#FFD700" font-size="11" font-weight="bold">Paso 3:</text>
+      <text x="60" y="50" fill="white" font-size="11">Mapear cada personalidad a conceptos</text>
+      
+      <text x="0" y="75" fill="#32CD32" font-size="11" font-weight="bold">Paso 4:</text>
+      <text x="60" y="75" fill="white" font-size="11">Crear "mapa de personalidades" con su tecnología</text>
+    </g>
+  </g>
+</svg>
