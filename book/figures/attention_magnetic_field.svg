@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FF69B4"/>
+    </marker>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1000" height="700" fill="url(#bg)"/>
+  
+  <!-- Título -->
+  <text x="500" y="40" text-anchor="middle" fill="white" font-size="24" font-weight="bold" font-family="Arial">
+    El Campo Magnético: Attention Mechanism
+  </text>
+  <text x="500" y="65" text-anchor="middle" fill="#FF69B4" font-size="14" font-family="Arial">
+    "Las conexiones invisibles que mantienen unido el significado"
+  </text>
+  
+  <!-- ==================== EJEMPLO 1: TOKENS CONEXOS ==================== -->
+  <g transform="translate(250, 200)">
+    <text x="0" y="-80" text-anchor="middle" fill="#4ECDC4" font-size="16" font-weight="bold">
+      1. ¿Qué hace la atención?
+    </text>
+    
+    <!-- Tokens -->
+    <g font-family="Arial" font-size="14">
+      <rect x="-180" y="-20" width="80" height="40" fill="#2d3748" rx="8"/>
+      <text x="-140" y="5" text-anchor="middle" fill="#FFD700" font-weight="bold">El</text>
+      
+      <rect x="-80" y="-20" width="100" height="40" fill="#2d3748" rx="8"/>
+      <text x="-30" y="5" text-anchor="middle" fill="#FFD700" font-weight="bold">gato</text>
+      
+      <rect x="40" y="-20" width="80" height="40" fill="#2d3748" rx="8"/>
+      <text x="80" y="5" text-anchor="middle" fill="#FFD700" font-weight="bold">duerme</text>
+      
+      <rect x="140" y="-20" width="80" height="40" fill="#2d3748" rx="8"/>
+      <text x="180" y="5" text-anchor="middle" fill="#FFD700" font-weight="bold">sobre</text>
+    </g>
+    
+    <!-- Líneas de atención (conexiones) -->
+    <g stroke="#FF69B4" stroke-width="2" fill="none" marker-end="url(#arrowhead)">
+      <!-- gato → duerme (sujeto → verbo) -->
+      <path d="M -30 25 Q 0 80 80 25" stroke-dasharray="5,3"/>
+      
+      <!-- El → gato (artículo → sustantivo) -->
+      <path d="M -140 25 Q -100 50 -30 25" stroke-dasharray="5,3"/>
+      
+      <!-- duerme → sobre (verbo → preposición) -->
+      <path d="M 80 25 Q 120 50 180 25" stroke-dasharray="5,3"/>
+    </g>
+    
+    <!-- Etiquetas de relación -->
+    <text x="25" y="70" text-anchor="middle" fill="#FF69B4" font-size="10">sujeto → verbo</text>
+    <text x="-85" y="55" text-anchor="middle" fill="#FF69B4" font-size="10">artículo</text>
+    <text x="130" y="55" text-anchor="middle" fill="#FF69B4" font-size="10">verbo → prep</text>
+    
+    <text x="0" y="100" text-anchor="middle" fill="#888" font-size="11">
+      La atención conecta tokens relacionados, sin importar la distancia
+    </text>
+  </g>
+  
+  <!-- ==================== EJEMPLO 2: CAMPO MAGNÉTICO ==================== -->
+  <g transform="translate(750, 200)">
+    <text x="0" y="-80" text-anchor="middle" fill="#9370DB" font-size="16" font-weight="bold">
+      2. ¿Por qué "campo magnético"?
+    </text>
+    
+    <!-- Imanes -->
+    <rect x="-100" y="-30" width="60" height="60" fill="#FF6B6B" rx="5"/>
+    <text x="-70" y="5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">N</text>
+    
+    <rect x="40" y="-30" width="60" height="60" fill="#4ECDC4" rx="5"/>
+    <text x="70" y="5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">S</text>
+    
+    <!-- Líneas de campo magnético -->
+    <g stroke="#FF69B4" stroke-width="2" fill="none" opacity="0.6">
+      <path d="M -40 -30 Q 0 -80 40 -30"/>
+      <path d="M -40 -30 Q 0 -60 40 -30"/>
+      <path d="M -40 30 Q 0 80 40 30"/>
+      <path d="M -40 30 Q 0 60 40 30"/>
+      <path d="M -40 0 Q 0 0 40 0"/>
+    </g>
+    
+    <!-- Analogía -->
+    <text x="0" y="100" text-anchor="middle" fill="#aaa" font-size="11">
+      Polos opuestos se atraen sin tocarse
+    </text>
+    <text x="0" y="118" text-anchor="middle" fill="#aaa" font-size="11">
+      Tokens relacionados se conectan sin estar juntos
+    </text>
+  </g>
+  
+  <!-- ==================== EJEMPLO 3: ATENCIÓN EN ACCIÓN ==================== -->
+  <g transform="translate(500, 420)">
+    <text x="0" y="-80" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold">
+      3. Atención en acción: "El gato duerme sobre la alfombra"
+    </text>
+    
+    <!-- Tokens -->
+    <g font-family="Arial" font-size="12">
+      <rect x="-350" y="-30" width="70" height="35" fill="#2d3748" rx="6"/>
+      <text x="-315" y="-7" text-anchor="middle" fill="#FFD700">El</text>
+      
+      <rect x="-260" y="-30" width="80" height="35" fill="#FF69B4" rx="6"/>
+      <text x="-220" y="-7" text-anchor="middle" fill="white" font-weight="bold">gato</text>
+      
+      <rect x="-160" y="-30" width="90" height="35" fill="#2d3748" rx="6"/>
+      <text x="-115" y="-7" text-anchor="middle" fill="#FFD700">duerme</text>
+      
+      <rect x="-50" y="-30" width="80" height="35" fill="#2d3748" rx="6"/>
+      <text x="-10" y="-7" text-anchor="middle" fill="#FFD700">sobre</text>
+      
+      <rect x="50" y="-30" width="60" height="35" fill="#2d3748" rx="6"/>
+      <text x="80" y="-7" text-anchor="middle" fill="#FFD700">la</text>
+      
+      <rect x="130" y="-30" width="100" height="35" fill="#FF69B4" rx="6"/>
+      <text x="180" y="-7" text-anchor="middle" fill="white" font-weight="bold">alfombra</text>
+    </g>
+    
+    <!-- Líneas de atención (pesos altos) -->
+    <g stroke="#FF69B4" stroke-width="3" fill="none" opacity="0.8">
+      <!-- gato → alfombra (conexión fuerte: gato está SOBRE alfombra) -->
+      <path d="M -220 -30 Q -20 100 180 -30"/>
+    </g>
+    
+    <!-- Líneas de atención (pesos medios) -->
+    <g stroke="#9370DB" stroke-width="2" fill="none" opacity="0.5">
+      <!-- El → gato -->
+      <path d="M -315 -30 L -260 -30"/>
+      <!-- gato → duerme -->
+      <path d="M -180 -30 L -160 -30"/>
+      <!-- sobre → la → alfombra -->
+      <path d="M 50 -30 L 130 -30"/>
+    </g>
+    
+    <!-- Peso de atención -->
+    <g transform="translate(-20, 80)">
+      <rect x="-80" y="-15" width="160" height="30" fill="#FF69B4" rx="15"/>
+      <text x="0" y="5" text-anchor="middle" fill="white" font-size="11" font-weight="bold">
+        Peso: 0.85 (muy alto)
+      </text>
+    </g>
+    
+    <text x="0" y="120" text-anchor="middle" fill="#888" font-size="11">
+      "gato" y "alfombra" tienen alta atención porque están relacionados semánticamente
+    </text>
+  </g>
+  
+  <!-- ==================== RESUMEN ==================== -->
+  <g transform="translate(500, 600)">
+    <rect x="-450" y="-30" width="900" height="80" fill="#1a1a2e" stroke="#FF69B4" stroke-width="2" rx="10"/>
+    
+    <text x="0" y="-5" text-anchor="middle" fill="#FF69B4" font-size="14" font-weight="bold">
+      ¿Qué es el "Campo Magnético" del Transformer?
+    </text>
+    
+    <text x="0" y="20" text-anchor="middle" fill="#aaa" font-size="11">
+      • Son las conexiones invisibles entre tokens
+    </text>
+    <text x="0" y="38" text-anchor="middle" fill="#aaa" font-size="11">
+      • Permiten que tokens lejanos se "comuniquen"
+    </text>
+    <text x="0" y="56" text-anchor="middle" fill="#aaa" font-size="11">
+      • Mantienen la coherencia del significado en todo el texto
+    </text>
+  </g>
+</svg>
