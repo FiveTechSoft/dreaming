@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <!-- Gradientes -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:0.6"/>
+    </radialGradient>
+    
+    <linearGradient id="layer1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4ECDC4"/>
+      <stop offset="100%" style="stop-color:#44B8AE"/>
+    </linearGradient>
+    
+    <linearGradient id="layer2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#96CEB4"/>
+      <stop offset="100%" style="stop-color:#7BC8A4"/>
+    </linearGradient>
+    
+    <linearGradient id="layer3Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFEAA7"/>
+      <stop offset="100%" style="stop-color:#FDCB6E"/>
+    </linearGradient>
+    
+    <linearGradient id="layer4Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#DDA0DD"/>
+      <stop offset="100%" style="stop-color:#BA82BA"/>
+    </linearGradient>
+    
+    <!-- Filtros de brillo -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  
+  <!-- Estrellas de fondo -->
+  <g fill="white" opacity="0.6">
+    <circle cx="50" cy="50" r="1"/>
+    <circle cx="150" cy="80" r="1.5"/>
+    <circle cx="250" cy="30" r="1"/>
+    <circle cx="350" cy="100" r="1.2"/>
+    <circle cx="450" cy="50" r="1"/>
+    <circle cx="550" cy="90" r="1.5"/>
+    <circle cx="650" cy="40" r="1"/>
+    <circle cx="750" cy="70" r="1.2"/>
+    <circle cx="100" cy="550" r="1"/>
+    <circle cx="200" cy="520" r="1.5"/>
+    <circle cx="700" cy="540" r="1"/>
+  </g>
+  
+  <!-- Título -->
+  <text x="400" y="40" text-anchor="middle" fill="white" font-size="24" font-weight="bold" font-family="Arial">
+    Estructura Geométrica de un LLM
+  </text>
+  <text x="400" y="65" text-anchor="middle" fill="#888" font-size="14" font-family="Arial">
+    "Cada perspectiva es una cámara diferente mirando el mismo paisaje"
+  </text>
+  
+  <!-- ==================== CAPA EXTERNA: Salida ==================== -->
+  <ellipse cx="400" cy="320" rx="350" ry="200" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-dasharray="10,5" opacity="0.5"/>
+  <text x="400" y="110" text-anchor="middle" fill="#FF6B6B" font-size="12" font-family="Arial">Output Layer</text>
+  
+  <!-- ==================== CAPA 4: Abstracto ==================== -->
+  <ellipse cx="400" cy="320" rx="300" ry="170" fill="none" stroke="#DDA0DD" stroke-width="4" opacity="0.6"/>
+  <text x="400" y="145" text-anchor="middle" fill="#DDA0DD" font-size="11" font-family="Arial">Capa 21: Abstracto</text>
+  
+  <!-- ==================== CAPA 3: Semántica ==================== -->
+  <ellipse cx="400" cy="320" rx="250" ry="140" fill="none" stroke="#FFEAA7" stroke-width="4" opacity="0.7"/>
+  <text x="400" y="175" text-anchor="middle" fill="#FFEAA7" font-size="11" font-family="Arial">Capa 11: Semántica</text>
+  
+  <!-- ==================== CAPA 2: Sintaxis ==================== -->
+  <ellipse cx="400" cy="320" rx="200" ry="110" fill="none" stroke="#96CEB4" stroke-width="4" opacity="0.8"/>
+  <text x="400" y="205" text-anchor="middle" fill="#96CEB4" font-size="11" font-family="Arial">Capa 5: Sintaxis</text>
+  
+  <!-- ==================== CAPA 1: Embedding ==================== -->
+  <ellipse cx="400" cy="320" rx="150" ry="80" fill="none" stroke="#4ECDC4" stroke-width="5" opacity="0.9"/>
+  <text x="400" y="235" text-anchor="middle" fill="#4ECDC4" font-size="11" font-family="Arial">Embedding (32000 × 2048)</text>
+  
+  <!-- ==================== NÚCLEO: Coherencia ==================== -->
+  <circle cx="400" cy="320" r="60" fill="url(#coreGrad)" filter="url(#softGlow)"/>
+  <text x="400" y="315" text-anchor="middle" fill="#0a0a2e" font-size="12" font-weight="bold" font-family="Arial">COHERENCIA</text>
+  <text x="400" y="335" text-anchor="middle" fill="#0a0a2e" font-size="10" font-family="Arial">Manifold</text>
+  
+  <!-- ==================== CÁMARAS (Perspectivas) ==================== -->
+  
+  <!-- Cámara Filosófica -->
+  <g transform="translate(100, 200)">
+    <polygon points="0,0 40,20 0,40" fill="#9370DB" opacity="0.8"/>
+    <circle cx="10" cy="20" r="8" fill="#9370DB" stroke="white" stroke-width="2"/>
+    <text x="55" y="25" fill="#9370DB" font-size="11" font-weight="bold" font-family="Arial">Filosófica</text>
+    <line x1="40" y1="20" x2="250" y2="300" stroke="#9370DB" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- Cámara Estoica -->
+  <g transform="translate(200, 130)">
+    <polygon points="0,0 40,20 0,40" fill="#00CED1" opacity="0.8"/>
+    <circle cx="10" cy="20" r="8" fill="#00CED1" stroke="white" stroke-width="2"/>
+    <text x="55" y="25" fill="#00CED1" font-size="11" font-weight="bold" font-family="Arial">Estoica</text>
+    <line x1="40" y1="20" x2="280" y2="270" stroke="#00CED1" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- Cámara Concisa -->
+  <g transform="translate(500, 130)">
+    <polygon points="40,0 0,20 40,40" fill="#FF6347" opacity="0.8"/>
+    <circle cx="30" cy="20" r="8" fill="#FF6347" stroke="white" stroke-width="2"/>
+    <text x="-10" y="25" fill="#FF6347" font-size="11" font-weight="bold" font-family="Arial">Concisa</text>
+    <line x1="0" y1="20" x2="350" y2="270" stroke="#FF6347" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- Cámara Creativa -->
+  <g transform="translate(630, 200)">
+    <polygon points="40,0 0,20 40,40" fill="#32CD32" opacity="0.8"/>
+    <circle cx="30" cy="20" r="8" fill="#32CD32" stroke="white" stroke-width="2"/>
+    <text x="-15" y="25" fill="#32CD32" font-size="11" font-weight="bold" font-family="Arial">Creativa</text>
+    <line x1="0" y1="20" x2="380" y2="300" stroke="#32CD32" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- Cámara Espiritual -->
+  <g transform="translate(100, 430)">
+    <polygon points="0,0 40,20 0,40" fill="#FF69B4" opacity="0.8"/>
+    <circle cx="10" cy="20" r="8" fill="#FF69B4" stroke="white" stroke-width="2"/>
+    <text x="55" y="25" fill="#FF69B4" font-size="11" font-weight="bold" font-family="Arial">Espiritual</text>
+    <line x1="40" y1="20" x2="250" y2="330" stroke="#FF69B4" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- Cámara Práctica -->
+  <g transform="translate(630, 430)">
+    <polygon points="40,0 0,20 40,40" fill="#FFA500" opacity="0.8"/>
+    <circle cx="30" cy="20" r="8" fill="#FFA500" stroke="white" stroke-width="2"/>
+    <text x="-15" y="25" fill="#FFA500" font-size="11" font-weight="bold" font-family="Arial">Práctica</text>
+    <line x1="0" y1="20" x2="380" y2="330" stroke="#FFA500" stroke-width="2" stroke-dasharray="5,5" opacity="0.6"/>
+  </g>
+  
+  <!-- ==================== LEYENDA ==================== -->
+  <rect x="580" y="480" width="200" height="100" fill="black" opacity="0.5" rx="10"/>
+  <text x="590" y="500" fill="white" font-size="12" font-weight="bold" font-family="Arial">Leyenda:</text>
+  
+  <circle cx="600" cy="520" r="6" fill="#4ECDC4"/>
+  <text x="615" y="525" fill="#4ECDC4" font-size="10" font-family="Arial">Embedding</text>
+  
+  <circle cx="600" cy="540" r="6" fill="#96CEB4"/>
+  <text x="615" y="545" fill="#96CEB4" font-size="10" font-family="Arial">Sintaxis</text>
+  
+  <circle cx="600" cy="560" r="6" fill="#FFEAA7"/>
+  <text x="615" y="565" fill="#FFEAA7" font-size="10" font-family="Arial">Semántica</text>
+  
+  <circle cx="700" cy="520" r="6" fill="#DDA0DD"/>
+  <text x="715" y="525" fill="#DDA0DD" font-size="10" font-family="Arial">Abstracto</text>
+  
+  <circle cx="700" cy="540" r="6" fill="#FFD700"/>
+  <text x="715" y="545" fill="#FFD700" font-size="10" font-family="Arial">Coherencia</text>
+  
+  <!-- ==================== NOTA INFERIOR ==================== -->
+  <text x="400" y="585" text-anchor="middle" fill="#666" font-size="11" font-style="italic" font-family="Arial">
+    Las cámaras (perspectivas) miran desde diferentes ángulos, pero el paisaje es el mismo
+  </text>
+</svg>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  
+  <!-- ==================== TÍTULO ==================== -->
+  <text x="600" y="45" text-anchor="middle" fill="white" font-size="28" font-weight="bold" font-family="Arial">
+    Geometría Interna de un LLM
+  </text>
+  <text x="600" y="75" text-anchor="middle" fill="#888" font-size="14" font-family="Arial">
+    ¿Cómo se ve por dentro? ¿Cuántas perspectivas tiene?
+  </text>
+  
+  <!-- ==================== SECCIÓN 1: ESTRUCTURA JERÁRQUICA ==================== -->
+  <g transform="translate(200, 200)">
+    <text x="0" y="-80" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold" font-family="Arial">
+      1. Estructura del Transformer
+    </text>
+    
+    <!-- Capas concéntricas (como una cebolla) -->
+    <ellipse cx="0" cy="0" rx="180" ry="100" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="8,4" opacity="0.5"/>
+    <text x="0" y="-105" text-anchor="middle" fill="#FF6B6B" font-size="10">Output (capa 22)</text>
+    
+    <ellipse cx="0" cy="0" rx="150" ry="80" fill="none" stroke="#DDA0DD" stroke-width="3" opacity="0.6"/>
+    <text x="0" y="-85" text-anchor="middle" fill="#DDA0DD" font-size="10">Capas 17-21: Abstracto</text>
+    
+    <ellipse cx="0" cy="0" rx="120" ry="60" fill="none" stroke="#FFEAA7" stroke-width="3" opacity="0.7"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#FFEAA7" font-size="10">Capas 11-16: Semántica</text>
+    
+    <ellipse cx="0" cy="0" rx="90" ry="45" fill="none" stroke="#96CEB4" stroke-width="3" opacity="0.8"/>
+    <text x="0" y="-50" text-anchor="middle" fill="#96CEB4" font-size="10">Capas 5-10: Sintaxis</text>
+    
+    <ellipse cx="0" cy="0" rx="60" ry="30" fill="none" stroke="#4ECDC4" stroke-width="4" opacity="0.9"/>
+    <text x="0" y="-35" text-anchor="middle" fill="#4ECDC4" font-size="10">Capas 0-4: Tokens</text>
+    
+    <!-- Núcleo: Embedding -->
+    <circle cx="0" cy="0" r="25" fill="#FFD700" filter="url(#softGlow)"/>
+    <text x="0" y="5" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">EMBEDDING</text>
+    <text x="0" y="15" text-anchor="middle" fill="#0a0a2e" font-size="7">32000 × 2048</text>
+  </g>
+  
+  <!-- ==================== SECCIÓN 2: LA ESFERA DE PERSPECTIVAS ==================== -->
+  <g transform="translate(600, 200)">
+    <text x="0" y="-80" text-anchor="middle" fill="#9370DB" font-size="16" font-weight="bold" font-family="Arial">
+      2. Esfera de Perspectivas (∞ direcciones)
+    </text>
+    
+    <!-- Esfera -->
+    <circle cx="0" cy="0" r="80" fill="none" stroke="#4a5568" stroke-width="2" stroke-dasharray="5,5"/>
+    
+    <!-- Familias -->
+    <circle cx="0" cy="-60" r="18" fill="#9370DB" opacity="0.8" filter="url(#glow)"/>
+    <text x="0" y="-55" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Filosófica</text>
+    
+    <circle cx="52" cy="30" r="18" fill="#32CD32" opacity="0.8" filter="url(#glow)"/>
+    <text x="52" y="35" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Creativa</text>
+    
+    <circle cx="-52" cy="30" r="18" fill="#FFA500" opacity="0.8" filter="url(#glow)"/>
+    <text x="-52" y="35" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Práctica</text>
+    
+    <circle cx="0" cy="60" r="18" fill="#00CED1" opacity="0.8" filter="url(#glow)"/>
+    <text x="0" y="65" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Analítica</text>
+    
+    <circle cx="52" cy="-30" r="15" fill="#FF6347" opacity="0.8" filter="url(#glow)"/>
+    <text x="52" y="-25" text-anchor="middle" fill="white" font-size="7" font-weight="bold">Concisa</text>
+    
+    <circle cx="-52" cy="-30" r="15" fill="#FF69B4" opacity="0.8" filter="url(#glow)"/>
+    <text x="-52" y="-25" text-anchor="middle" fill="white" font-size="7" font-weight="bold">Espiritual</text>
+    
+    <!-- Puntos infinitos -->
+    <g fill="white" opacity="0.3">
+      <circle cx="30" cy="-50" r="2"/>
+      <circle cx="50" cy="-10" r="2"/>
+      <circle cx="40" cy="50" r="2"/>
+      <circle cx="-30" cy="50" r="2"/>
+      <circle cx="-50" cy="10" r="2"/>
+      <circle cx="-40" cy="-40" r="2"/>
+    </g>
+    
+    <!-- Centro -->
+    <circle cx="0" cy="0" r="8" fill="white" filter="url(#glow)"/>
+    <text x="0" y="3" text-anchor="middle" fill="#0a0a2e" font-size="8" font-weight="bold">∞</text>
+    
+    <!-- Nota -->
+    <text x="0" y="110" text-anchor="middle" fill="#888" font-size="10" font-style="italic">
+      ~1000 dimensiones efectivas
+    </text>
+    <text x="0" y="125" text-anchor="middle" fill="#666" font-size="9">
+      Infinitas perspectivas, ~6-10 familias
+    </text>
+  </g>
+  
+  <!-- ==================== SECCIÓN 3: PROMPT vs PERTURBACIÓN ==================== -->
+  <g transform="translate(1000, 200)">
+    <text x="0" y="-80" text-anchor="middle" fill="#FF6347" font-size="16" font-weight="bold" font-family="Arial">
+      3. Prompt vs Perturbación
+    </text>
+    
+    <!-- PROMPT -->
+    <g transform="translate(0, -30)">
+      <text x="0" y="-20" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">
+        PROMPT = Mover Cámara
+      </text>
+      
+      <!-- Cámara A -->
+      <rect x="-50" y="0" width="30" height="18" rx="3" fill="#FFD700"/>
+      <circle cx="-35" cy="9" r="5" fill="#1a1a2e"/>
+      <text x="-35" y="30" text-anchor="middle" fill="#FFD700" font-size="7">Pos A</text>
+      
+      <!-- Flecha -->
+      <line x1="-15" y1="9" x2="15" y2="9" stroke="white" stroke-width="2"/>
+      <polygon points="15,5 25,9 15,13" fill="white"/>
+      
+      <!-- Cámara B -->
+      <rect x="25" y="0" width="30" height="18" rx="3" fill="#FFD700"/>
+      <circle cx="40" cy="9" r="5" fill="#1a1a2e"/>
+      <text x="40" y="30" text-anchor="middle" fill="#FFD700" font-size="7">Pos B</text>
+      
+      <text x="0" y="45" text-anchor="middle" fill="#888" font-size="8">
+        Mismo lente, diferente posición
+      </text>
+    </g>
+    
+    <!-- PERTURBACIÓN -->
+    <g transform="translate(0, 50)">
+      <text x="0" y="-20" text-anchor="middle" fill="#9370DB" font-size="12" font-weight="bold">
+        PERTURBACIÓN = Cambiar Lente
+      </text>
+      
+      <!-- Cámara lente original -->
+      <rect x="-50" y="0" width="30" height="18" rx="3" fill="#FF6347"/>
+      <circle cx="-35" cy="9" r="5" fill="#1a1a2e"/>
+      <circle cx="-35" cy="9" r="2.5" fill="#FF6347"/>
+      <text x="-35" y="30" text-anchor="middle" fill="#FF6347" font-size="7">Original</text>
+      
+      <!-- Flecha -->
+      <line x1="-15" y1="9" x2="15" y2="9" stroke="white" stroke-width="2"/>
+      <polygon points="15,5 25,9 15,13" fill="white"/>
+      
+      <!-- Cámara lente nuevo -->
+      <rect x="25" y="0" width="30" height="18" rx="3" fill="#9370DB"/>
+      <circle cx="40" cy="9" r="5" fill="#1a1a2e"/>
+      <circle cx="40" cy="9" r="2.5" fill="#9370DB"/>
+      <text x="40" y="30" text-anchor="middle" fill="#9370DB" font-size="7">Filosófico</text>
+      
+      <text x="0" y="45" text-anchor="middle" fill="#888" font-size="8">
+        Misma posición, diferente óptica
+      </text>
+    </g>
+  </g>
+  
+  <!-- ==================== SECCIÓN 4: EJEMPLO PRÁCTICO ==================== -->
+  <g transform="translate(600, 480)">
+    <rect x="-500" y="-40" width="1000" height="160" fill="#1a1a2e" stroke="#333" stroke-width="1" rx="15"/>
+    
+    <text x="0" y="-15" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial">
+      Ejemplo: "The secret to happiness is"
+    </text>
+    
+    <!-- Respuestas -->
+    <g transform="translate(-400, 20)">
+      <rect x="0" y="0" width="180" height="60" fill="#2d3748" rx="8"/>
+      <text x="90" y="20" text-anchor="middle" fill="#FFD700" font-size="10" font-weight="bold">Baseline</text>
+      <text x="90" y="40" text-anchor="middle" fill="#aaa" font-size="9">"...cultivating gratitude..."</text>
+    </g>
+    
+    <g transform="translate(-180, 20)">
+      <rect x="0" y="0" width="180" height="60" fill="#2d3748" rx="8"/>
+      <text x="90" y="20" text-anchor="middle" fill="#9370DB" font-size="10" font-weight="bold">+ Filosófico</text>
+      <text x="90" y="40" text-anchor="middle" fill="#aaa" font-size="9">"...inner peace..."</text>
+    </g>
+    
+    <g transform="translate(40, 20)">
+      <rect x="0" y="0" width="180" height="60" fill="#2d3748" rx="8"/>
+      <text x="90" y="20" text-anchor="middle" fill="#FFA500" font-size="10" font-weight="bold">+ Práctico</text>
+      <text x="90" y="40" text-anchor="middle" fill="#aaa" font-size="9">"...daily steps..."</text>
+    </g>
+    
+    <g transform="translate(260, 20)">
+      <rect x="0" y="0" width="180" height="60" fill="#2d3748" rx="8"/>
+      <text x="90" y="20" text-anchor="middle" fill="#32CD32" font-size="10" font-weight="bold">+ Creativo</text>
+      <text x="90" y="40" text-anchor="middle" fill="#aaa" font-size="9">"...dancing..."</text>
+    </g>
+    
+    <text x="0" y="110" text-anchor="middle" fill="#666" font-size="11" font-style="italic">
+      Mismo prompt + Diferente perturbación = Diferente perspectiva
+    </text>
+  </g>
+  
+  <!-- ==================== RESUMEN ==================== -->
+  <g transform="translate(600, 700)">
+    <rect x="-550" y="-30" width="1100" height="180" fill="#0d1117" stroke="#FFD700" stroke-width="2" rx="15"/>
+    
+    <text x="0" y="0" text-anchor="middle" fill="#FFD700" font-size="18" font-weight="bold" font-family="Arial">
+      Respuestas a tus Preguntas
+    </text>
+    
+    <text x="-500" y="35" fill="white" font-size="13" font-weight="bold" font-family="Arial">¿Cuántas perspectivas hay?</text>
+    <text x="-500" y="55" fill="#aaa" font-size="11" font-family="Arial">
+      • Infinitas en teoría (espacio continuo de 1000D)
+    </text>
+    <text x="-500" y="75" fill="#aaa" font-size="11" font-family="Arial">
+      • ~6-10 familias principales en la práctica
+    </text>
+    <text x="-500" y="95" fill="#aaa" font-size="11" font-family="Arial">
+      • Cada familia tiene sub-familias (infinitas variaciones)
+    </text>
+    
+    <text x="100" y="35" fill="white" font-size="13" font-weight="bold" font-family="Arial">¿Prompt vs Perturbación?</text>
+    <text x="100" y="55" fill="#aaa" font-size="11" font-family="Arial">
+      • Prompt = Mover cámara (posición)
+    </text>
+    <text x="100" y="75" fill="#aaa" font-size="11" font-family="Arial">
+      • Perturbación = Cambiar lente (óptica)
+    </text>
+    <text x="100" y="95" fill="#aaa" font-size="11" font-family="Arial">
+      • Ambos modifican la "vista", pero de forma diferente
+    </text>
+    
+    <text x="0" y="135" text-anchor="middle" fill="#4ECDC4" font-size="12" font-style="italic" font-family="Arial">
+      "En un videojuego, puedes mover la cámara O cambiar el filtro visual. En un LLM, haces lo mismo."
+    </text>
+  </g>
+</svg>
