@@ -98,7 +98,7 @@ Este libro es un viaje de descubrimiento por su interior.
 |----------|--------|
 | Introducción | Borrador |
 | Cap 1 | ✅ Escrito |
-| Cap 2 | Pendiente |
+| Cap 2 | ✅ Escrito |
 | Cap 3 | Pendiente |
 | Cap 4 | Pendiente |
 | Cap 5 | Pendiente |
