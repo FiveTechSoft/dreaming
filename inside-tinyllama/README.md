@@ -51,6 +51,7 @@ macrocosmos ↔ microcosmos.
 | 23 | Matemáticas del universo | [23](chapters/23_matematicas_universo.md) |
 | 24 | El LLM como espejo | [24](chapters/24_espejo.md) |
 | 25 | Universo como videojuego | [25](chapters/25_universo_como_juego.md) |
+| 26 | Cadena del significado | [26](chapters/26_cadena_significado.md) |
 
 ## Visualización
 

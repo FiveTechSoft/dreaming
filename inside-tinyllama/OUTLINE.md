@@ -113,6 +113,15 @@ perturbación, geometría, fuerzas y viaje macro↔micro.
 - Espejo roto (\(\notin\mathcal{C}\)) vs fiel
 - Por qué un modelo pequeño es mejor espejo de estudio
 
+### Capítulo 25: Universo como videojuego
+- Capas + teletransporte de zona
+- Prototipo universe_game.html
+
+### Capítulo 26: Cadena del significado
+- Tokens → Embeddings → Detalles → Ideas puras
+- → Semántica → Detalles finos → Respuesta
+- Tabla maestra y lentes Dreaming a lo largo de la cadena
+
 ---
 
 ## Estado del Proyecto
@@ -145,6 +154,7 @@ perturbación, geometría, fuerzas y viaje macro↔micro.
 | Cap 23 | `23_matematicas_universo.md` | ✅ |
 | Cap 24 | `24_espejo.md` | ✅ |
 | Cap 25 | `25_universo_como_juego.md` | ✅ |
+| Cap 26 | `26_cadena_significado.md` | ✅ |
 
 ### Artefactos de exploración
 

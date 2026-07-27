@@ -115,4 +115,4 @@ destino y volver a orbitar.
 
 ---
 
-*Prototipo: `exploration/universe_game.html`.*
+*Siguiente capítulo: Cadena del significado (tokens → respuesta).*
