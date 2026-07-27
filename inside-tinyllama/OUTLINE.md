@@ -136,6 +136,14 @@ perturbación, geometría, fuerzas y viaje macro↔micro.
 - Viajar: mapa de fuerzas + órbita con llm_inference
 - Ejemplo: ▁work → queen / war / law / power / king
 
+### Capítulo 29: El viaje de un prompt por dentro
+- Del texto al BPE y al embedding
+- Prefill vs generación; KV-cache
+- Una capa al detalle: Norm → Attn/RoPE/GQA → FFN SwiGLU
+- Logits, temperatura, top-k, sample
+- Bucle autoregresivo y checklist de comprensión
+- Ejemplo continuo: "The secret to happiness is"
+
 ---
 
 ## Estado del Proyecto
@@ -171,6 +179,7 @@ perturbación, geometría, fuerzas y viaje macro↔micro.
 | Cap 26 | `26_cadena_significado.md` | ✅ |
 | Cap 27 | `27_elevador_capas.md` | ✅ |
 | Cap 28 | `28_estrellas_y_tokens.md` | ✅ |
+| Cap 29 | `29_viaje_de_un_prompt.md` | ✅ |
 
 ### Artefactos de exploración
 

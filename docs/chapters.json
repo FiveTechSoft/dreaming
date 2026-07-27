@@ -172,5 +172,11 @@
     "file": "28_estrellas_y_tokens.md",
     "title": "Capítulo 28: Estrellas en el Cielo, Tokens en TinyLlama",
     "short": "Estrellas en el Cielo, Tokens en TinyLlama"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Capítulo 29: El Viaje de un Prompt por Dentro de TinyLlama",
+    "short": "El Viaje de un Prompt por Dentro de TinyLlama"
   }
 ]

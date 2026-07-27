@@ -39,7 +39,7 @@ de los pesos. Llamamos a eso navegar la
 | V · Anatomía | 10–12 | Atención, FFN, normalización |
 | VI · Capas y cierre | 13–19 | Capas 0–21, mapa, psicoanálisis, lecciones, futuro |
 | VII · Órbita y mito | 20–24 | Órbita, arquetipos, proyección, matemáticas, espejo |
-| VIII · Juego y viaje | 25–28 | Juego, cadena, elevador, **estrellas = tokens** |
+| VIII · Juego y viaje | 25–29 | Juego, cadena, elevador, estrellas, **viaje del prompt** |
 
 ## Instrumentos del viaje
 

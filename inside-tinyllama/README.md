@@ -54,6 +54,7 @@ macrocosmos ↔ microcosmos.
 | 26 | Cadena del significado | [26](chapters/26_cadena_significado.md) |
 | 27 | Cada capa es un elevador | [27](chapters/27_elevador_capas.md) |
 | 28 | Estrellas y tokens (atención = gravedad) | [28](chapters/28_estrellas_y_tokens.md) |
+| 29 | Viaje de un prompt (paso a paso) | [29](chapters/29_viaje_de_un_prompt.md) |
 
 ## Visualización
 
