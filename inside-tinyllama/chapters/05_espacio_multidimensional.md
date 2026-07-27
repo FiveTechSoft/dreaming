@@ -253,4 +253,4 @@ Más adentro, el residual y los pesos esperan.
 *Herramientas: `explore_tinyllama_space.py`,
 `llm_inference.c --perturb` / `--steer`.*
 
-*Siguiente: capas del residual y la Regla de Oro geométrica.*
+*Siguiente capítulo: Del Macrocosmos al Microcosmos (y viceversa).*

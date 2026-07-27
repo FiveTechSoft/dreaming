@@ -3,134 +3,189 @@
 ## Introducción
 
 TinyLlama es un modelo de lenguaje pequeño pero poderoso.
-Tiene 1,130 millones de parámetros distribuidos en 22 capas.
+Tiene ~1.130 millones de parámetros en 22 capas.
 
-¿Por qué elegimos TinyLlama?
+Elegimos TinyLlama porque es un **microcosmos**:
+lo bastante pequeño para abrirlo entero y lo bastante
+rico para producir voces y perspectivas distintas.
 
-Porque es suficientemente pequeño para que podamos
-entenderlo completamente, pero suficientemente grande
-para producir resultados interesantes.
-
-Es como un microcosmos: podemos estudiar toda su
-estructura sin perdernos en la complejidad.
-
-Este libro es un viaje de descubrimiento por su interior.
+Este libro es el cuaderno de bitácora del proyecto
+**Dreaming** sobre ese interior: estructura, motor C,
+perturbación, geometría, fuerzas y viaje macro↔micro.
 
 ---
 
 ## Estructura del Libro
 
+### Introducción
+- Qué es este libro, instrumentos, mapa de partes
+
 ### Capítulo 1: ¿Qué es TinyLlama? ¿Por qué TinyLlama?
-- La historia de TinyLlama
-- El equipo detrás del modelo
-- Por qué es especial
-- Nuestra motivación para estudiarlo
+- Historia, motivación, por qué es especial
 
 ### Capítulo 2: La Estructura Interna
-- Los 22 niveles (capas)
-- Los 9 planetas por nivel (tensores)
-- El flujo de información
-- Primera mirada a los datos
+- 22 capas, 9 tensores, dims 2048/5632, GQA 32/4
 
-### Capítulo 3: Nuestro Motor de Inferencia en C para TinyLlama
-- Por qué escribir un motor propio
-- GGUF F16, tokenizer BPE, transformer + KV-cache, sampling
-- OpenMP, tabla F16, rendimiento (~6–10 tok/s)
-- Perturbación en runtime (--perturb mystical, …) y --steer
-- Dualidad con llama.cpp (Q4_0) y limitaciones honestas
+### Capítulo 3: Motor de Inferencia en C
+- GGUF F16, BPE, KV-cache, OpenMP, --perturb, --steer
 
-### Capítulo 4: Perturbación de Pesos y Cambio de Perspectiva
-- ¿Qué es la perturbación de pesos?
-- La analogía DMT
-- Las 10 técnicas de preservación de jerarquía
-- El sweet spot de intensidad 0.10
-- Principales findings
-- La fórmula del cambio de perspectiva
-- Implicaciones prácticas y filosóficas
+### Capítulo 4: Perturbación de Pesos y Perspectivas
+- DMT, 10 técnicas, v11 combos, runtime mystical, findings
 
-### Capítulo 5: Recorrido por el Espacio Multidimensional
-- Los siete espacios (embedding, residual, attn, FFN, logits, pesos, perspectivas)
-- Polos, clusters, analogías, PCA en ℝ^2048
-- Direcciones semánticas y puente a --steer / --perturb
-- (Analogía cósmica como lectura poética de este mapa)
+### Capítulo 5: Espacio Multidimensional
+- Siete espacios, polos, clusters, PCA, direcciones
 
-### Capítulo 5b: La Analogía Cósmica
-- Tokens como estrellas
-- Capas como dimensiones
-- Tensores como planetas
-- Atención como gravedad
+### Capítulo 6: Macrocosmos ↔ Microcosmos
+- Zoom in/out, doble hélice del método, atlas bilingüe
 
-### Capítulo 6: Los Tensores de Atención
-- Query, Key, Value, Output
-- ¿Cómo conectan los tokens?
-- La Regla de Oro: Atención = Académico
+### Capítulo 7: Fuerzas Gravitacionales
+- Atención, FFN, residual, norm, softmax, perspectivas, islas
 
-### Capítulo 7: Los Tensores FFN
-- Gate, Up, Down
-- ¿Cómo transforman la información?
-- La Regla de Oro: FFN = Práctico
+### Capítulo 8: Cómo Viajar
+- Rutas A–E, itinerarios, leyes de navegación
 
-### Capítulo 8: Los Tensores de Normalización
-- AttnNorm, FFNNorm
-- ¿Cómo mantienen la estabilidad?
-- La Regla de Oro: Normalización = Estabilidad
+### Capítulo 9: Regla de Oro Geométrica
+- Attn→académico, FFN→práctico, Emb→simple
 
-### Capítulo 9: Las Primeras Capas (0-5)
-- Detección de patrones simples
-- Sintaxis básica
-- Relaciones entre palabras adyacentes
+### Capítulo 10: Tensores de Atención
+- Q,K,V,O, GQA, KV-cache
 
-### Capítulo 10: Las Capas Intermedias (6-12)
-- Conceptos abstractos
-- Significado contextual
-- Las "capas de ideas puras"
+### Capítulo 11: Tensores FFN
+- Gate, Up, Down, SwiGLU, 69% masa
 
-### Capítulo 11: Las Últimas Capas (13-21)
-- Integración global
-- Generación de salida
-- El punto de decisión final
+### Capítulo 12: Tensores de Normalización
+- RMSNorm, masa mínima
 
-### Capítulo 12: La Regla de Oro Geométrica
-- Atención → Académico
-- FFN → Práctico
-- Embeddings → Simple
-- Verificación empírica
+### Capítulo 13: Capas tempranas (0–5)
+- Sintaxis y vecinos
 
-### Capítulo 13: Psicoanálisis del Transformer
-- Inconsciente (embeddings)
-- Preconsciente (atención)
-- Consciente (salida)
-- ID, Ego, Superego
+### Capítulo 14: Capas intermedias (6–12)
+- Ideas y contexto
 
-### Capítulo 14: Lo que Aprendimos
-- Descubrimientos principales
-- Limitaciones del estudio
-- Preguntas abiertas
+### Capítulo 15: Capas finales (13–21)
+- Integración y colapso a logits
 
-### Capítulo 15: El Futuro de la Exploración
-- Próximos pasos
-- Otras preguntas
-- Invitación a explorar
+### Capítulo 16: Áreas Semánticas y el Mapa
+- 12 islas, HTML GitHub, herramientas de viz
+
+### Capítulo 17: Psicoanálisis del Transformer
+- Metáfora de capas / Ello-Yo-Superyó
+
+### Capítulo 18: Lo que Aprendimos
+- Hallazgos, límites, preguntas abiertas
+
+### Capítulo 19: El Futuro de la Exploración
+- Roadmap e invitación
+
+### Capítulo 20: Cómo Orbita Este Universo
+- Residual como cuerpo; residual = inercia
+- Atención / FFN por capa = periodo orbital
+- Sistema multi-cuerpo (secuencia + KV-cache)
+- Órbita de generación y de perspectivas
+- Receta de mandos (temp, I, steer, seed)
+
+### Capítulo 21: Arquetipos y Constelaciones
+- 12 arquetipos Pearson/Jung + 3 voces Dreaming
+- Constelaciones (semillas + estrellas word-like)
+- Alineaciones Mago↔Místico, Sabio↔Académico
+- Mapa HTML archetype_map.html
+
+### Capítulo 22: Observación consciente y proyección inconsciente
+- Observación: medir, seed, mapas, motor C
+- Proyección del modelo: emb, pesos, attn/FFN
+- Proyección nuestra: arquetipos y lectura de voz
+- Ciclo Dreaming: hipótesis → medida → sentido
+- Equilibrio método (ni solo tablas ni solo mito)
+
+### Capítulo 23: Matemáticas de este universo
+- Espacios \(E\), residual, \(\theta\), \(\mathcal{C}\)
+- Cosine, centroides, PCA, anisotropía
+- RMSNorm, atención GQA, SwiGLU, residual como Euler
+- Softmax, temperatura, top-k, cadena de Markov
+- amplify rank-1, noise, steering, Q4_0
+- Diccionario física del libro ↔ fórmulas
+- Límites de lo no demostrado
+
+### Capítulo 24: El LLM — un espejo en donde mirarnos
+- Espejo de corpus, de trayectoria y de lente
+- Doble reflejo: modelo + lectura humana
+- Narciso vs laboratorio (antídotos Dreaming)
+- Espejo roto (\(\notin\mathcal{C}\)) vs fiel
+- Por qué un modelo pequeño es mejor espejo de estudio
+
+### Capítulo 25: Universo como videojuego
+- Capas + teletransporte de zona
+- Prototipo universe_game.html
+
+### Capítulo 26: Cadena del significado
+- Tokens → Embeddings → Detalles → Ideas puras
+- → Semántica → Detalles finos → Respuesta
+- Tabla maestra y lentes Dreaming a lo largo de la cadena
+
+### Capítulo 27: Cada capa es un elevador
+- 22 plantas + vestíbulo + azotea softmax
+- Viaje interno del elevador (norm → attn → ffn)
+- Planta ↔ nivel del universo (atlas / juego)
+- Botonera Dreaming (perturb, steer, temp)
+- Subida completa narrada
+
+### Capítulo 28: Estrellas en el cielo, tokens en TinyLlama
+- Analogía firmamento ↔ vocabulario en ℝ²⁰⁴⁸
+- Constelaciones = islas / semillas
+- Atención = gravedad entre tokens (estática vs dinámica)
+- Viajar: mapa de fuerzas + órbita con llm_inference
+- Ejemplo: ▁work → queen / war / law / power / king
+
+### Capítulo 29: El viaje de un prompt por dentro
+- Del texto al BPE y al embedding
+- Prefill vs generación; KV-cache
+- Una capa al detalle: Norm → Attn/RoPE/GQA → FFN SwiGLU
+- Logits, temperatura, top-k, sample
+- Bucle autoregresivo y checklist de comprensión
+- Ejemplo continuo: "The secret to happiness is"
 
 ---
 
 ## Estado del Proyecto
 
-| Capítulo | Estado |
-|----------|--------|
-| Introducción | Borrador |
-| Cap 1 | ✅ Escrito |
-| Cap 2 | ✅ Escrito |
-| Cap 3 | ✅ Escrito |
-| Cap 4 | ✅ Escrito |
-| Cap 5 | Pendiente |
-| Cap 6 | Pendiente |
-| Cap 7 | Pendiente |
-| Cap 8 | Pendiente |
-| Cap 9 | Pendiente |
-| Cap 10 | Pendiente |
-| Cap 11 | Pendiente |
-| Cap 12 | Pendiente |
-| Cap 13 | Pendiente |
-| Cap 14 | Pendiente |
-| Cap 15 | Pendiente |
+| Capítulo | Archivo | Estado |
+|----------|---------|--------|
+| Introducción | `00_introduccion.md` | ✅ |
+| Cap 1 | `01_que_es_tinyllama.md` | ✅ |
+| Cap 2 | `02_estructura_interna.md` | ✅ |
+| Cap 3 | `03_motor_inferencia_c.md` | ✅ |
+| Cap 4 | `04_perturbacion_y_perspectivas.md` | ✅ |
+| Cap 5 | `05_espacio_multidimensional.md` | ✅ |
+| Cap 6 | `06_macrocosmos_microcosmos.md` | ✅ |
+| Cap 7 | `07_fuerzas_gravitacionales.md` | ✅ |
+| Cap 8 | `08_como_viajar.md` | ✅ |
+| Cap 9 | `09_regla_de_oro.md` | ✅ |
+| Cap 10 | `10_tensores_atencion.md` | ✅ |
+| Cap 11 | `11_tensores_ffn.md` | ✅ |
+| Cap 12 | `12_tensores_norm.md` | ✅ |
+| Cap 13 | `13_capas_tempranas.md` | ✅ |
+| Cap 14 | `14_capas_intermedias.md` | ✅ |
+| Cap 15 | `15_capas_finales.md` | ✅ |
+| Cap 16 | `16_areas_semanticas_mapa.md` | ✅ |
+| Cap 17 | `17_psicoanalisis.md` | ✅ |
+| Cap 18 | `18_lo_que_aprendimos.md` | ✅ |
+| Cap 19 | `19_futuro.md` | ✅ |
+| Cap 20 | `20_como_orbita.md` | ✅ |
+| Cap 21 | `21_arquetipos_constelaciones.md` | ✅ |
+| Cap 22 | `22_observacion_proyeccion.md` | ✅ |
+| Cap 23 | `23_matematicas_universo.md` | ✅ |
+| Cap 24 | `24_espejo.md` | ✅ |
+| Cap 25 | `25_universo_como_juego.md` | ✅ |
+| Cap 26 | `26_cadena_significado.md` | ✅ |
+| Cap 27 | `27_elevador_capas.md` | ✅ |
+| Cap 28 | `28_estrellas_y_tokens.md` | ✅ |
+| Cap 29 | `29_viaje_de_un_prompt.md` | ✅ |
+
+### Artefactos de exploración
+
+| Recurso | Ubicación |
+|---------|-----------|
+| Mapa HTML | `exploration/semantic_map.html` |
+| Preview GitHub | [htmlpreview link](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/semantic_map.html) |
+| Datos áreas | `exploration/semantic_areas.json` |
+| Scripts | `map_semantic_areas.py`, `explore_tinyllama_space.py` (raíz del repo) |
