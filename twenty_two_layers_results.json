@@ -1,0 +1,35 @@
+{
+  "model_info": {
+    "name": "TinyLlama-1.1B",
+    "parameters": 1130454720,
+    "layers": 22,
+    "embedding_dim": 1152,
+    "n_heads_q": 16,
+    "n_heads_kv": 2,
+    "head_dim": 128,
+    "ffn_hidden": 3168,
+    "vocab_size": 32000
+  },
+  "specialization": {
+    "specialization": "gradual",
+    "not_discrete": true
+  },
+  "why_22": {
+    "why_22": "design_choice",
+    "not_natural_law": true
+  },
+  "verifiable": [
+    "model_has_22_layers",
+    "each_layer_has_9_tensors",
+    "layers_are_sequential",
+    "specialization_is_gradual",
+    "ConceptLlama_works_with_7_layers",
+    "22_is_design_choice"
+  ],
+  "interpretations": [
+    "22_layers_equals_hebrew_alphabet",
+    "layers_equals_paths_of_creation",
+    "transformer_emulates_creation",
+    "intelligent_design_exists"
+  ]
+}

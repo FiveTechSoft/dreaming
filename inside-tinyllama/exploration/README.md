@@ -2,19 +2,13 @@
 
 Mapa de **áreas semánticas** en el embedding de tokens (ℝ²⁰⁴⁸ → PCA 2D).
 
-## Ver los mapas en el navegador
+## Ver el mapa en el navegador
 
 ### Opción A — GitHub HTML Preview (sin configurar Pages)
 
-**[▶ Mapa semántico (12 áreas)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/semantic_map.html)**
+Abre este enlace (funciona con el archivo en `main`):
 
-**[▶ Mapa de arquetipos y constelaciones](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/archetype_map.html)**
-
-**[▶ Mapa 3D — girar con el ratón](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/map_3d_orbit.html)**  
-*(clic izquierdo + arrastrar = orbitar · rueda = zoom · clic derecho = pan)*
-
-**[▶ Juego: recorre el universo por niveles/capas](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/universe_game.html)**  
-*(WASD mover · E portal · 1–5 lentes · Space sample en Softmax)*
+**[▶ Mapa semántico interactivo](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/semantic_map.html)**
 
 ### Opción B — GitHub Pages (si está activo en el repo)
 
