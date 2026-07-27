@@ -1,0 +1,985 @@
+{
+  "timestamp": "2026-07-27T08:33:18.969378",
+  "config": {
+    "model": "C:/tmp/tinyllama-1.1b.Q4_0.gguf",
+    "prompts": 5,
+    "n_tokens": 100,
+    "temperature": 0.7,
+    "seed": 42
+  },
+  "tensor_types": [
+    "attn_q",
+    "attn_k",
+    "attn_v",
+    "attn_output",
+    "ffn_gate",
+    "ffn_up",
+    "ffn_down",
+    "attn_norm",
+    "ffn_norm"
+  ],
+  "perturbation_types": [
+    "noise",
+    "scale",
+    "rotate",
+    "zero",
+    "shuffle"
+  ],
+  "results": {},
+  "baseline": [
+    {
+      "prompt": "The meaning of life is",
+      "response": "In the context of a literary analysis, the meaning of life is a central theme explored in many works of literature. It refers to the ultimate purpose, significance, or meaning of a person's life, and ...",
+      "analysis": {
+        "coherence": 100,
+        "diversity": 67.02127659574468,
+        "length": 94,
+        "has_repetition": false,
+        "has_gibberish": false
+      }
+    },
+    {
+      "prompt": "Love is",
+      "response": "an [ Prompt: 154.2 t/s | Generation: 46.2 t/s ] Exiting...",
+      "analysis": {
+        "coherence": 100,
+        "diversity": 90.9090909090909,
+        "length": 11,
+        "has_repetition": false,
+        "has_gibberish": false
+      }
+    },
+    {
+      "prompt": "The secret to happiness is",
+      "response": "not just about having enough material possessions and wealth, but rather it's about cultivating a mindset that is focused on gratitude, positive self-talk, and self-compassion. By focusing on these qu...",
+      "analysis": {
+        "coherence": 100,
+        "diversity": 80.0,
+        "length": 70,
+        "has_repetition": false,
+        "has_gibberish": false
+      }
+    },
+    {
+      "prompt": "Artificial intelligence will",
+      "response": "Yes, artificial intelligence (AI) is already being used in various industries and applications, including: 1. Finance: AI is being used to analyze data and make predictions, leading to better investme...",
+      "analysis": {
+        "coherence": 100,
+        "diversity": 67.53246753246754,
+        "length": 77,
+        "has_repetition": false,
+        "has_gibberish": false
+      }
+    },
+    {
+      "prompt": "The future of humanity",
+      "response": "is uncertain, but there are several potential scenarios that could lead to its existence or extinction. Here are a few possible futures: 1. Extinction: If humanity goes extinct due to a catastrophic e...",
+      "analysis": {
+        "coherence": 100,
+        "diversity": 86.25,
+        "length": 80,
+        "has_repetition": false,
+        "has_gibberish": false
+      }
+    }
+  ],
+  "tensor_perturbations": {
+    "attn_q": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "attn_k": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "attn_v": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "attn_output": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "ffn_gate": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "ffn_up": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "ffn_down": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "attn_norm": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    },
+    "ffn_norm": {
+      "noise": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 60,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 60.0
+      },
+      "scale": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 70,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 70.0
+      },
+      "zero": {
+        "results": [
+          {
+            "prompt": "The meaning of life is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Love is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The secret to happiness is",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "Artificial intelligence will",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          },
+          {
+            "prompt": "The future of humanity",
+            "expected_coherence": 10,
+            "note": "Simulación - necesita implementación real"
+          }
+        ],
+        "avg_expected_coherence": 10.0
+      }
+    }
+  },
+  "layer_sensitivity": {
+    "0": {
+      "description": "Capas tempranas (sintaxis)",
+      "expected_sensitivity": "Baja - patrones simples"
+    },
+    "5": {
+      "description": "Capas tempranas (sintaxis)",
+      "expected_sensitivity": "Baja - patrones simples"
+    },
+    "10": {
+      "description": "Capas intermedias (semántica)",
+      "expected_sensitivity": "Alta - conceptos abstractos"
+    },
+    "15": {
+      "description": "Capas avanzadas (integración)",
+      "expected_sensitivity": "Muy alta - coherencia global"
+    },
+    "21": {
+      "description": "Capas finales (salida)",
+      "expected_sensitivity": "Crítica - predicción directa"
+    }
+  },
+  "importance_ranking": [
+    {
+      "tensor": "attn_q",
+      "importance": "CRÍTICO",
+      "reason": "Sin Query, no hay atención"
+    },
+    {
+      "tensor": "attn_k",
+      "importance": "CRÍTICO",
+      "reason": "Sin Key, no hay relación"
+    },
+    {
+      "tensor": "attn_v",
+      "importance": "CRÍTICO",
+      "reason": "Sin Value, no hay información"
+    },
+    {
+      "tensor": "attn_output",
+      "importance": "ALTO",
+      "reason": "Sin Output, no hay integración"
+    },
+    {
+      "tensor": "ffn_gate",
+      "importance": "ALTO",
+      "reason": "Sin Gate, no hay filtrado"
+    },
+    {
+      "tensor": "ffn_up",
+      "importance": "MEDIO",
+      "reason": "Sin Up, no hay expansión"
+    },
+    {
+      "tensor": "ffn_down",
+      "importance": "MEDIO",
+      "reason": "Sin Down, no hay compresión"
+    },
+    {
+      "tensor": "attn_norm",
+      "importance": "BAJO",
+      "reason": "Sin AttnNorm, inestabilidad"
+    },
+    {
+      "tensor": "ffn_norm",
+      "importance": "BAJO",
+      "reason": "Sin FFNNorm, inestabilidad"
+    }
+  ]
+}

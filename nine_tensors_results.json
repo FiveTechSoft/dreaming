@@ -1,0 +1,22 @@
+{
+  "question": "Do the 9 tensors work like orbiting planets?",
+  "answer": "NO",
+  "evidence": [
+    "tensors_are_fixed_matrices",
+    "no_orbital_trajectories",
+    "no_regular_periods",
+    "processing_is_matrix_multiplication"
+  ],
+  "actual_functions": {
+    "attn_q": "Query - what am I looking for?",
+    "attn_k": "Key - what do I contain?",
+    "attn_v": "Value - what do I contribute?",
+    "attn_output": "Project attention output",
+    "ffn_gate": "Gate - should I pass this?",
+    "ffn_up": "Expand to higher dimension",
+    "ffn_down": "Compress back",
+    "attn_norm": "Normalize before attention",
+    "ffn_norm": "Normalize before FFN"
+  },
+  "better_metaphor": "orchestral_instruments"
+}

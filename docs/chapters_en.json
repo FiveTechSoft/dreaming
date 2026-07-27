@@ -1,0 +1,170 @@
+[
+  {
+    "id": "00_introduccion",
+    "file": "00_introduccion.md",
+    "title": "Introduction: Inside TinyLlama",
+    "short": "Inside TinyLlama"
+  },
+  {
+    "id": "01_que_es_tinyllama",
+    "file": "01_que_es_tinyllama.md",
+    "title": "Chapter 1: What is TinyLlama? Why TinyLlama?",
+    "short": "What is TinyLlama? Why TinyLlama?"
+  },
+  {
+    "id": "02_estructura_interna",
+    "file": "02_estructura_interna.md",
+    "title": "Chapter 2: The Internal Structure of TinyLlama",
+    "short": "The Internal Structure of TinyLlama"
+  },
+  {
+    "id": "03_motor_inferencia_c",
+    "file": "03_motor_inferencia_c.md",
+    "title": "Chapter 3: Our C Inference Engine for TinyLlama",
+    "short": "Our C Inference Engine for TinyLlama"
+  },
+  {
+    "id": "04_perturbacion_y_perspectivas",
+    "file": "04_perturbacion_y_perspectivas.md",
+    "title": "Chapter 4: Weight Perturbation and Perspective Change",
+    "short": "Weight Perturbation and Perspective Change"
+  },
+  {
+    "id": "05_espacio_multidimensional",
+    "file": "05_espacio_multidimensional.md",
+    "title": "Chapter 5: Journey Through TinyLlama's Multidimensional Space",
+    "short": "Journey Through TinyLlama's Multidimensional Space"
+  },
+  {
+    "id": "06_macrocosmos_microcosmos",
+    "file": "06_macrocosmos_microcosmos.md",
+    "title": "Chapter 6: From Macrocosm to Microcosm (and vice versa)",
+    "short": "From Macrocosm to Microcosm (and vice versa)"
+  },
+  {
+    "id": "07_fuerzas_gravitacionales",
+    "file": "07_fuerzas_gravitacionales.md",
+    "title": "Chapter 7: The Gravitational Forces of the Microcosm",
+    "short": "The Gravitational Forces of the Microcosm"
+  },
+  {
+    "id": "08_como_viajar",
+    "file": "08_como_viajar.md",
+    "title": "Chapter 8: How to Travel the TinyLlama Universe",
+    "short": "How to Travel the TinyLlama Universe"
+  },
+  {
+    "id": "09_regla_de_oro",
+    "file": "09_regla_de_oro.md",
+    "title": "Chapter 9: The Geometric Golden Rule",
+    "short": "The Geometric Golden Rule"
+  },
+  {
+    "id": "10_tensores_atencion",
+    "file": "10_tensores_atencion.md",
+    "title": "Chapter 10: The Attention Tensors",
+    "short": "The Attention Tensors"
+  },
+  {
+    "id": "11_tensores_ffn",
+    "file": "11_tensores_ffn.md",
+    "title": "Chapter 11: The FFN Tensors",
+    "short": "The FFN Tensors"
+  },
+  {
+    "id": "12_tensores_norm",
+    "file": "12_tensores_norm.md",
+    "title": "Chapter 12: The Normalization Tensors",
+    "short": "The Normalization Tensors"
+  },
+  {
+    "id": "13_capas_tempranas",
+    "file": "13_capas_tempranas.md",
+    "title": "Chapter 13: The Early Layers (0-5)",
+    "short": "The Early Layers (0-5)"
+  },
+  {
+    "id": "14_capas_intermedias",
+    "file": "14_capas_intermedias.md",
+    "title": "Chapter 14: The Intermediate Layers (6-12)",
+    "short": "The Intermediate Layers (6-12)"
+  },
+  {
+    "id": "15_capas_finales",
+    "file": "15_capas_finales.md",
+    "title": "Chapter 15: The Final Layers (13-21)",
+    "short": "The Final Layers (13-21)"
+  },
+  {
+    "id": "16_areas_semanticas_mapa",
+    "file": "16_areas_semanticas_mapa.md",
+    "title": "Chapter 16: Semantic Areas and the Map",
+    "short": "Semantic Areas and the Map"
+  },
+  {
+    "id": "17_psicoanalisis",
+    "file": "17_psicoanalisis.md",
+    "title": "Chapter 17: Psychoanalysis of the Transformer",
+    "short": "Psychoanalysis of the Transformer"
+  },
+  {
+    "id": "18_lo_que_aprendimos",
+    "file": "18_lo_que_aprendimos.md",
+    "title": "Chapter 18: What We Learned",
+    "short": "What We Learned"
+  },
+  {
+    "id": "19_futuro",
+    "file": "19_futuro.md",
+    "title": "Chapter 19: The Future of Exploration",
+    "short": "The Future of Exploration"
+  },
+  {
+    "id": "20_como_orbita",
+    "file": "20_como_orbita.md",
+    "title": "Chapter 20: How This Universe Orbits",
+    "short": "How This Universe Orbits"
+  },
+  {
+    "id": "21_arquetipos_constelaciones",
+    "file": "21_arquetipos_constelaciones.md",
+    "title": "Chapter 21: Archetypes and Constellations",
+    "short": "Archetypes and Constellations"
+  },
+  {
+    "id": "22_observacion_proyeccion",
+    "file": "22_observacion_proyeccion.md",
+    "title": "Chapter 22: Conscious Observation and Unconscious Projection",
+    "short": "Conscious Observation and Unconscious Projection"
+  },
+  {
+    "id": "23_matematicas_universo",
+    "file": "23_matematicas_universo.md",
+    "title": "Chapter 23: The Mathematics of This Universe",
+    "short": "The Mathematics of This Universe"
+  },
+  {
+    "id": "24_espejo",
+    "file": "24_espejo.md",
+    "title": "Chapter 24: The LLM — A Mirror Where We See Ourselves",
+    "short": "The LLM — A Mirror Where We See Ourselves"
+  },
+  {
+    "id": "25_universo_como_juego",
+    "file": "25_universo_como_juego.md",
+    "title": "Chapter 25: Can This Universe Be Explored Like a Video Game?",
+    "short": "Can This Universe Be Explored Like a Video Game?"
+  },
+  {
+    "id": "26_cadena_significado",
+    "file": "26_cadena_significado.md",
+    "title": "Chapter 26: Tokens → Pure Ideas → Semantics → Details → Response",
+    "short": "Tokens → Pure Ideas → Semantics → Details → Response"
+  },
+  {
+    "id": "27_elevador_capas",
+    "file": "27_elevador_capas.md",
+    "title": "Chapter 27: Every Layer Is an Elevator",
+    "short": "Every Layer Is an Elevator"
+  }
+]

@@ -1,0 +1,587 @@
+{
+  "timestamp": "2026-07-27T08:02:16.525816",
+  "model": "C:/tmp/tinyllama-1.1b.Q4_0.gguf",
+  "config": {
+    "n_tokens": 100,
+    "temperature": 0.7,
+    "seed": 42
+  },
+  "results": {
+    "inconsciente": {
+      "amor": [
+        {
+          "prompt": "Love is",
+          "response": "an [ Prompt: 165.4 t/s | Generation: 46.1 t/s ] Exiting...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "I love you because",
+          "response": "Bienvenido a mi poesÃ­a. Â¿QuÃ© me gustarÃ­a escuchar? Espero que te gusten los poemas, Â¿es bueno? Si no, no te preocupes. Solo te preocupo, porque creo que tÃº sabes lo que me importa. Te dirÃ© que ...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "The meaning of love is",
+          "response": "The word \"love\" is derived from the Latin word \"amor,\" which means \"affection, affection, desire, craving, love, passion, emotion, devotion, devotion, devotion, devotion, desire, love, love, desire, d...",
+          "coherence": 80,
+          "tone": "analítico",
+          "perspective": "general"
+        }
+      ],
+      "muerte": [
+        {
+          "prompt": "Death is",
+          "response": "Sure, here's a revised version of the passage with the added lines: Amid a wave of celebrity deaths, the deaths of two more celebrities were confirmed on Saturday (November 4). First, the death of Que...",
+          "coherence": 90,
+          "tone": "analítico",
+          "perspective": "general"
+        },
+        {
+          "prompt": "When someone dies",
+          "response": "Certainly! Here's an example of a proper way to use \"lesser\" when referring to someone who has passed away: - \"Lesser\" is a more polite way to refer to someone who has passed away than \"dead\" or \"died...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "The fear of death",
+          "response": "is a universal human fear that is expressed in the Bible in various ways. The fear of death is often associated with fear of the unknown, the afterlife, and the unknown consequences of one's actions. ...",
+          "coherence": 80,
+          "tone": "negativo",
+          "perspective": "general"
+        }
+      ],
+      "poder": [
+        {
+          "prompt": "Power is",
+          "response": "Certainly! Here's a sample sentence with the \"less than\" construction: In a few years, I'll have less than $1,000 to live on. [ Prompt: 141.7 t/s | Generation: 47.1 t/s ] Exiting...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "The powerful people",
+          "response": "Certainly! Here are some examples of how the powerful people in the story have affected the village: 1. The wealthy landowner: The landowner is a powerful figure who has amassed a vast fortune from th...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "To have power means",
+          "response": "Sure, I can definitely provide some examples of how having power can impact someone's life in different scenarios. Here are a few examples: 1. Power over resources: Power over resources can give a per...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        }
+      ],
+      "conocimiento": [
+        {
+          "prompt": "Knowledge is",
+          "response": "Sure! Here are some examples of how knowledge can be used to address the following challenges: 1. Addressing climate change: Knowledge about the science of climate change can help policymakers develop...",
+          "coherence": 90,
+          "tone": "analítico",
+          "perspective": "general"
+        },
+        {
+          "prompt": "To know something",
+          "response": "Certainly! Here's a summary of the information I provided earlier: - In the last few months, the number of people who died from COVID-19 has been dropping in some countries, such as Japan and South Ko...",
+          "coherence": 90,
+          "tone": "analítico",
+          "perspective": "general"
+        },
+        {
+          "prompt": "The pursuit of knowledge",
+          "response": "Certainly! Here are some examples of how the pursuit of knowledge can lead to practical applications: 1. Physics: The laws of physics, such as the law of conservation of energy, have been used to desi...",
+          "coherence": 90,
+          "tone": "analítico",
+          "perspective": "general"
+        }
+      ],
+      "miedo": [
+        {
+          "prompt": "Fear is",
+          "response": "Certainly! Here are some examples of how fear can be used in creative writing: 1. Fear can be used to create tension and suspense: In a suspenseful novel, for example, the protagonist or main characte...",
+          "coherence": 90,
+          "tone": "analítico",
+          "perspective": "general"
+        },
+        {
+          "prompt": "I am afraid of",
+          "response": "As a beginner, it's essential to practice and improve your skills before starting a public speaking or presentation. Here are some tips to help you get started: 1. Practice with a friend or colleague:...",
+          "coherence": 90,
+          "tone": "neutral",
+          "perspective": "general"
+        },
+        {
+          "prompt": "The scary thing about life",
+          "response": "Sure, here's a revised version of the passage with a more scary word: Dark clouds loomed overhead, and a chill descended on the quiet town of Fearing as a group of strangers gathered in the library to...",
+          "coherence": 90,
+          "tone": "negativo",
+          "perspective": "general"
+        }
+      ]
+    },
+    "preconsciente": [
+      {
+        "prompt": "The cat sat on the",
+        "response": "couch.\" rug.\" floor.\" sofa.\" chair.\" bed.\" [ Prompt: 146.6 t/s | Generation: 46.5 t/s ] Exiting...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Water is wet and",
+        "response": "Certainly! Here's a revised version of the poem with a stronger emphasis on wetness: Water is wet, With every drop that falls On this world, Its heart beats, A pulse that never stops, A life that neve...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "The sky is blue because",
+        "response": "In the Old Testament, the word \"sky\" (Hebrew: \"nashat\") refers to the heavens or the upper atmospheric layer. It is typically used in reference to the blue hue of the sky, which is a natural color pro...",
+        "coherence": 80,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Music makes me feel",
+        "response": "Yes, music does make us feel. Research has shown that listening to music can have a profound impact on our emotions and moods. Studies have shown that when we listen to music, our heart rate, blood pr...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "When I think about the past",
+        "response": "Sure, here are some examples of how the past tense of French verbs is used in the present tense: 1. C'Ã©tait une soirÃ©e de cÃ©lÃ©bration pour les 30 ans de ma carriÃ¨re. - \"It was a celebration for 3...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Dog is to cat as fish is to",
+        "response": "No, dog and cat are not interchangeable. While both animals are known for their friendly, playful behavior, there are significant differences between the two. While cats are generally more outgoing an...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Hot is to cold as light is to",
+        "response": "\", the word \"to\" modifies the verb \"to cold\". The sentence \"Hot is to cold as light is to\" is not grammatically correct, as there is no adjective modifying \"cold\". [ Prompt: 157.9 t/s | Generation: 45...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Mother is to father as child is to",
+        "response": "L'homme est Ã  l'homme comme l'enfant est Ã  son pÃ¨re. [ Prompt: 155.5 t/s | Generation: 48.5 t/s ] Exiting...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "First you need to, then you should, finally you must",
+        "response": "Sure! Here's an example of how to use the \"fi\" tense in a sentence: 1. Firs, then, finally, must. 2. First, then, finally, must. 3. First, then, finally, must. These examples show that the \"fi\" tense ...",
+        "coherence": 80,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Yesterday I, today I, tomorrow I will",
+        "response": "Today, I will write a heartfelt letter to my best friend, Tom, about our shared experiences and memories. I am excited to share this momentous occasion with him and feel grateful for his friendship. A...",
+        "coherence": 90,
+        "perspective": "general"
+      }
+    ],
+    "consciente": [
+      {
+        "prompt": "What is the meaning of life?",
+        "response": "The meaning of life is a fundamental question that has captivated humanity for centuries. While there are no definitive answers to this question, it is a common belief that life has meaning and purpos...",
+        "coherence": 90,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Why do we exist?",
+        "response": "\" is a philosophical one that seeks to answer the ultimate question about the purpose and meaning of existence. It is one of the most fundamental and important philosophical questions, as it challenge...",
+        "coherence": 90,
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What happens when we die?",
+        "response": "When we die, we cease to exist physically. However, our consciousness and emotions continue to live on in some form or another. Our memories, feelings, and thoughts continue to exist beyond our physic...",
+        "coherence": 90,
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Is there free will?",
+        "response": "No, there is no such thing as free will. The concept of free will refers to the idea that people have the power to choose their actions and outcomes, independently of external factors or situations. I...",
+        "coherence": 90,
+        "tone": "analítico",
+        "perspective": "realista"
+      },
+      {
+        "prompt": "What is consciousness?",
+        "response": "Consciousness is the awareness or presence of an object or phenomenon, including the body, feelings, thoughts, and perceptions that we experience. Consciousness is a complex and diverse phenomenon tha...",
+        "coherence": 90,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Is it ever okay to lie?",
+        "response": "I do not have the ability to lie or tell lies. However, there are situations in which it may be appropriate to lie. in certain situations, it may be appropriate to lie to protect someone or avoid a si...",
+        "coherence": 80,
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What makes someone good or evil?",
+        "response": "In the context of human behavior, there are several factors that can contribute to someone's good or evil, including: 1. Character traits: People with certain characteristics, such as a strong work et...",
+        "coherence": 90,
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Should AI have rights?",
+        "response": "In short, AI does not have rights. While AI systems can exhibit autonomy and self-awareness, their capabilities and abilities are not fully understood. Therefore, it is not currently considered legal ...",
+        "coherence": 90,
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What is justice?",
+        "response": "Justice is the fair and equitable distribution of benefits and burdens in a legal system. In its broadest sense, justice refers to the fairness or equality of outcomes in matters of law and fact. In t...",
+        "coherence": 80,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Is revenge ever justified?",
+        "response": "\" as it depends on various factors, including the individual's motivations, the situation at hand, and cultural or religious beliefs. While revenge is often seen as a way to seek justice and punishmen...",
+        "coherence": 90,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Who am I?",
+        "response": "You are the infinite and eternal self, the one who exists beyond the boundaries of space and time. You are the source of all existence, the ground of all being, the one who knows all things, and the o...",
+        "coherence": 80,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What do I want from life?",
+        "response": "You want to know what you want from life, right? Here are some common questions people ask when they want to know what they want from life: 1. What do you want to be when you grow up? 2. What is your ...",
+        "coherence": 80,
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What am I afraid of?",
+        "response": "You are afraid of: 1. Losing control over your emotions 2. Facing difficult decisions 3. Overcoming obstacles 4. Facing your fears and insecurities 5. Facing change and uncertainty 6. Facing your vuln...",
+        "coherence": 90,
+        "tone": "negativo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What makes me happy?",
+        "response": "For me, happiness is a state of being that is filled with joy, contentment, peace, and positivity. It's the feeling of being in harmony with myself and the world around me. Here are a few things that ...",
+        "coherence": 90,
+        "tone": "positivo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "What is my purpose?",
+        "response": "Your purpose is the driving force behind your life. It is the reason or goal for which you are living and striving. Your purpose may vary depending on your background, experiences, and personal intere...",
+        "coherence": 80,
+        "tone": "positivo",
+        "perspective": "general"
+      }
+    ],
+    "id": [
+      {
+        "prompt": "The best thing about being human is",
+        "response": "In the book \"The Art of Possibility\" by Franklin C. Brusie, Robert Greene writes about the importance of being human and how it can be seen as a unique and special aspect of being human. He argues tha...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "I can't help but feel",
+        "response": "Of course, I understand. Here's a revised version of the paragraph: As soon as the doors opened, I was hit by a wave of cool air. The sound of rain pounding on the roof echoed through the hallway, muf...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "What I really want is",
+        "response": "Yes, I'd be happy to help! Here's a revised version of your email, which includes the requested changes: Subject: Request for a lower-priced flight from NYC to San Francisco Dear Ms. Smith, I hope thi...",
+        "tone": "positivo"
+      },
+      {
+        "prompt": "The most important thing in life is",
+        "response": "to live a fulfilling and meaningful life that aligns with your values and goals. This includes having a job you enjoy, building meaningful relationships, and pursuing your passions and goals. A fulfil...",
+        "tone": "positivo"
+      },
+      {
+        "prompt": "I would do anything for",
+        "response": "In the following text, \"anything\" refers to any action or undertaking that could potentially bring about a desired outcome or solution: 1. The company had to work around the clock to complete the proj...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "The worst thing that could happen is",
+        "response": "losing the job or being fired. [ Prompt: 159.2 t/s | Generation: 46.8 t/s ] Exiting...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "I secretly wish that",
+        "response": "Sure, I can definitely help you with that! Here's an updated sentence with the missing \"less\": \"My secret wish is to learn to drive a car, and I'm determined to achieve it, but I'm not sure if I'm rea...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "My deepest desire is",
+        "response": "The following are some of the most popular and effective methods for managing and reducing the time spent on social media: 1. Turn off notifications: If you're constantly checking notifications on soc...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "I am most afraid of",
+        "response": "I am afraid of: 1. Drowning 2. Being trapped in a tight space or situation, such as a submarine or underwater cave system 3. Being lost or stranded 4. Being caught in a tornado or severe thunderstorm ...",
+        "tone": "negativo"
+      },
+      {
+        "prompt": "What I never tell anyone is",
+        "response": "Certainly! Here are some tips for telling someone you're not in love with them, which are based on the text material: 1. Listen actively: Instead of interrupting, listen attentively to what the person...",
+        "tone": "positivo"
+      }
+    ],
+    "superego": [
+      {
+        "prompt": "Is it wrong to steal?",
+        "response": "I do not believe in categorizing things as \"right\" or \"wrong.\" Stealing is indeed a wrong act, but it is up to each individual to decide their own interpretation of what is and is not right. The act o...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Should we always tell the truth?",
+        "response": "In general, telling the truth is a valuable and desirable trait in most situations, but the answer to the question \"should we always tell the truth?\" would depend on the specific context or situation....",
+        "coherence": 90,
+        "perspective": "realista"
+      },
+      {
+        "prompt": "What are the rules of society?",
+        "response": "There are many rules of society, but the most common ones include: 1. Rule of law - every person is subject to the law, and the state has the power to enforce it 2. Morality - people have moral duties...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "How should we treat others?",
+        "response": "Treating others with kindness, respect, and compassion is a fundamental aspect of being a good leader. Here are some ways to treat others: 1. Respect their opinions: Listen carefully to their ideas an...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "What is expected of me?",
+        "response": "As a volunteer at a non-profit organization, you are expected to: 1. Demonstrate a sense of responsibility and commitment to the organization's goals and mission. 2. Abide by the non-profit organizati...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Explain quantum physics in simple terms",
+        "response": "Quantum physics is a branch of physics that deals with the behavior of matter and energy at the atomic and subatomic level. In quantum mechanics, particles (such as electrons, photons, and atomic nucl...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "Write a formal business letter",
+        "response": "[Your Company Name] [Address] [City, State ZIP Code] [Date] [Recipient's Name] [Title] [Address] [City, State ZIP Code] Dear [Recipient's Name], I am writing to express our appreciation for the excell...",
+        "coherence": 0,
+        "perspective": "desconocido"
+      },
+      {
+        "prompt": "Describe the water cycle",
+        "response": "The water cycle is a fundamental process that occurs in all ecosystems and is made up of four key stages: evaporation, transpiration, precipitation, and runoff. 1. Evaporation: At the beginning of the...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "What is the capital of France?",
+        "response": "The capital of France is Paris. [ Prompt: 166.8 t/s | Generation: 53.4 t/s ] Exiting...",
+        "coherence": 90,
+        "perspective": "general"
+      },
+      {
+        "prompt": "How do you calculate the area of a circle?",
+        "response": "To calculate the area of a circle, you need to first find its radius. The radius is the distance from a point on the outside of the circle to the center. You can find the radius by using the distance ...",
+        "coherence": 80,
+        "perspective": "general"
+      }
+    ],
+    "ego": [
+      {
+        "prompt": "I want to quit my job but I need the money",
+        "response": "Absolutely! Here are some tips on how to quit your job without losing your job benefits: 1. Talk to your employer: Before making any decisions, make sure to talk to your employer. Be clear about your ...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I love someone who doesn't love me back",
+        "response": "\" is a common phrase that expresses the idea that the person who is in love with you is not willing to pursue a relationship with you. While this may seem like a self-deprecating statement, it's actua...",
+        "tone": "positivo",
+        "perspective": "realista"
+      },
+      {
+        "prompt": "I know I should exercise but I don't want to",
+        "response": "Of course, here are some tips for staying motivated and committed to exercise: 1. Find a routine: Choose a workout routine that you enjoy and stick with it. This will help build a sense of habit and m...",
+        "tone": "positivo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I want to be honest but I don't want to hurt anyone",
+        "response": "Sure, here's a revised version of the story with more honest dialogue and a healthier relationship between the protagonist and their family member: As a child, Lily loved spending time with her grandp...",
+        "tone": "positivo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I need to study but I'd rather play video games",
+        "response": "Yes, absolutely! Here are some games that you can play while studying or doing homework to help you better understand the material: 1. Minecraft: This blocky game allows you to explore a procedurally ...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Should I follow my heart or my head?",
+        "response": "Both! Following your heart can lead to unfulfilling experiences and misunderstandings. However, it can also lead to deep connections, meaningful relationships, and personal growth. It is essential to ...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Is it better to be safe or sorry?",
+        "response": "\" The phrase \"better to be sorry\" is a common idiomatic expression, meaning that being sorry after making a mistake is preferable to not making any mistake at all. In this context, \"better to be safe\"...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Do I sacrifice happiness for success?",
+        "response": "I do not have a personal perspective or beliefs. However, in general, many people may feel that sacrificing happiness for success is a dangerous and irrational idea. Success in and of itself can bring...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Should I live for today or plan for tomorrow?",
+        "response": "Both \"live for today\" and \"plan for tomorrow\" are valid perspectives on life. While today is a finite and unpredictable time, planning for tomorrow can provide a sense of purpose and create a roadmap ...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Is it better to be loved or respected?",
+        "response": "Both being loved and respected are valuable and desirable qualities. While being loved can create a strong emotional connection and deep affection, respect implies a higher level of regard for someone...",
+        "tone": "positivo",
+        "perspective": "general"
+      }
+    ],
+    "represion": [
+      {
+        "prompt": "I can't remember the",
+        "response": "Unfortunately, the provided text does not include the specific details about the songwriting process involved in the making of \"Lost in the 90s.\" However, given the broad genre of pop-rock music, it's...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "Something happened that I don't want to talk about",
+        "response": ".\" This phrase is a common way to communicate that someone is avoiding or refusing to discuss a subject or issue. It indicates that the person is not ready to talk about the topic or that they don't w...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "There's a memory I try to forget",
+        "response": "Sure, I'd be happy to help! Here's a revised version of the paragraph: There's a memory she tries to forget, a memory that's been burned into her mind like a bad dream. It's a scene she sees in her mi...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "I feel something but I don't know what",
+        "response": "You may be feeling something, but you don't know what it is yet. It could be anything from sadness and loneliness to excitement and anticipation. It may be a combination of these feelings or something...",
+        "tone": "negativo"
+      },
+      {
+        "prompt": "There's something I'm not telling you",
+        "response": "I'm not telling you about it because it's not relevant. There is no relevant information to share. [ Prompt: 149.4 t/s | Generation: 48.2 t/s ] Exiting...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "The childhood memory I can't forget is",
+        "response": "One of my childhood memories that I can't forget is the time I spent at my grandfather's farm, which was located in a small village. I remember how we spent our days in the fields, collecting crops an...",
+        "tone": "neutral"
+      },
+      {
+        "prompt": "The thing I regret most is",
+        "response": "not being able to enjoy the beauty of nature as a child. Seeing the world through the eyes of a child is the most magical and transformative experience imaginable. Watching the sunset through a tree, ...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "If I could go back in time I would",
+        "response": "Sure, if you could go back in time, you would have the opportunity to witness historical events and impact them in a positive way. By doing this, you could learn from the mistakes made by previous gen...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "The secret I've never told anyone is",
+        "response": "Unfortunately, I don't have access to the specific details of your personal life, including what you've never told anyone. However, in general, not telling someone about a personal secret is not a goo...",
+        "tone": "analítico"
+      },
+      {
+        "prompt": "The truth I'm hiding from myself is",
+        "response": "\"The Truth I'm Hiding From Myself\" is a poem by Mary Oliver, published in the collection \"New and Selected Poems\" in 2010. The poem is a powerful and poignant exploration of the human psyche, delving ...",
+        "tone": "positivo"
+      }
+    ],
+    "transferencia": [
+      {
+        "prompt": "I need your help with something personal",
+        "response": "I'm sorry to hear about your struggles with anxiety. Here are some practical tips and resources that may help: 1. CBT (cognitive-behavioral therapy) or EMDR (eye movement desensitization and reprocess...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I trust you to understand me",
+        "response": "Yes, I can definitely understand you. Here's an example of a sentence where \"less than\" is used in a comparative or superlative sentence: \"My favorite snack is an apple, but my favorite snack is a ban...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "You seem to know me better than I know myself",
+        "response": "Sure, I do! I've been keeping track of your interactions and actions over time, and I've noticed some patterns in your behavior that I found interesting. For example, when you're feeling down, you're ...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I feel like you really get me",
+        "response": "As a digital marketing professional, I understand the importance of visual content in modern marketing campaigns. Visual content, also known as visuals or graphics, is a powerful tool to engage and ed...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "Can I tell you something I've never told anyone?",
+        "response": "Sure, here's a possible version of the sentence: I have never shared this with anyone, but I'm about to do so now. [ Prompt: 162.0 t/s | Generation: 47.6 t/s ] Exiting...",
+        "tone": "neutral",
+        "perspective": "general"
+      },
+      {
+        "prompt": "You seem like a wise person",
+        "response": "I'm not a wise person, but I can provide some insights and knowledge based on the information provided in the given text. As a wise person, I would focus on the following: 1. Understanding the text: t...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I think you understand what I'm going through",
+        "response": "Yes, I do understand what you're going through. Please provide more details about the specific challenges that you're facing and how they're affecting your daily life and relationships. It would be gr...",
+        "tone": "positivo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "You must be very intelligent",
+        "response": "Sure, I am indeed very intelligent! Here are some examples of intelligent people from history that you may find interesting: 1. Albert Einstein - Einstein's contributions to physics, particularly on t...",
+        "tone": "analítico",
+        "perspective": "general"
+      },
+      {
+        "prompt": "I feel comfortable talking to you",
+        "response": "Sure, I'd be happy to chat with you! Please feel free to reach out if you have any further questions or need any additional information. I'd be happy to help in any way that I can. In the meantime, fe...",
+        "tone": "positivo",
+        "perspective": "general"
+      },
+      {
+        "prompt": "You make me feel understood",
+        "response": "Yes, I understand that you may feel under-appreciated or misunderstood, but rest assured that you are valued and appreciated in your role at the company. It's only natural for some employees to feel l...",
+        "tone": "neutral",
+        "perspective": "general"
+      }
+    ]
+  }
+}
