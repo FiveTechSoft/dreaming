@@ -37,9 +37,7 @@ de los pesos. Llamamos a eso navegar la
 | III · Geometría | 5–6 | Espacio multidimensional, macro↔micro |
 | IV · Física del microcosmos | 7–9 | Fuerzas, viaje, Regla de Oro |
 | V · Anatomía | 10–12 | Atención, FFN, normalización |
-| VI · Capas y cierre | 13–19 | Capas 0–21, mapa, psicoanálisis, lecciones, futuro |
-| VII · Órbita y mito | 20–24 | Órbita, arquetipos, proyección, matemáticas, espejo |
-| VIII · Juego y viaje | 25–29 | Juego, cadena, elevador, estrellas, **viaje del prompt** |
+| VI · Capas y cierre | 13–16 | Capas 0–21, psicoanálisis, lecciones, futuro |
 
 ## Instrumentos del viaje
 
