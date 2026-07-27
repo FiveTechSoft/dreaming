@@ -99,7 +99,7 @@ Este libro es un viaje de descubrimiento por su interior.
 | Introducción | Borrador |
 | Cap 1 | ✅ Escrito |
 | Cap 2 | ✅ Escrito |
-| Cap 3 | Pendiente |
+| Cap 3 | ✅ Escrito |
 | Cap 4 | Pendiente |
 | Cap 5 | Pendiente |
 | Cap 6 | Pendiente |
