@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Inside TinyLlama — Libro interactivo</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: #121722;
+    --panel2: #0e1219;
+    --line: #2a3344;
+    --text: #e8ecf4;
+    --muted: #8b95a8;
+    --accent: #6ea8fe;
+    --accent2: #a78bfa;
+    --good: #3dd68c;
+    --code-bg: #0a0e16;
+    --sidebar-w: 300px;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding: 10px 16px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #101522, #0b0d12);
+    z-index: 10;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .brand h1 {
+    margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .brand .tag {
+    color: var(--muted); font-size: 0.78rem; white-space: nowrap;
+  }
+  .header-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .header-actions a, .header-actions button {
+    text-decoration: none; color: var(--text); font-size: 0.8rem;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; cursor: pointer;
+  }
+  .header-actions a:hover, .header-actions button:hover {
+    border-color: var(--accent); color: #fff;
+  }
+  .layout {
+    flex: 1; display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    min-height: 0;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.sidebar {
+      position: fixed; inset: 52px 0 auto 0; max-height: 50vh;
+      z-index: 20; transform: translateY(-120%);
+      transition: transform .2s; border-bottom: 1px solid var(--line);
+    }
+    aside.sidebar.open { transform: translateY(0); }
+  }
+  aside.sidebar {
+    background: var(--panel2); border-right: 1px solid var(--line);
+    overflow: auto; padding: 12px 0 24px;
+  }
+  .side-head {
+    padding: 4px 14px 10px; color: var(--muted); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .nav-item {
+    display: block; width: 100%; text-align: left;
+    border: 0; background: transparent; color: var(--muted);
+    padding: 8px 14px; cursor: pointer; font-size: 0.84rem;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: #161c28; color: var(--text); }
+  .nav-item.active {
+    background: #1a2233; color: #fff;
+    border-left-color: var(--accent);
+  }
+  .nav-item .num {
+    display: inline-block; min-width: 1.6em; color: var(--accent);
+    font-variant-numeric: tabular-nums; font-weight: 650; margin-right: 6px;
+  }
+  .reader {
+    overflow: auto; min-height: 0;
+    scroll-behavior: smooth;
+  }
+  .reader-inner {
+    max-width: 760px; margin: 0 auto; padding: 28px 22px 80px;
+  }
+  .progress {
+    position: sticky; top: 0; z-index: 5; height: 3px; background: #151a24;
+  }
+  .progress > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  article.markdown-body {
+    line-height: 1.65; font-size: 1.02rem; color: #d7dce6;
+  }
+  article h1 {
+    font-size: 1.75rem; line-height: 1.25; margin: 0 0 18px;
+    color: #fff; letter-spacing: -0.02em;
+  }
+  article h2 {
+    font-size: 1.25rem; margin: 2rem 0 0.75rem; color: #f0f3fa;
+    border-bottom: 1px solid var(--line); padding-bottom: 0.35rem;
+  }
+  article h3 { font-size: 1.05rem; margin: 1.4rem 0 0.5rem; color: #c5d0e6; }
+  article p { margin: 0.7rem 0; }
+  article a { color: var(--accent); }
+  article ul, article ol { padding-left: 1.35rem; }
+  article li { margin: 0.3rem 0; }
+  article blockquote {
+    margin: 1rem 0; padding: 0.4rem 0 0.4rem 1rem;
+    border-left: 3px solid var(--accent2); color: #b8c0d0;
+  }
+  article hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+  article table {
+    border-collapse: collapse; width: 100%; margin: 1rem 0;
+    font-size: 0.9rem; display: block; overflow-x: auto;
+  }
+  article th, article td {
+    border: 1px solid var(--line); padding: 0.45rem 0.6rem; text-align: left;
+  }
+  article th { background: #161c28; color: #eef2ff; }
+  article tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  article code {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.88em;
+    background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px;
+    border: 1px solid #1c2433;
+  }
+  article pre {
+    background: var(--code-bg); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 14px; overflow-x: auto;
+  }
+  article pre code { border: 0; padding: 0; background: transparent; }
+  .footer-nav {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--line);
+  }
+  .footer-nav button {
+    flex: 1; background: var(--panel); border: 1px solid var(--line);
+    color: var(--text); border-radius: 10px; padding: 12px 14px;
+    cursor: pointer; text-align: left; font-size: 0.88rem;
+  }
+  .footer-nav button:hover { border-color: var(--accent); }
+  .footer-nav button:disabled { opacity: 0.35; cursor: default; }
+  .footer-nav .next { text-align: right; }
+  .footer-nav .lbl { display: block; color: var(--muted); font-size: 0.72rem; margin-bottom: 2px; }
+  .loading, .error { color: var(--muted); padding: 2rem 0; }
+  .error { color: var(--hot, #ff6b8a); }
+  .explore {
+    margin: 1.25rem 0; padding: 12px 14px; border-radius: 12px;
+    border: 1px solid var(--line); background: #101522;
+  }
+  .explore h3 { margin: 0 0 8px; font-size: 0.85rem; color: var(--good); }
+  .explore a {
+    display: inline-block; margin: 4px 8px 4px 0; padding: 6px 10px;
+    border-radius: 8px; background: #1a2233; border: 1px solid var(--line);
+    color: var(--text); text-decoration: none; font-size: 0.8rem;
+  }
+  .explore a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <button type="button" id="btn-menu" title="Capítulos">☰</button>
+    <div>
+      <h1>Inside TinyLlama</h1>
+      <div class="tag">Libro interactivo · proyecto Dreaming</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a href="exploration/map_3d_orbit.html">Mapa 3D</a>
+    <a href="exploration/universe_game.html">Juego</a>
+    <a href="exploration/semantic_map.html">Áreas</a>
+    <a href="exploration/archetype_map.html">Arquetipos</a>
+    <a href="https://github.com/FiveTechSoft/dreaming/tree/main/inside-tinyllama" target="_blank" rel="noopener">GitHub</a>
+    <button type="button" id="btn-prev" title="Capítulo anterior (←)">←</button>
+    <button type="button" id="btn-next" title="Capítulo siguiente (→)">→</button>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">Capítulos</div>
+    <nav id="nav"></nav>
+  </aside>
+  <div class="reader" id="reader">
+    <div class="progress"><i id="prog"></i></div>
+    <div class="reader-inner">
+      <div class="explore" id="explore-box">
+        <h3>Exploración interactiva</h3>
+        <a href="exploration/universe_game.html">▶ Universo-juego (capas + warp)</a>
+        <a href="exploration/map_3d_orbit.html">▶ Mapa 3D (girar)</a>
+        <a href="exploration/semantic_map.html">▶ Áreas semánticas</a>
+        <a href="exploration/archetype_map.html">▶ Arquetipos</a>
+      </div>
+      <article class="markdown-body" id="content">
+        <div class="loading">Cargando libro…</div>
+      </article>
+      <div class="footer-nav">
+        <button type="button" id="foot-prev" disabled><span class="lbl">Anterior</span><span id="foot-prev-t">—</span></button>
+        <button type="button" id="foot-next" class="next" disabled><span class="lbl">Siguiente</span><span id="foot-next-t">—</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const nav = document.getElementById('nav');
+  const content = document.getElementById('content');
+  const reader = document.getElementById('reader');
+  const prog = document.getElementById('prog');
+  const sidebar = document.getElementById('sidebar');
+  let chapters = [];
+  let idx = 0;
+
+  marked.setOptions({ gfm: true, breaks: false });
+
+  function numLabel(id, i) {
+    if (id.startsWith('00')) return '0';
+    const m = id.match(/^(\d+)/);
+    return m ? String(parseInt(m[1], 10)) : String(i);
+  }
+
+  function renderNav() {
+    nav.innerHTML = '';
+    chapters.forEach((ch, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'nav-item' + (i === idx ? ' active' : '');
+      b.innerHTML = '<span class="num">' + numLabel(ch.id, i) + '</span>' + escapeHtml(ch.short);
+      b.onclick = () => loadChapter(i);
+      nav.appendChild(b);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rewriteLinks(html) {
+    // relative md links to in-app navigation
+    return html.replace(/href="([^"]+\.md)"/g, (all, file) => {
+      const base = file.split('/').pop().replace(/\.md$/i, '');
+      const j = chapters.findIndex(c => c.id === base || c.file === file.split('/').pop());
+      if (j >= 0) return 'href="#/' + chapters[j].id + '" data-idx="' + j + '"';
+      return all;
+    });
+  }
+
+  async function loadChapter(i, pushHash = true) {
+    if (i < 0 || i >= chapters.length) return;
+    idx = i;
+    renderNav();
+    content.innerHTML = '<div class="loading">Cargando…</div>';
+    const ch = chapters[i];
+    try {
+      const res = await fetch('chapters/' + encodeURIComponent(ch.file) + '?v=' + Date.now().toString(36).slice(-4));
+      if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      let md = await res.text();
+      // strip first H1 duplicate if desired — keep it
+      let html = marked.parse(md);
+      html = rewriteLinks(html);
+      content.innerHTML = html;
+      // intercept chapter links
+      content.querySelectorAll('a[data-idx]').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          loadChapter(Number(a.getAttribute('data-idx')));
+        });
+      });
+      // open external http in new tab
+      content.querySelectorAll('a[href^="http"]').forEach(a => {
+        a.target = '_blank';
+        a.rel = 'noopener';
+      });
+      reader.scrollTop = 0;
+      updateFooter();
+      if (pushHash) {
+        history.replaceState(null, '', '#/' + ch.id);
+      }
+      document.title = ch.short + ' · Inside TinyLlama';
+      // close mobile menu
+      sidebar.classList.remove('open');
+    } catch (e) {
+      content.innerHTML = '<div class="error">No se pudo cargar el capítulo: ' + escapeHtml(String(e.message || e)) + '</div>';
+    }
+  }
+
+  function updateFooter() {
+    const prev = document.getElementById('foot-prev');
+    const next = document.getElementById('foot-next');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    if (idx <= 0) {
+      prev.disabled = true;
+      btnPrev.disabled = true;
+      document.getElementById('foot-prev-t').textContent = '—';
+    } else {
+      prev.disabled = false;
+      btnPrev.disabled = false;
+      document.getElementById('foot-prev-t').textContent = chapters[idx - 1].short;
+    }
+    if (idx >= chapters.length - 1) {
+      next.disabled = true;
+      btnNext.disabled = true;
+      document.getElementById('foot-next-t').textContent = '—';
+    } else {
+      next.disabled = false;
+      btnNext.disabled = false;
+      document.getElementById('foot-next-t').textContent = chapters[idx + 1].short;
+    }
+  }
+
+  function go(delta) {
+    loadChapter(Math.max(0, Math.min(chapters.length - 1, idx + delta)));
+  }
+
+  document.getElementById('foot-prev').onclick = () => go(-1);
+  document.getElementById('foot-next').onclick = () => go(1);
+  document.getElementById('btn-prev').onclick = () => go(-1);
+  document.getElementById('btn-next').onclick = () => go(1);
+  document.getElementById('btn-menu').onclick = () => sidebar.classList.toggle('open');
+
+  reader.addEventListener('scroll', () => {
+    const max = reader.scrollHeight - reader.clientHeight;
+    const p = max > 0 ? (reader.scrollTop / max) * 100 : 0;
+    prog.style.width = p + '%';
+  });
+
+  window.addEventListener('keydown', e => {
+    if (e.target.matches('input, textarea')) return;
+    if (e.key === 'ArrowLeft') go(-1);
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'Escape') sidebar.classList.remove('open');
+  });
+
+  function idxFromHash() {
+    const h = (location.hash || '').replace(/^#\/?/, '');
+    if (!h) return 0;
+    const j = chapters.findIndex(c => c.id === h || c.file === h || c.file === h + '.md');
+    return j >= 0 ? j : 0;
+  }
+
+  window.addEventListener('hashchange', () => {
+    const j = idxFromHash();
+    if (j !== idx) loadChapter(j, false);
+  });
+
+  async function boot() {
+    try {
+      const res = await fetch('chapters.json');
+      if (!res.ok) throw new Error('chapters.json');
+      chapters = await res.json();
+      renderNav();
+      loadChapter(idxFromHash(), false);
+    } catch (e) {
+      content.innerHTML = '<div class="error">Error al cargar chapters.json</div>';
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
