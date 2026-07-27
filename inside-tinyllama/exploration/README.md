@@ -8,8 +8,10 @@ Mapa de **áreas semánticas** en el embedding de tokens (ℝ²⁰⁴⁸ → PCA
 
 **[▶ Mapa semántico (12 áreas)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/semantic_map.html)**
 
-**[▶ Mapa de arquetipos y constelaciones](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/archetype_map.html)**  
-*(el de arquetipos aparece cuando `archetype_map.html` está en `main`)*
+**[▶ Mapa de arquetipos y constelaciones](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/archetype_map.html)**
+
+**[▶ Mapa 3D — girar con el ratón](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/map_3d_orbit.html)**  
+*(clic izquierdo + arrastrar = orbitar · rueda = zoom · clic derecho = pan)*
 
 ### Opción B — GitHub Pages (si está activo en el repo)
 
