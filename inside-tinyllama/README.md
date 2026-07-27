@@ -18,12 +18,21 @@ This book documents our exploration of TinyLlama-1.1B, a small but powerful lang
 - [Outline](OUTLINE.md)
 - [Chapters](chapters/)
 
+### Chapters Written
+
+1. [¿Qué es TinyLlama? ¿Por qué TinyLlama?](chapters/01_que_es_tinyllama.md)
+2. [La Estructura Interna](chapters/02_estructura_interna.md)
+3. [Nuestro Motor de Inferencia en C](chapters/03_motor_inferencia_c.md)
+4. [Perturbación de Pesos y Cambio de Perspectiva](chapters/04_perturbacion_y_perspectivas.md)
+5. [Espacio Multidimensional](chapters/05_espacio_multidimensional.md)
+- **[▶ Mapa semántico interactivo (GitHub)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/FiveTechSoft/dreaming/main/inside-tinyllama/exploration/semantic_map.html)** · [exploration/](exploration/)
+
 ## Structure
 
-- 22 transformer layers
-- 9 tensors per layer (36 total per model)
-- 1.1 billion parameters
-- 32,000 token vocabulary
+- 22 transformer layers · hidden 2048 · FFN 5632 · 32 Q / 4 KV (GQA)
+- 9 tensors per layer · 1.1B parameters · 32k vocabulary
+- Pure-C engine (`llm_inference.c`): KV-cache, OpenMP, `--perturb` / `--steer`
+- llama.cpp for bulk Q4_0 runs
 
 ## Experiments
 

@@ -1,0 +1,240 @@
+
+======================================================================
+MAPA DE ESPACIOS MULTIDIMENSIONALES — TinyLlama-1.1B
+======================================================================
+
+Espacio                         Dims      Objetos / notas
+------------------------------- --------- ----------------------------------
+1. Embeddings de token          R^2048    32.000 puntos (vocabulario)
+2. Residual stream              R^2048    22 capas × longitud de secuencia
+3. Cabezas de atención          R^64      32 Q / 4 KV (GQA)
+4. FFN intermedio               R^5632    ~69% de los parámetros
+5. Logits                       R^32000   softmax → siguiente token
+6. Espacio de pesos             R^~1.1e9  superficie de coherencia (modelos)
+7. Espacio de perspectivas      subvar.   trayectorias por perturbación
+
+
+======================================================================
+REGION 1 — Polos semánticos (cosine entre opuestos)
+======================================================================
+par                           cosine
+'▁love'        / '▁hate'         +0.0059
+'▁life'        / '▁death'        +0.0162
+'▁light'       / '▁dark'         +0.0044
+'▁good'        / '▁evil'         -0.0005
+'▁happy'       / '▁sad'          -0.0348
+'▁peace'       / '▁war'          +0.0087
+'▁mind'        / '▁body'         +0.0089
+'▁soul'        / '▁body'         +0.0032
+'▁true'        / '▁false'        -0.0363
+'▁hot'         / '▁cold'         -0.0095
+'▁day'         / '▁night'        -0.0071
+'▁king'        / '▁queen'        +0.0091
+'▁man'         / '▁woman'        +0.0077
+
+======================================================================
+REGION 2 — Clusters: centroides y vecinos
+======================================================================
+
+[emotion_pos] n=6  tokens=['▁happy', '▁joy', '▁love', '▁peace', '▁hope', '▁smile']
+  vecinos del centroide:
+    +0.497  '▁smile'
+    +0.414  '▁happy'
+    +0.404  '▁hope'
+    +0.390  '▁love'
+    +0.389  '▁peace'
+    +0.372  '▁joy'
+
+[emotion_neg] n=6  tokens=['▁sad', '▁hate', '▁fear', '▁anger', '▁pain', '▁cry']
+  vecinos del centroide:
+    +0.422  '▁sad'
+    +0.410  '▁pain'
+    +0.409  '▁anger'
+    +0.405  '▁cry'
+    +0.393  '▁fear'
+    +0.363  '▁hate'
+
+[spiritual] n=6  tokens=['▁soul', '▁spirit', '▁god', '▁divine', '▁sacred', '▁faith']
+  vecinos del centroide:
+    +0.451  '▁faith'
+    +0.415  '▁divine'
+    +0.414  '▁spirit'
+    +0.414  '▁god'
+    +0.391  '▁soul'
+    +0.366  '▁sacred'
+
+[physical] n=6  tokens=['▁body', '▁matter', '▁rock', '▁water', '▁fire', '▁earth']
+  vecinos del centroide:
+    +0.433  '▁rock'
+    +0.413  '▁water'
+    +0.410  '▁matter'
+    +0.408  '▁body'
+    +0.408  '▁earth'
+    +0.401  '▁fire'
+
+[abstract] n=6  tokens=['▁truth', '▁beauty', '▁justice', '▁freedom', '▁meaning', '▁idea']
+  vecinos del centroide:
+    +0.442  '▁beauty'
+    +0.413  '▁meaning'
+    +0.411  '▁idea'
+    +0.410  '▁freedom'
+    +0.408  '▁justice'
+    +0.381  '▁truth'
+
+[time] n=5  tokens=['▁time', '▁past', '▁future', '▁moment', '▁now']
+  vecinos del centroide:
+    +0.479  '▁time'
+    +0.462  '▁now'
+    +0.457  '▁moment'
+    +0.451  '▁past'
+    +0.438  '▁future'
+    +0.086  '▁expand'
+
+Matriz cosine entre centroides:
+              emotion_ emotion_ spiritua physical abstract     time
+emotion_pos   +1.000 -0.010 +0.002 +0.026 -0.027 -0.025
+emotion_neg   -0.010 +1.000 +0.056 +0.014 +0.008 +0.003
+spiritual     +0.002 +0.056 +1.000 +0.022 +0.032 -0.003
+physical      +0.026 +0.014 +0.022 +1.000 -0.008 -0.011
+abstract      -0.027 +0.008 +0.032 -0.008 +1.000 -0.058
+time          -0.025 +0.003 -0.003 -0.011 -0.058 +1.000
+
+======================================================================
+REGION 3 — Analogías vectoriales (a - b + c)
+======================================================================
+
+'▁king' - '▁man' + '▁woman'  =>
+  +0.094  'builder'
+  +0.093  '☺'
+  +0.085  '▁Gill'
+  +0.083  'cy'
+  +0.083  'ът'
+  +0.083  '³'
+
+'▁walk' - '▁walked' + '▁run'  =>
+  +0.100  '▁мате'
+  +0.098  'vés'
+  +0.089  'ifies'
+  +0.083  '▁College'
+  +0.081  'actic'
+  +0.081  'goal'
+
+'▁good' - '▁better' + '▁bad'  =>
+  +0.087  'ња'
+  +0.085  '▁M'
+  +0.084  '▁laugh'
+  +0.084  'sef'
+  +0.081  'Source'
+  +0.081  'ner'
+
+'▁love' - '▁hate' + '▁war'  =>
+  +0.091  'urb'
+  +0.087  'туа'
+  +0.084  'MY'
+  +0.083  '▁campo'
+  +0.080  '▁sehr'
+  +0.080  '标'
+
+'▁life' - '▁death' + '▁light'  =>
+  +0.096  'rank'
+  +0.095  '∃'
+  +0.091  'тельной'
+  +0.091  'rov'
+  +0.089  '▁possibly'
+  +0.088  '▁уби'
+
+'▁Paris' - '▁France' + '▁Italy'  =>
+  +0.099  '▁Rechts'
+  +0.093  'izers'
+  +0.089  'adapter'
+  +0.087  '▁foundation'
+  +0.083  'dag'
+  +0.082  '▁waves'
+
+======================================================================
+REGION 4 — Estructura global de R^2048 (PCA)
+======================================================================
+PCA sobre 4000 tokens aleatorios:
+  var top-1 = 0.27%
+  var top-10 = 2.30%
+  var top-50 = 7.74%
+  var top-100 = 13.98%
+  dims para 50% / 90% / 99% de var: 481 / 1329 / 1880
+  anisotropía (||mean|| / mean||e||): 0.0058
+  S[0]=2.2  S[10]=1.6  S[100]=1.5  S[500]=1.2
+
+======================================================================
+REGION 5 — Direcciones semánticas (diferencias de centroides)
+======================================================================
+
+dirección «emotion» = centroid(emotion_pos) - centroid(emotion_neg)
+  extremo + :
+    +0.346  '▁smile'
+    +0.329  '▁happy'
+    +0.304  '▁peace'
+    +0.290  '▁love'
+    +0.284  '▁joy'
+  extremo - :
+    +0.303  '▁sad'
+    +0.296  '▁anger'
+    +0.286  '▁cry'
+    +0.282  '▁pain'
+    +0.242  '▁fear'
+
+dirección «spirit_vs_matter» = centroid(spiritual) - centroid(physical)
+  extremo + :
+    +0.308  '▁spirit'
+    +0.291  '▁god'
+    +0.284  '▁sacred'
+    +0.283  '▁divine'
+    +0.282  '▁faith'
+  extremo - :
+    +0.306  '▁rock'
+    +0.300  '▁matter'
+    +0.299  '▁water'
+    +0.285  '▁earth'
+    +0.281  '▁body'
+
+dirección «abstract_vs_physical» = centroid(abstract) - centroid(physical)
+  extremo + :
+    +0.321  '▁beauty'
+    +0.296  '▁truth'
+    +0.294  '▁justice'
+    +0.292  '▁meaning'
+    +0.288  '▁freedom'
+  extremo - :
+    +0.303  '▁rock'
+    +0.299  '▁matter'
+    +0.290  '▁fire'
+    +0.286  '▁water'
+    +0.284  '▁earth'
+
+======================================================================
+REGION 6 — Normas: ¿qué tokens 'pesan' más?
+======================================================================
+Más fuertes (||e|| alta):
+    0.869  id=30619  '∃'
+    0.868  id=22939  '▁advise'
+    0.868  id=21659  'éal'
+    0.864  id=16283  '▁jours'
+    0.864  id=  411  '▁with'
+    0.862  id=20123  '▁territory'
+    0.862  id=31899  '⥤'
+    0.860  id=13723  'gia'
+    0.860  id= 2203  '▁lar'
+    0.859  id=  155  '<0x98>'
+    0.859  id= 7835  '▁Program'
+    0.859  id= 8603  'èn'
+Más débiles (||e|| baja):
+    0.622  id=19896  '▁argent'
+    0.624  id=18384  '▁хи'
+    0.625  id=16933  '▁sera'
+    0.625  id=15920  'riere'
+    0.625  id= 3711  '▁cla'
+    0.626  id=10888  '▁MS'
+    0.626  id=19327  '(...'
+    0.627  id=16200  '▁credit'
+    0.627  id=  492  'li'
+    0.627  id=29291  'рона'
+    0.628  id=20522  '▁Кор'
+    0.629  id=11312  '▁Вели'
