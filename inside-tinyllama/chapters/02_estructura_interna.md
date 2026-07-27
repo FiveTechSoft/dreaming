@@ -122,4 +122,4 @@ sorprender.
 
 ---
 
-*Siguiente capítulo: Nuestro Motor de Inferencia en C para TinyLlama*
+*Siguiente capítulo: Nuestro Motor de Inferencia en C*

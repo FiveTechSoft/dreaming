@@ -49,35 +49,6 @@
   .header-actions a:hover, .header-actions button:hover {
     border-color: var(--accent); color: #fff;
   }
-  /* Language selector */
-  .lang-selector {
-    position: relative; display: inline-block;
-  }
-  .lang-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 8px; padding: 6px 12px; cursor: pointer;
-    color: var(--text); font-size: 0.8rem; font-family: inherit;
-  }
-  .lang-btn:hover { border-color: var(--accent); }
-  .lang-btn .flag { font-size: 1.1rem; }
-  .lang-btn .arrow { font-size: 0.6rem; opacity: 0.6; }
-  .lang-dropdown {
-    display: none; position: absolute; top: calc(100% + 4px); right: 0;
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 10px; padding: 6px 0; min-width: 160px;
-    z-index: 100; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  }
-  .lang-dropdown.open { display: block; }
-  .lang-option {
-    display: flex; align-items: center; gap: 10px;
-    width: 100%; border: 0; background: transparent;
-    color: var(--text); padding: 8px 14px; cursor: pointer;
-    font-size: 0.84rem; font-family: inherit; text-align: left;
-  }
-  .lang-option:hover { background: #1a2233; }
-  .lang-option.active { color: var(--accent); font-weight: 600; }
-  .lang-option .flag { font-size: 1.1rem; }
   .layout {
     flex: 1; display: grid;
     grid-template-columns: var(--sidebar-w) 1fr;
@@ -203,157 +174,46 @@
     <button type="button" id="btn-menu" title="Capítulos">☰</button>
     <div>
       <h1>Inside TinyLlama</h1>
-      <div class="tag" id="subtitle">Libro interactivo · proyecto Dreaming</div>
+      <div class="tag">Libro interactivo · proyecto Dreaming</div>
     </div>
   </div>
   <div class="header-actions">
-    <a href="exploration/map_3d_orbit.html" data-i18n="map3d">Mapa 3D</a>
-    <a href="exploration/universe_game.html" data-i18n="game">Juego</a>
-    <a href="exploration/semantic_map.html" data-i18n="areas">Áreas</a>
-    <a href="exploration/archetype_map.html" data-i18n="archetypes">Arquetipos</a>
+    <a href="exploration/map_3d_orbit.html">Mapa 3D</a>
+    <a href="exploration/universe_game.html">Juego</a>
+    <a href="exploration/semantic_map.html">Áreas</a>
+    <a href="exploration/archetype_map.html">Arquetipos</a>
     <a href="https://github.com/FiveTechSoft/dreaming/tree/main/inside-tinyllama" target="_blank" rel="noopener">GitHub</a>
-    <div class="lang-selector">
-      <button type="button" class="lang-btn" id="lang-btn" title="Idioma / Language">
-        <span class="flag" id="lang-flag">🇪🇸</span>
-        <span id="lang-label">ES</span>
-        <span class="arrow">▾</span>
-      </button>
-      <div class="lang-dropdown" id="lang-dropdown">
-        <button type="button" class="lang-option active" data-lang="es">
-          <span class="flag">🇪🇸</span> Español
-        </button>
-        <button type="button" class="lang-option" data-lang="en">
-          <span class="flag">🇬🇧</span> English
-        </button>
-        <button type="button" class="lang-option" data-lang="fr">
-          <span class="flag">🇫🇷</span> Français
-        </button>
-        <button type="button" class="lang-option" data-lang="de">
-          <span class="flag">🇩🇪</span> Deutsch
-        </button>
-        <button type="button" class="lang-option" data-lang="it">
-          <span class="flag">🇮🇹</span> Italiano
-        </button>
-      </div>
-    </div>
     <button type="button" id="btn-prev" title="Capítulo anterior (←)">←</button>
     <button type="button" id="btn-next" title="Capítulo siguiente (→)">→</button>
   </div>
 </header>
 <div class="layout">
   <aside class="sidebar" id="sidebar">
-    <div class="side-head" data-i18n="chapters">Capítulos</div>
+    <div class="side-head">Capítulos</div>
     <nav id="nav"></nav>
   </aside>
   <div class="reader" id="reader">
     <div class="progress"><i id="prog"></i></div>
     <div class="reader-inner">
       <div class="explore" id="explore-box">
-        <h3 data-i18n="explore_title">Exploración interactiva</h3>
-        <a href="exploration/universe_game.html" data-i18n="explore_game">▶ Universo-juego (capas + warp)</a>
-        <a href="exploration/map_3d_orbit.html" data-i18n="explore_map">▶ Mapa 3D (girar)</a>
-        <a href="exploration/semantic_map.html" data-i18n="explore_semantic">▶ Áreas semánticas</a>
-        <a href="exploration/archetype_map.html" data-i18n="explore_arch">▶ Arquetipos</a>
+        <h3>Exploración interactiva</h3>
+        <a href="exploration/universe_game.html">▶ Universo-juego (capas + warp)</a>
+        <a href="exploration/map_3d_orbit.html">▶ Mapa 3D (girar)</a>
+        <a href="exploration/semantic_map.html">▶ Áreas semánticas</a>
+        <a href="exploration/archetype_map.html">▶ Arquetipos</a>
       </div>
       <article class="markdown-body" id="content">
-        <div class="loading" data-i18n="loading">Cargando libro…</div>
+        <div class="loading">Cargando libro…</div>
       </article>
       <div class="footer-nav">
-        <button type="button" id="foot-prev" disabled><span class="lbl" data-i18n="prev">Anterior</span><span id="foot-prev-t">—</span></button>
-        <button type="button" id="foot-next" class="next" disabled><span class="lbl" data-i18n="next">Siguiente</span><span id="foot-next-t">—</span></button>
+        <button type="button" id="foot-prev" disabled><span class="lbl">Anterior</span><span id="foot-prev-t">—</span></button>
+        <button type="button" id="foot-next" class="next" disabled><span class="lbl">Siguiente</span><span id="foot-next-t">—</span></button>
       </div>
     </div>
   </div>
 </div>
 <script>
 (function () {
-  /* ── i18n strings ── */
-  const I18N = {
-    es: {
-      subtitle: 'Libro interactivo · proyecto Dreaming',
-      chapters: 'Capítulos',
-      map3d: 'Mapa 3D', game: 'Juego', areas: 'Áreas', archetypes: 'Arquetipos',
-      explore_title: 'Exploración interactiva',
-      explore_game: '▶ Universo-juego (capas + warp)',
-      explore_map: '▶ Mapa 3D (girar)',
-      explore_semantic: '▶ Áreas semánticas',
-      explore_arch: '▶ Arquetipos',
-      loading: 'Cargando libro…',
-      loading_ch: 'Cargando…',
-      error_load: 'No se pudo cargar el capítulo: ',
-      error_json: 'Error al cargar chapters.json',
-      prev: 'Anterior', next: 'Siguiente'
-    },
-    en: {
-      subtitle: 'Interactive book · Dreaming project',
-      chapters: 'Chapters',
-      map3d: '3D Map', game: 'Game', areas: 'Areas', archetypes: 'Archetypes',
-      explore_title: 'Interactive Exploration',
-      explore_game: '▶ Universe-game (layers + warp)',
-      explore_map: '▶ 3D Map (rotate)',
-      explore_semantic: '▶ Semantic areas',
-      explore_arch: '▶ Archetypes',
-      loading: 'Loading book…',
-      loading_ch: 'Loading…',
-      error_load: 'Could not load chapter: ',
-      error_json: 'Error loading chapters.json',
-      prev: 'Previous', next: 'Next'
-    },
-    fr: {
-      subtitle: 'Livre interactif · projet Dreaming',
-      chapters: 'Chapitres',
-      map3d: 'Carte 3D', game: 'Jeu', areas: 'Zones', archetypes: 'Archétypes',
-      explore_title: 'Exploration interactive',
-      explore_game: '▶ Univers-jeu (couches + warp)',
-      explore_map: '▶ Carte 3D (tourner)',
-      explore_semantic: '▶ Zones sémantiques',
-      explore_arch: '▶ Archétypes',
-      loading: 'Chargement du livre…',
-      loading_ch: 'Chargement…',
-      error_load: 'Impossible de charger le chapitre : ',
-      error_json: 'Erreur lors du chargement de chapters.json',
-      prev: 'Précédent', next: 'Suivant'
-    },
-    de: {
-      subtitle: 'Interaktives Buch · Dreaming-Projekt',
-      chapters: 'Kapitel',
-      map3d: '3D-Karte', game: 'Spiel', areas: 'Bereiche', archetypes: 'Archetypen',
-      explore_title: 'Interaktive Erkundung',
-      explore_game: '▶ Universum-Spiel (Schichten + Warp)',
-      explore_map: '▶ 3D-Karte (drehen)',
-      explore_semantic: '▶ Semantische Bereiche',
-      explore_arch: '▶ Archetypen',
-      loading: 'Buch wird geladen…',
-      loading_ch: 'Laden…',
-      error_load: 'Kapitel konnte nicht geladen werden: ',
-      error_json: 'Fehler beim Laden von chapters.json',
-      prev: 'Vorheriges', next: 'Nächstes'
-    },
-    it: {
-      subtitle: 'Libro interattivo · progetto Dreaming',
-      chapters: 'Capitoli',
-      map3d: 'Mappa 3D', game: 'Gioco', areas: 'Aree', archetypes: 'Archetipi',
-      explore_title: 'Esplorazione interattiva',
-      explore_game: '▶ Universo-gioco (livelli + warp)',
-      explore_map: '▶ Mappa 3D (ruota)',
-      explore_semantic: '▶ Aree semantiche',
-      explore_arch: '▶ Archetipi',
-      loading: 'Caricamento del libro…',
-      loading_ch: 'Caricamento…',
-      error_load: 'Impossibile caricare il capitolo: ',
-      error_json: 'Errore nel caricamento di chapters.json',
-      prev: 'Precedente', next: 'Successivo'
-    }
-  };
-
-  const LANG_INFO = {
-    es: { flag: '🇪🇸', label: 'ES' },
-    en: { flag: '🇬🇧', label: 'EN' },
-    fr: { flag: '🇫🇷', label: 'FR' },
-    de: { flag: '🇩🇪', label: 'DE' },
-    it: { flag: '🇮🇹', label: 'IT' }
-  };
-
   const nav = document.getElementById('nav');
   const content = document.getElementById('content');
   const reader = document.getElementById('reader');
@@ -361,25 +221,8 @@
   const sidebar = document.getElementById('sidebar');
   let chapters = [];
   let idx = 0;
-  let currentLang = localStorage.getItem('book-lang') || 'es';
 
   marked.setOptions({ gfm: true, breaks: false });
-
-  /* ── i18n helpers ── */
-  function applyI18n() {
-    const t = I18N[currentLang] || I18N.es;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (t[key]) el.textContent = t[key];
-    });
-    const li = LANG_INFO[currentLang] || LANG_INFO.es;
-    document.getElementById('lang-flag').textContent = li.flag;
-    document.getElementById('lang-label').textContent = li.label;
-    document.documentElement.lang = currentLang;
-    document.querySelectorAll('.lang-option').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.lang === currentLang);
-    });
-  }
 
   function numLabel(id, i) {
     if (id.startsWith('00')) return '0';
@@ -408,6 +251,7 @@
   }
 
   function rewriteLinks(html) {
+    // relative md links to in-app navigation
     return html.replace(/href="([^"]+\.md)"/g, (all, file) => {
       const base = file.split('/').pop().replace(/\.md$/i, '');
       const j = chapters.findIndex(c => c.id === base || c.file === file.split('/').pop());
@@ -416,37 +260,28 @@
     });
   }
 
-  /* ── chapters.json path per language ── */
-  function chaptersJsonPath() {
-    if (currentLang === 'es') return 'chapters.json';
-    return 'chapters_' + currentLang + '.json';
-  }
-
-  function chapterPath(ch) {
-    if (currentLang === 'es') return 'chapters/' + encodeURIComponent(ch.file);
-    return 'chapters_' + currentLang + '/' + encodeURIComponent(ch.file);
-  }
-
   async function loadChapter(i, pushHash = true) {
     if (i < 0 || i >= chapters.length) return;
     idx = i;
     renderNav();
-    const t = I18N[currentLang] || I18N.es;
-    content.innerHTML = '<div class="loading">' + t.loading_ch + '</div>';
+    content.innerHTML = '<div class="loading">Cargando…</div>';
     const ch = chapters[i];
     try {
-      const res = await fetch(chapterPath(ch) + '?v=' + Date.now().toString(36).slice(-4));
+      const res = await fetch('chapters/' + encodeURIComponent(ch.file) + '?v=' + Date.now().toString(36).slice(-4));
       if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
       let md = await res.text();
+      // strip first H1 duplicate if desired — keep it
       let html = marked.parse(md);
       html = rewriteLinks(html);
       content.innerHTML = html;
+      // intercept chapter links
       content.querySelectorAll('a[data-idx]').forEach(a => {
         a.addEventListener('click', e => {
           e.preventDefault();
           loadChapter(Number(a.getAttribute('data-idx')));
         });
       });
+      // open external http in new tab
       content.querySelectorAll('a[href^="http"]').forEach(a => {
         a.target = '_blank';
         a.rel = 'noopener';
@@ -457,9 +292,10 @@
         history.replaceState(null, '', '#/' + ch.id);
       }
       document.title = ch.short + ' · Inside TinyLlama';
+      // close mobile menu
       sidebar.classList.remove('open');
     } catch (e) {
-      content.innerHTML = '<div class="error">' + t.error_load + escapeHtml(String(e.message || e)) + '</div>';
+      content.innerHTML = '<div class="error">No se pudo cargar el capítulo: ' + escapeHtml(String(e.message || e)) + '</div>';
     }
   }
 
@@ -523,42 +359,15 @@
     if (j !== idx) loadChapter(j, false);
   });
 
-  /* ── Language selector ── */
-  const langBtn = document.getElementById('lang-btn');
-  const langDropdown = document.getElementById('lang-dropdown');
-
-  langBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    langDropdown.classList.toggle('open');
-  });
-
-  document.addEventListener('click', () => langDropdown.classList.remove('open'));
-  langDropdown.addEventListener('click', e => e.stopPropagation());
-
-  document.querySelectorAll('.lang-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lang = btn.dataset.lang;
-      if (lang === currentLang) return;
-      currentLang = lang;
-      localStorage.setItem('book-lang', lang);
-      langDropdown.classList.remove('open');
-      applyI18n();
-      boot();
-    });
-  });
-
-  /* ── Boot ── */
   async function boot() {
     try {
-      const res = await fetch(chaptersJsonPath());
+      const res = await fetch('chapters.json');
       if (!res.ok) throw new Error('chapters.json');
       chapters = await res.json();
       renderNav();
-      applyI18n();
       loadChapter(idxFromHash(), false);
     } catch (e) {
-      const t = I18N[currentLang] || I18N.es;
-      content.innerHTML = '<div class="error">' + t.error_json + '</div>';
+      content.innerHTML = '<div class="error">Error al cargar chapters.json</div>';
     }
   }
   boot();

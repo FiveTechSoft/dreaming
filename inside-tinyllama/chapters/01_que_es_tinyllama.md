@@ -44,4 +44,4 @@ sus secretos más profundos.
 
 ---
 
-*Siguiente capítulo: La Estructura Interna*
+*Siguiente capítulo: La Estructura Interna de TinyLlama*
