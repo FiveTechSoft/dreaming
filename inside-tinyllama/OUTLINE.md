@@ -144,6 +144,7 @@ perturbación, geometría, fuerzas y viaje macro↔micro.
 | Cap 22 | `22_observacion_proyeccion.md` | ✅ |
 | Cap 23 | `23_matematicas_universo.md` | ✅ |
 | Cap 24 | `24_espejo.md` | ✅ |
+| Cap 25 | `25_universo_como_juego.md` | ✅ |
 
 ### Artefactos de exploración
 

@@ -50,6 +50,7 @@ macrocosmos ↔ microcosmos.
 | 22 | Observación y proyección | [22](chapters/22_observacion_proyeccion.md) |
 | 23 | Matemáticas del universo | [23](chapters/23_matematicas_universo.md) |
 | 24 | El LLM como espejo | [24](chapters/24_espejo.md) |
+| 25 | Universo como videojuego | [25](chapters/25_universo_como_juego.md) |
 
 ## Visualización
 

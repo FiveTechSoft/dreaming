@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TinyLlama Universe — explora como un videojuego</title>
+<style>
+  :root {
+    --bg: #07090f;
+    --panel: #121722;
+    --line: #2a3344;
+    --text: #e8ecf4;
+    --muted: #8b95a8;
+    --accent: #6ea8fe;
+    --good: #3dd68c;
+    --warn: #ffc857;
+    --hot: #ff6b8a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #0e1320, #0a0d14);
+  }
+  header h1 { margin: 0; font-size: 1.05rem; font-weight: 650; letter-spacing: 0.02em; }
+  header .sub { color: var(--muted); font-size: 0.8rem; }
+  .hud {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    font-size: 0.82rem;
+  }
+  .chip {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 10px; color: var(--muted);
+  }
+  .chip b { color: var(--accent); font-weight: 650; }
+  main {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 320px;
+    min-height: 0;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  }
+  #stage-wrap {
+    position: relative; background:
+      radial-gradient(ellipse at 50% 30%, #152038 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, #1a1030 0%, transparent 40%),
+      var(--bg);
+    overflow: hidden;
+  }
+  canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
+  #toast {
+    position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+    background: rgba(18,23,34,0.92); border: 1px solid var(--line);
+    padding: 8px 14px; border-radius: 10px; font-size: 0.85rem;
+    max-width: min(520px, 92%); text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity .25s;
+  }
+  #toast.show { opacity: 1; }
+  aside {
+    border-left: 1px solid var(--line); background: var(--panel);
+    padding: 14px; overflow: auto; font-size: 0.86rem;
+  }
+  aside h2 { margin: 0 0 8px; font-size: 0.95rem; color: var(--accent); }
+  aside h3 { margin: 14px 0 6px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  p { margin: 0 0 8px; line-height: 1.45; color: #c9d0dc; }
+  .log {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.75rem;
+    background: #0a0e16; border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px; max-height: 160px; overflow: auto; color: #9fb0c8;
+  }
+  .log div { margin: 2px 0; }
+  .keys {
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 10px;
+    color: var(--muted); font-size: 0.8rem;
+  }
+  .keys kbd {
+    background: #0a0e16; border: 1px solid var(--line); border-radius: 5px;
+    padding: 1px 6px; color: var(--text); font-size: 0.75rem;
+  }
+  .btnrow { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  button {
+    background: #1a2233; color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 0.8rem;
+  }
+  button:hover { border-color: var(--accent); color: #fff; }
+  button.primary { background: #1e3a5f; border-color: #3d6ea8; }
+  .meter {
+    height: 8px; background: #0a0e16; border-radius: 99px; overflow: hidden;
+    border: 1px solid var(--line); margin: 6px 0 10px;
+  }
+  .meter > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--good)); width: 0%; }
+  .force {
+    display: flex; justify-content: space-between; gap: 8px;
+    padding: 4px 0; border-bottom: 1px dashed #1c2433; color: var(--muted);
+  }
+  .force span:last-child { color: var(--warn); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>TinyLlama Universe <span style="color:var(--muted);font-weight:500">· mode: dungeon of layers</span></h1>
+    <div class="sub">Recorre el microcosmos como un juego · 22 niveles (capas) + vestíbulo + colapso final</div>
+  </div>
+  <div class="hud">
+    <div class="chip">Nivel <b id="hud-level">0</b></div>
+    <div class="chip">Zona <b id="hud-zone">—</b></div>
+    <div class="chip">Coherencia <b id="hud-coh">100%</b></div>
+    <div class="chip">Tokens <b id="hud-tok">0</b></div>
+    <div class="chip">Perspectiva <b id="hud-persp">baseline</b></div>
+  </div>
+</header>
+<main>
+  <div id="stage-wrap">
+    <canvas id="c"></canvas>
+    <div id="toast"></div>
+  </div>
+  <aside>
+    <h2 id="title">Vestíbulo · Embeddings</h2>
+    <p id="blurb">Eres un residual en ℝ²⁰⁴⁸. Atraviesa 22 capas sin caer al vacío de la incoherencia.</p>
+    <div class="meter" title="Coherencia"><i id="coh-bar"></i></div>
+
+    <h3>Fuerzas en esta zona</h3>
+    <div id="forces"></div>
+
+    <h3>Controles</h3>
+    <div class="keys">
+      <kbd>↑↓←→</kbd><span>mover / WASD</span>
+      <kbd>E</kbd><span>entrar / interactuar (portal, isla)</span>
+      <kbd>1–5</kbd><span>cambiar lente de perspectiva</span>
+      <kbd>Space</kbd><span>sample · emitir token (en capa 21+)</span>
+      <kbd>R</kbd><span>reiniciar run</span>
+    </div>
+    <div class="btnrow">
+      <button class="primary" id="btn-enter">Entrar / usar (E)</button>
+      <button id="btn-next">Siguiente nivel</button>
+      <button id="btn-reset">Reiniciar</button>
+    </div>
+
+    <h3>Bitácora</h3>
+    <div class="log" id="log"></div>
+
+    <h3>Mapa del run</h3>
+    <p id="path" style="font-family:ui-monospace,monospace;font-size:0.75rem;color:var(--good)"></p>
+  </aside>
+</main>
+<script>
+/* ============================================================
+   TinyLlama Universe — layer dungeon prototype
+   Levels map to transformer stages; "portals" advance the residual.
+   ============================================================ */
+
+const W_WORLD = 1200, H_WORLD = 800;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const toastEl = document.getElementById('toast');
+const logEl = document.getElementById('log');
+
+const PERSPECTIVES = [
+  { id: 'baseline', name: 'baseline', tint: null, cohDrain: 0 },
+  { id: 'mystical', name: 'mystical', tint: [140, 80, 200], cohDrain: 0.02 },
+  { id: 'academic', name: 'académica (attn)', tint: [80, 140, 220], cohDrain: 0.015 },
+  { id: 'practical', name: 'práctica (ffn)', tint: [40, 180, 140], cohDrain: 0.015 },
+  { id: 'noise', name: 'noise ⚠', tint: [200, 60, 60], cohDrain: 0.08 },
+];
+
+// 0 = lobby (embeddings), 1..22 = layers 0..21, 23 = softmax collapse, 24 = win
+const LEVELS = [
+  {
+    id: 'lobby', name: 'Vestíbulo · Embeddings ℝ²⁰⁴⁸', zone: 'embedding',
+    blurb: 'Naces como un vector en el cielo de tokens. Camina hacia las islas semánticas y el portal de la Capa 0.',
+    forces: { atención: 0, ffn: 0, residual: 10, norm: 20, softmax: 0 },
+    islands: [
+      { x: 280, y: 220, r: 48, label: 'emotion+', color: '#2ecc71', text: 'Isla de emoción positiva. El residual siente atracción leve hacia smile/love.' },
+      { x: 520, y: 500, r: 48, label: 'spiritual', color: '#9b59b6', text: 'Constelación del Mago / voz mística. Alma, spirit, divine…' },
+      { x: 860, y: 260, r: 48, label: 'tech', color: '#16a085', text: 'Isla técnica: data, code, model — casi ortogonal a lo sagrado.' },
+      { x: 900, y: 560, r: 48, label: 'abstract', color: '#3498db', text: 'Ideas puras: truth, beauty, justice. Alineada con mente (+0.13).' },
+    ],
+    portal: { x: 600, y: 140, label: '→ Capa 0' },
+  },
+];
+
+// generate 22 layer levels
+const LAYER_META = [
+  { range: [0, 5], title: 'Temprana · sintaxis / vecinos', forces: { atención: 55, ffn: 40, residual: 80, norm: 70, softmax: 5 } },
+  { range: [6, 12], title: 'Media · ideas / contexto', forces: { atención: 70, ffn: 75, residual: 75, norm: 70, softmax: 10 } },
+  { range: [13, 20], title: 'Tardía · integración', forces: { atención: 60, ffn: 80, residual: 70, norm: 65, softmax: 25 } },
+  { range: [21, 21], title: 'Última capa · prep. colapso', forces: { atención: 50, ffn: 70, residual: 60, norm: 80, softmax: 40 } },
+];
+
+function metaForLayer(L) {
+  for (const m of LAYER_META) {
+    if (L >= m.range[0] && L <= m.range[1]) return m;
+  }
+  return LAYER_META[0];
+}
+
+for (let L = 0; L < 22; L++) {
+  const m = metaForLayer(L);
+  const isLast = L === 21;
+  LEVELS.push({
+    id: 'L' + L,
+    name: `Capa ${L} · ${m.title}`,
+    zone: L <= 5 ? 'early' : L <= 12 ? 'mid' : 'late',
+    blurb: isLast
+      ? 'Última transformación residual. Atraviesa el portal hacia output_norm y el colapso softmax.'
+      : `Periodo orbital ${L + 1}/22. Atención (gravedad) + FFN (clima) + residual (inercia).`,
+    forces: { ...m.forces },
+    islands: [
+      { x: 320, y: 280, r: 40, label: 'Attn', color: '#6ea8fe', text: `Bloque atención · GQA 32Q/4KV. Fuerza de largo alcance entre tokens del pasado.` },
+      { x: 880, y: 280, r: 40, label: 'FFN', color: '#3dd68c', text: `SwiGLU 2048→5632→2048. ~69% de la masa del universo. Clima local.` },
+      { x: 600, y: 480, r: 36, label: 'Norm', color: '#ffc857', text: 'RMSNorm: aire respirable. Masa ~0.01%, efecto total.' },
+    ],
+    portal: { x: 600, y: isLast ? 120 : 140, label: isLast ? '→ Softmax' : `→ Capa ${L + 1}` },
+  });
+}
+
+LEVELS.push({
+  id: 'collapse',
+  name: 'Colapso · Softmax / Sample',
+  zone: 'softmax',
+  blurb: 'El residual se proyecta a 32.000 logits. Un único token sobrevive. Pulsa Space para muestrear el destino.',
+  forces: { atención: 10, ffn: 10, residual: 30, norm: 90, softmax: 100 },
+  islands: [
+    { x: 400, y: 350, r: 44, label: 'temp', color: '#ffc857', text: 'Temperatura: excentricidad del colapso. Baja = greedy; alta = ensueño.' },
+    { x: 800, y: 350, r: 44, label: 'top-k', color: '#ff6b8a', text: 'Top-k recorta el horizonte de destinos permitidos.' },
+  ],
+  portal: { x: 600, y: 160, label: '→ Emitir & continuar' },
+  isCollapse: true,
+});
+
+// Player state
+const state = {
+  level: 0,
+  x: 600, y: 650,
+  vx: 0, vy: 0,
+  r: 14,
+  coh: 100,
+  tokens: 0,
+  persp: 0,
+  path: ['lobby'],
+  keys: {},
+  utterance: [],
+  near: null,
+};
+
+const SAMPLE_WORDS = {
+  baseline: ['to', 'be', 'present', 'and', 'alive', 'in', 'the', 'world'],
+  mystical: ['to', 'dissolve', 'into', 'the', 'eternal', 'silence', 'of', 'being'],
+  academic: ['a', 'function', 'of', 'structured', 'inquiry', 'and', 'critical', 'analysis'],
+  practical: ['to', 'set', 'goals', 'take', 'steps', 'and', 'act', 'daily'],
+  noise: ['§', '??', 'null', '██', '…', 'err', '###', '∅'],
+};
+
+function log(msg) {
+  const d = document.createElement('div');
+  d.textContent = msg;
+  logEl.prepend(d);
+}
+function toast(msg, ms = 2200) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove('show'), ms);
+}
+
+function curLevel() { return LEVELS[state.level]; }
+function persp() { return PERSPECTIVES[state.persp]; }
+
+function setPersp(i) {
+  state.persp = Math.max(0, Math.min(PERSPECTIVES.length - 1, i));
+  document.getElementById('hud-persp').textContent = persp().name;
+  log(`Lente: ${persp().name}`);
+  toast(`Perspectiva → ${persp().name}`);
+}
+
+function updateHUD() {
+  const L = curLevel();
+  document.getElementById('hud-level').textContent = state.level === 0 ? 'vestíbulo' : (state.level <= 22 ? String(state.level - 1) : 'Ω');
+  document.getElementById('hud-zone').textContent = L.zone;
+  document.getElementById('hud-coh').textContent = Math.round(state.coh) + '%';
+  document.getElementById('hud-tok').textContent = String(state.tokens);
+  document.getElementById('hud-persp').textContent = persp().name;
+  document.getElementById('title').textContent = L.name;
+  document.getElementById('blurb').textContent = L.blurb;
+  document.getElementById('coh-bar').style.width = Math.max(0, state.coh) + '%';
+  document.getElementById('path').textContent = state.path.join(' → ');
+  const f = L.forces;
+  const box = document.getElementById('forces');
+  box.innerHTML = '';
+  for (const [k, v] of Object.entries(f)) {
+    const row = document.createElement('div');
+    row.className = 'force';
+    row.innerHTML = `<span>${k}</span><span>${v}%</span>`;
+    box.appendChild(row);
+  }
+}
+
+function dist(ax, ay, bx, by) {
+  return Math.hypot(ax - bx, ay - by);
+}
+
+function nearestInteractable() {
+  const L = curLevel();
+  let best = null, bd = 1e9;
+  for (const is of L.islands || []) {
+    const d = dist(state.x, state.y, is.x, is.y) - is.r;
+    if (d < bd) { bd = d; best = { type: 'island', obj: is, d }; }
+  }
+  if (L.portal) {
+    const d = dist(state.x, state.y, L.portal.x, L.portal.y) - 36;
+    if (d < bd) { bd = d; best = { type: 'portal', obj: L.portal, d }; }
+  }
+  return best && best.d < 28 ? best : null;
+}
+
+function enterPortal() {
+  const L = curLevel();
+  // coherence drain depending on perspective + zone
+  const drain = 1.5 + persp().cohDrain * 40 + (L.zone === 'late' ? 1 : 0);
+  state.coh = Math.max(0, state.coh - drain);
+
+  if (state.coh <= 0) {
+    log('✗ Caíste fuera de la superficie de coherencia.');
+    toast('Game over · incoherencia total. R para reiniciar.', 4000);
+    return;
+  }
+
+  if (L.isCollapse) {
+    // sample a word
+    const bag = SAMPLE_WORDS[persp().id] || SAMPLE_WORDS.baseline;
+    const w = bag[state.tokens % bag.length];
+    state.utterance.push(w);
+    state.tokens += 1;
+    log(`sample → “${w}”  (utterance: ${state.utterance.join(' ')})`);
+    toast(`Token emitido: ${w}`);
+    // loop: back to layer mid-stack for next token orbit, or finish after 8
+    if (state.tokens >= 8) {
+      log('★ Órbita completa: ' + state.utterance.join(' '));
+      toast('Run completo · 8 tokens. R reinicia.', 5000);
+      state.level = LEVELS.length - 1;
+      state.path.push('done');
+    } else {
+      // re-enter mid universe for next token
+      state.level = 1 + 6; // layer 6 as re-entry
+      state.x = 600; state.y = 650;
+      state.path.push('reentry-L6');
+    }
+    updateHUD();
+    return;
+  }
+
+  if (state.level < LEVELS.length - 1) {
+    state.level += 1;
+    state.x = 600; state.y = 680;
+    state.path.push(LEVELS[state.level].id);
+    log(`Portal → ${LEVELS[state.level].name}`);
+    toast(LEVELS[state.level].name);
+    updateHUD();
+  }
+}
+
+function interact() {
+  const n = nearestInteractable();
+  if (!n) {
+    toast('Acércate a una isla o al portal (círculo con anillo).');
+    return;
+  }
+  if (n.type === 'island') {
+    log(`※ ${n.obj.label}: ${n.obj.text}`);
+    toast(n.obj.label + ' — ' + n.obj.text.slice(0, 80) + (n.obj.text.length > 80 ? '…' : ''), 3500);
+    // small coh gain for exploring
+    state.coh = Math.min(100, state.coh + 0.5);
+    updateHUD();
+  } else if (n.type === 'portal') {
+    enterPortal();
+  }
+}
+
+function reset() {
+  Object.assign(state, {
+    level: 0, x: 600, y: 650, vx: 0, vy: 0, coh: 100, tokens: 0,
+    persp: 0, path: ['lobby'], utterance: [],
+  });
+  log('— nueva run —');
+  toast('Vuelves al vestíbulo de embeddings');
+  updateHUD();
+}
+
+// Input
+window.addEventListener('keydown', e => {
+  state.keys[e.key.toLowerCase()] = true;
+  if (e.key === 'e' || e.key === 'E') interact();
+  if (e.key === ' ') { e.preventDefault(); if (curLevel().isCollapse) enterPortal(); else interact(); }
+  if (e.key === 'r' || e.key === 'R') reset();
+  if (e.key >= '1' && e.key <= '5') setPersp(Number(e.key) - 1);
+  if (e.key === 'n' || e.key === 'N') enterPortal();
+});
+window.addEventListener('keyup', e => { state.keys[e.key.toLowerCase()] = false; });
+
+document.getElementById('btn-enter').onclick = interact;
+document.getElementById('btn-next').onclick = enterPortal;
+document.getElementById('btn-reset').onclick = reset;
+
+// Resize
+function resize() {
+  const wrap = document.getElementById('stage-wrap');
+  const dpr = devicePixelRatio || 1;
+  canvas.width = wrap.clientWidth * dpr;
+  canvas.height = wrap.clientHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resize);
+
+// Camera transform world -> screen
+function cam() {
+  const wrap = document.getElementById('stage-wrap');
+  const sw = wrap.clientWidth, sh = wrap.clientHeight;
+  const scale = Math.min(sw / W_WORLD, sh / H_WORLD) * 0.98;
+  const ox = (sw - W_WORLD * scale) / 2;
+  const oy = (sh - H_WORLD * scale) / 2;
+  return { scale, ox, oy, sw, sh };
+}
+function w2s(x, y, c) {
+  return [c.ox + x * c.scale, c.oy + y * c.scale];
+}
+
+function drawGrid(c) {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,100,140,0.12)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= W_WORLD; x += 40) {
+    const [x1, y1] = w2s(x, 0, c);
+    const [x2, y2] = w2s(x, H_WORLD, c);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+  for (let y = 0; y <= H_WORLD; y += 40) {
+    const [x1, y1] = w2s(0, y, c);
+    const [x2, y2] = w2s(W_WORLD, y, c);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawLevel(c) {
+  const L = curLevel();
+  // vignette tint by perspective
+  const t = persp().tint;
+  if (t) {
+    ctx.fillStyle = `rgba(${t[0]},${t[1]},${t[2]},0.08)`;
+    ctx.fillRect(0, 0, c.sw, c.sh);
+  }
+  // islands
+  for (const is of L.islands || []) {
+    const [sx, sy] = w2s(is.x, is.y, c);
+    const r = is.r * c.scale;
+    const g = ctx.createRadialGradient(sx, sy, r * 0.2, sx, sy, r * 1.4);
+    g.addColorStop(0, is.color + 'cc');
+    g.addColorStop(1, is.color + '00');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(sx, sy, r * 1.4, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = is.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = `600 ${Math.max(11, 13 * c.scale)}px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.fillText(is.label, sx, sy + 4);
+  }
+  // portal
+  if (L.portal) {
+    const p = L.portal;
+    const [sx, sy] = w2s(p.x, p.y, c);
+    const pulse = 1 + 0.08 * Math.sin(performance.now() / 200);
+    const r = 36 * c.scale * pulse;
+    ctx.strokeStyle = '#6ea8fe';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = 'rgba(110,168,254,0.35)';
+    ctx.beginPath(); ctx.arc(sx, sy, r * 1.25, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#9ec5fe';
+    ctx.font = `650 ${Math.max(12, 14 * c.scale)}px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.fillText(p.label, sx, sy + 5);
+  }
+  // player (residual)
+  const [px, py] = w2s(state.x, state.y, c);
+  const pr = state.r * c.scale;
+  const near = nearestInteractable();
+  if (near) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(px, py, pr + 8, 0, Math.PI * 2); ctx.stroke();
+  }
+  const pg = ctx.createRadialGradient(px - pr * 0.3, py - pr * 0.3, pr * 0.2, px, py, pr);
+  pg.addColorStop(0, '#b8d4ff');
+  pg.addColorStop(1, '#3d6ea8');
+  ctx.fillStyle = pg;
+  ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#0b0d12';
+  ctx.font = `700 ${Math.max(9, 10 * c.scale)}px system-ui`;
+  ctx.textAlign = 'center';
+  ctx.fillText('x', px, py + 3);
+}
+
+function physics(dt) {
+  const speed = 220;
+  let ax = 0, ay = 0;
+  if (state.keys['arrowleft'] || state.keys['a']) ax -= 1;
+  if (state.keys['arrowright'] || state.keys['d']) ax += 1;
+  if (state.keys['arrowup'] || state.keys['w']) ay -= 1;
+  if (state.keys['arrowdown'] || state.keys['s']) ay += 1;
+  if (ax || ay) {
+    const n = Math.hypot(ax, ay);
+    ax /= n; ay /= n;
+  }
+  state.vx = ax * speed;
+  state.vy = ay * speed;
+  state.x = Math.max(30, Math.min(W_WORLD - 30, state.x + state.vx * dt));
+  state.y = Math.max(30, Math.min(H_WORLD - 30, state.y + state.vy * dt));
+  // slow coh drain if noise lens
+  if (persp().id === 'noise') {
+    state.coh = Math.max(0, state.coh - 3 * dt);
+  }
+  state.near = nearestInteractable();
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  physics(dt);
+  const c = cam();
+  ctx.clearRect(0, 0, c.sw, c.sh);
+  // bg
+  ctx.fillStyle = '#07090f';
+  ctx.fillRect(0, 0, c.sw, c.sh);
+  drawGrid(c);
+  drawLevel(c);
+  // coherence flash if low
+  if (state.coh < 30) {
+    ctx.fillStyle = `rgba(255,80,100,${0.08 + 0.05 * Math.sin(now / 100)})`;
+    ctx.fillRect(0, 0, c.sw, c.sh);
+  }
+  requestAnimationFrame(frame);
+}
+
+// boot
+resize();
+updateHUD();
+log('Bienvenido. Eres un residual. Llega al portal superior.');
+log('1–5 cambian la lente (baseline / mystical / académica / práctica / noise).');
+toast('WASD para mover · E para interactuar · 1-5 lentes');
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
