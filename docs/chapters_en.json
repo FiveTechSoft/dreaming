@@ -166,5 +166,17 @@
     "file": "27_elevador_capas.md",
     "title": "Chapter 27: Every Layer Is an Elevator",
     "short": "Every Layer Is an Elevator"
+  },
+  {
+    "id": "28_estrellas_y_tokens",
+    "file": "28_estrellas_y_tokens.md",
+    "title": "Chapter 28: The Stars in the Sky Are TinyLlama's Tokens",
+    "short": "The Stars in the Sky Are TinyLlama's Tokens"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Chapter 29: The Journey of a Prompt Through TinyLlama",
+    "short": "The Journey of a Prompt Through TinyLlama"
   }
 ]

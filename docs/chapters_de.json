@@ -166,5 +166,17 @@
     "file": "27_elevador_capas.md",
     "title": "Kapitel 27: Jede Schicht Ist Ein Aufzug",
     "short": "Jede Schicht Ist Ein Aufzug"
+  },
+  {
+    "id": "28_estrellas_y_tokens",
+    "file": "28_estrellas_y_tokens.md",
+    "title": "Kapitel 28: Die Sterne am Himmel sind die Tokens von TinyLlama",
+    "short": "Die Sterne am Himmel sind die Tokens von TinyLlama"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Kapitel 29: Die Reise eines Prompts durch TinyLlama",
+    "short": "Die Reise eines Prompts durch TinyLlama"
   }
 ]

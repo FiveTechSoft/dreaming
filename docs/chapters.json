@@ -166,5 +166,17 @@
     "file": "27_elevador_capas.md",
     "title": "Capítulo 27: Cada Capa Es un Elevador",
     "short": "Cada Capa Es un Elevador"
+  },
+  {
+    "id": "28_estrellas_y_tokens",
+    "file": "28_estrellas_y_tokens.md",
+    "title": "Capítulo 28: Las Estrellas del Cielo son los Tokens de TinyLlama",
+    "short": "Las Estrellas del Cielo son los Tokens de TinyLlama"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Capítulo 29: El Viaje de un Prompt por Dentro de TinyLlama",
+    "short": "El Viaje de un Prompt por Dentro de TinyLlama"
   }
 ]

@@ -166,5 +166,17 @@
     "file": "27_elevador_capas.md",
     "title": "Chapitre 27 : Chaque Couche Est un Ascenseur",
     "short": "Chaque Couche Est un Ascenseur"
+  },
+  {
+    "id": "28_estrellas_y_tokens",
+    "file": "28_estrellas_y_tokens.md",
+    "title": "Chapitre 28 : Les Étoiles du Ciel sont les Tokens de TinyLlama",
+    "short": "Les Étoiles du Ciel sont les Tokens de TinyLlama"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Chapitre 29 : Le Voyage d'un Prompt à Travers TinyLlama",
+    "short": "Le Voyage d'un Prompt à Travers TinyLlama"
   }
 ]

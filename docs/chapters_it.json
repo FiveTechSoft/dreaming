@@ -166,5 +166,17 @@
     "file": "27_elevador_capas.md",
     "title": "Capitolo 27: Ogni Livello È Un Ascensore",
     "short": "Ogni Livello È Un Ascensore"
+  },
+  {
+    "id": "28_estrellas_y_tokens",
+    "file": "28_estrellas_y_tokens.md",
+    "title": "Capitolo 28: Le Stelle del Cielo sono i Token di TinyLlama",
+    "short": "Le Stelle del Cielo sono i Token di TinyLlama"
+  },
+  {
+    "id": "29_viaje_de_un_prompt",
+    "file": "29_viaje_de_un_prompt.md",
+    "title": "Capitolo 29: Il Viaggio di un Prompt Attraverso TinyLlama",
+    "short": "Il Viaggio di un Prompt Attraverso TinyLlama"
   }
 ]
