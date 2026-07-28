@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TinyLlama — Edificio de 22 plantas · viaje del prompt</title>
+<style>
+  :root {
+    --bg: #070a10; --panel: #0e131c; --line: #2a3344; --text: #e8ecf4;
+    --muted: #8b95a8; --accent: #6ea8fe; --good: #3dd68c; --warm: #f0c674;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", system-ui, sans-serif; overflow: hidden; }
+  #view { position: absolute; inset: 0; }
+  header {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: linear-gradient(180deg, rgba(7,10,16,.95), rgba(7,10,16,.55));
+    border-bottom: 1px solid var(--line); pointer-events: none;
+  }
+  header > * { pointer-events: auto; }
+  h1 { margin: 0; font-size: 1.05rem; }
+  .sub { color: var(--muted); font-size: 0.8rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .btn, .actions a {
+    background: #1a2233; color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; font-size: 0.8rem; cursor: pointer; text-decoration: none;
+  }
+  .btn:hover, .actions a:hover { border-color: var(--accent); }
+  .btn.primary { background: #243048; border-color: #3a5078; }
+  aside {
+    position: absolute; top: 64px; right: 12px; width: min(340px, 92vw); max-height: calc(100vh - 88px);
+    overflow: auto; z-index: 5; background: rgba(14,19,28,.92); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(8px);
+  }
+  @media (max-width: 720px) {
+    aside { top: auto; bottom: 0; right: 0; left: 0; width: 100%; max-height: 38vh; border-radius: 12px 12px 0 0; }
+  }
+  h2 { margin: 0 0 8px; font-size: 0.92rem; color: #c5d0e6; }
+  .floor-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+    background: #151c2a; border: 1px solid var(--line); font-size: 0.85rem; margin-bottom: 8px;
+  }
+  .floor-badge .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  #status-text { font-size: 0.82rem; line-height: 1.5; color: #c8d0e0; margin: 0 0 10px; }
+  #prompt-box {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.8rem; line-height: 1.5;
+    padding: 8px 10px; border-radius: 8px; background: #0a0e16; border: 1px solid var(--line);
+    margin-bottom: 10px; word-break: break-word; min-height: 2.5em;
+  }
+  #prompt-box b.cur { color: var(--good); background: #1a3020; padding: 0 3px; border-radius: 3px;
+    box-shadow: 0 0 10px rgba(61,214,140,.4); }
+  .phase { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0 12px; }
+  .phase div {
+    font-size: 0.72rem; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line);
+    background: #121722; color: var(--muted);
+  }
+  .phase div.on { color: #fff; border-color: var(--accent); background: #1a2840; }
+  .phase div.on.ffn { border-color: var(--warm); background: #2a2210; }
+  .legend { font-size: 0.75rem; color: var(--muted); line-height: 1.55; }
+  .legend span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  #progress {
+    height: 4px; background: #151a24; border-radius: 2px; overflow: hidden; margin: 10px 0 6px;
+  }
+  #progress > i { display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--good)); }
+  .hint { font-size: 0.72rem; color: #666; margin-top: 8px; line-height: 1.45; }
+</style>
+</head>
+<body>
+<div id="view"></div>
+<header>
+  <div>
+    <h1>Edificio TinyLlama · 22 plantas</h1>
+    <div class="sub">Viaje animado del prompt por capas · residual ℝ²⁰⁴⁸</div>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn primary" id="btn-play">❚❚ Pausa</button>
+    <button type="button" class="btn" id="btn-restart">↺ Reiniciar</button>
+    <button type="button" class="btn" id="btn-auto-cam">🎥 Auto-cámara</button>
+    <a href="semantic_map.html#/trace/secreto_felicidad">Mapa 2D</a>
+    <a href="../index.html#/27_elevador_capas">Cap. 27</a>
+    <a href="../index.html#/29_viaje_de_un_prompt">Cap. 29</a>
+  </div>
+</header>
+<aside>
+  <div class="floor-badge"><span class="dot" id="floor-dot"></span>
+    <span id="floor-label">Vestíbulo · embeddings</span>
+  </div>
+  <div id="progress"><i id="prog"></i></div>
+  <p id="status-text">Cargando trayectoria…</p>
+  <div id="prompt-box"></div>
+  <div class="phase">
+    <div id="ph-norm">1 · RMSNorm</div>
+    <div id="ph-attn">2 · Atención + residual</div>
+    <div id="ph-ffn">3 · FFN SwiGLU + residual</div>
+    <div id="ph-next">4 · Siguiente planta</div>
+  </div>
+  <h2>Zonas del edificio</h2>
+  <div class="legend">
+    <div><span style="background:#6ea8fe"></span> Vestíbulo (−1): embeddings</div>
+    <div><span style="background:#5b8def"></span> Plantas 0–5: detalles / forma</div>
+    <div><span style="background:#a78bfa"></span> Plantas 6–12: ideas puras</div>
+    <div><span style="background:#f0c674"></span> Plantas 13–21: semántica / integración</div>
+    <div><span style="background:#3dd68c"></span> Azotea: logits → sample</div>
+  </div>
+  <p class="hint">
+    Arrastra = orbitar · rueda = zoom · <b>Espacio</b> play/pausa · <b>R</b> reiniciar · <b>↑↓</b> planta.<br/>
+    Animación del <b>prefill</b> de «el secreto de la felicidad es» y sample en la azotea (seed 42).
+  </p>
+</aside>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const FLOOR_H = 1.15;
+const N_LAYERS = 22;
+
+function ZONE(L) {
+  if (L < 0) return { name: 'Vestíbulo · embeddings', color: 0x6ea8fe };
+  if (L <= 5) return { name: 'Detalles / forma', color: 0x5b8def };
+  if (L <= 12) return { name: 'Ideas puras', color: 0xa78bfa };
+  if (L <= 21) return { name: 'Semántica / integración', color: 0xf0c674 };
+  return { name: 'Azotea · softmax / sample', color: 0x3dd68c };
+}
+
+const view = document.getElementById('view');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(0x070a10, 1);
+view.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x070a10, 0.016);
+
+const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 0.1, 200);
+camera.position.set(14, 16, 18);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, N_LAYERS * FLOOR_H * 0.42, 0);
+controls.enableDamping = true;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.55;
+controls.minDistance = 6;
+controls.maxDistance = 55;
+controls.maxPolarAngle = Math.PI * 0.48;
+
+scene.add(new THREE.AmbientLight(0x8899bb, 0.55));
+const key = new THREE.DirectionalLight(0xffffff, 0.9);
+key.position.set(8, 30, 12);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0x6688ff, 0.28);
+fill.position.set(-10, 5, -8);
+scene.add(fill);
+
+const building = new THREE.Group();
+scene.add(building);
+const floorMeshes = [];
+
+function makeFloor(level) {
+  const y = (level + 1) * FLOOR_H;
+  const zinfo = ZONE(level);
+  const g = new THREE.Group();
+  g.position.y = y;
+  const size = level < 0 ? 7.2 : (level > 21 ? 6.2 : 6.6);
+  const mat = new THREE.MeshStandardMaterial({
+    color: zinfo.color, transparent: true,
+    opacity: level < 0 || level > 21 ? 0.32 : 0.16,
+    metalness: 0.25, roughness: 0.6,
+    emissive: zinfo.color, emissiveIntensity: 0.08,
+  });
+  const disk = new THREE.Mesh(new THREE.CylinderGeometry(size, size, 0.08, 48), mat);
+  g.add(disk);
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(size, 0.03, 8, 64),
+    new THREE.MeshBasicMaterial({ color: zinfo.color, transparent: true, opacity: 0.5 })
+  );
+  ring.rotation.x = Math.PI / 2;
+  g.add(ring);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 512; canvas.height = 96;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(10,14,22,0.78)';
+  ctx.fillRect(0, 16, 512, 64);
+  ctx.fillStyle = '#e8ecf4';
+  ctx.font = 'bold 28px Segoe UI, sans-serif';
+  const title = level < 0 ? 'Vestíbulo' : (level > 21 ? 'Azotea Ω' : ('Planta ' + level));
+  ctx.fillText(title + '  ·  ' + zinfo.name, 16, 58);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: new THREE.CanvasTexture(canvas), transparent: true, depthWrite: false,
+  }));
+  sprite.scale.set(5.5, 1.05, 1);
+  sprite.position.set(0, 0.38, size + 0.15);
+  g.add(sprite);
+
+  if (level === -1) {
+    const shaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.32, 0.32, (N_LAYERS + 3) * FLOOR_H, 16),
+      new THREE.MeshStandardMaterial({ color: 0x1a2233, transparent: true, opacity: 0.45, metalness: 0.55 })
+    );
+    shaft.position.y = ((N_LAYERS + 3) * FLOOR_H) / 2;
+    building.add(shaft);
+  }
+  building.add(g);
+  floorMeshes.push({ level, mat, ring });
+}
+
+makeFloor(-1);
+for (let L = 0; L < N_LAYERS; L++) makeFloor(L);
+makeFloor(22);
+
+// background stars
+{
+  const n = 900;
+  const pos = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    pos[i * 3] = (Math.random() - 0.5) * 90;
+    pos[i * 3 + 1] = Math.random() * 42;
+    pos[i * 3 + 2] = (Math.random() - 0.5) * 90;
+  }
+  const bg = new THREE.BufferGeometry();
+  bg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  scene.add(new THREE.Points(bg, new THREE.PointsMaterial({ color: 0x8899bb, size: 0.04, transparent: true, opacity: 0.55 })));
+}
+
+let tokens = [];
+let attnLines = new THREE.Group();
+building.add(attnLines);
+
+const anim = {
+  playing: true,
+  floor: -1,
+  sub: 0,
+  subT: 0,
+  autoCam: true,
+  genPreview: [],
+  _baseTokenCount: 0,
+  _spawnedGen: false,
+  _hold: 0,
+  prompt: '',
+  generated: '',
+};
+
+const SUB_DUR = [0.5, 1.05, 0.95, 0.75];
+const el = {
+  floorLabel: document.getElementById('floor-label'),
+  floorDot: document.getElementById('floor-dot'),
+  status: document.getElementById('status-text'),
+  promptBox: document.getElementById('prompt-box'),
+  prog: document.getElementById('prog'),
+  norm: document.getElementById('ph-norm'),
+  attn: document.getElementById('ph-attn'),
+  ffn: document.getElementById('ph-ffn'),
+  next: document.getElementById('ph-next'),
+};
+
+function cleanTok(t) {
+  return String(t).replace(/\u2581/g, '▁').replace('<0x0A>', '↵').replace('<s>', '⟨s⟩');
+}
+
+function makeTokenMesh(tok, color) {
+  const g = new THREE.Group();
+  const col = new THREE.Color(color || '#6ea8fe');
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(0.18, 20, 16),
+    new THREE.MeshStandardMaterial({
+      color: col, emissive: col, emissiveIntensity: 0.5, metalness: 0.25, roughness: 0.35,
+    })
+  );
+  g.add(ball);
+  const glow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.3, 16, 12),
+    new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.16, depthWrite: false })
+  );
+  g.add(glow);
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 64;
+  const cx = c.getContext('2d');
+  cx.fillStyle = 'rgba(8,12,20,0.88)';
+  cx.fillRect(0, 8, 256, 48);
+  cx.fillStyle = '#fff';
+  cx.font = 'bold 26px Consolas, monospace';
+  const lab = cleanTok(tok);
+  cx.fillText(lab.length > 12 ? lab.slice(0, 11) + '…' : lab, 10, 42);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false,
+  }));
+  sp.scale.set(1.55, 0.4, 1);
+  sp.position.y = 0.42;
+  g.add(sp);
+  g.userData.ball = ball;
+  g.userData.glow = glow;
+  return g;
+}
+
+function layoutTokensOnFloor(level, spread = 3.15) {
+  const n = Math.max(1, anim._baseTokenCount || tokens.length);
+  tokens.forEach((tk, i) => {
+    if (tk.phase === 'gen') return;
+    const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const sx = (tk.x || 0) * 26;
+    const sz = (tk.y || 0) * 26;
+    const px = Math.cos(ang) * spread * 0.55 + sx * 0.45;
+    const pz = Math.sin(ang) * spread * 0.55 + sz * 0.45;
+    const y = (level + 1) * FLOOR_H + 0.25;
+    tk.target.set(px, y, pz);
+  });
+}
+
+function setPhaseUI(sub, floor) {
+  const z = ZONE(floor);
+  el.floorLabel.textContent =
+    (floor < 0 ? 'Vestíbulo' : floor > 21 ? 'Azotea Ω' : ('Planta ' + floor)) + ' · ' + z.name;
+  el.floorDot.style.background = '#' + z.color.toString(16).padStart(6, '0');
+  [el.norm, el.attn, el.ffn, el.next].forEach((node, i) => {
+    node.classList.toggle('on', i === sub && floor >= 0 && floor <= 21);
+    node.classList.toggle('ffn', node === el.ffn && i === sub);
+  });
+  if (floor < 0) {
+    el.status.textContent = 'Nacimiento en embeddings: cada token es un punto en ℝ²⁰⁴⁸ (catálogo del cielo).';
+  } else if (floor > 21) {
+    el.status.textContent = 'Azotea: output_norm → lm_head → 32k logits → sample. Aparecen tokens de la respuesta.';
+  } else {
+    const msgs = [
+      'RMSNorm calibra el residual (anti-explosión) antes de atender.',
+      'Atención causal: gravedad entre tokens del pasado. Residual += Attn.',
+      'FFN SwiGLU (~69% masa): clima local. Residual += FFN.',
+      'Elevador: el mismo residual sube a la siguiente planta del universo.',
+    ];
+    el.status.textContent = msgs[sub] || '';
+  }
+  const base = (floor + 1) / (N_LAYERS + 2);
+  const extra = ((sub + anim.subT) / 4) / (N_LAYERS + 2);
+  el.prog.style.width = Math.min(100, (base + extra) * 100) + '%';
+}
+
+function highlightFloor(level) {
+  floorMeshes.forEach(({ level: L, mat, ring }) => {
+    const active = L === level;
+    mat.opacity = active ? 0.45 : (L < 0 || L > 21 ? 0.26 : 0.11);
+    mat.emissiveIntensity = active ? 0.4 : 0.06;
+    ring.material.opacity = active ? 0.95 : 0.3;
+  });
+}
+
+function updatePromptHighlight(activeIdx) {
+  let html = '';
+  tokens.forEach((tk, i) => {
+    if (tk.phase === 'gen' || tk.token === '<s>') return;
+    let t = cleanTok(tk.token).replace(/^▁/, ' ');
+    if (i === activeIdx) html += '<b class="cur">' + t + '</b>';
+    else html += t;
+  });
+  el.promptBox.innerHTML = html || '—';
+}
+
+function clearGenTokens() {
+  while (tokens.length > anim._baseTokenCount) {
+    const tk = tokens.pop();
+    if (tk.mesh) building.remove(tk.mesh);
+  }
+  anim._spawnedGen = false;
+}
+
+function restart() {
+  clearGenTokens();
+  anim.floor = -1;
+  anim.sub = 0;
+  anim.subT = 0;
+  anim.playing = true;
+  anim._hold = 0;
+  document.getElementById('btn-play').textContent = '❚❚ Pausa';
+  layoutTokensOnFloor(-1, 3.0);
+  tokens.forEach(tk => {
+    if (!tk.mesh) return;
+    tk.pos.copy(tk.target);
+    tk.mesh.position.copy(tk.pos);
+    tk.mesh.userData.ball.scale.setScalar(1);
+  });
+  highlightFloor(-1);
+  setPhaseUI(0, -1);
+  updatePromptHighlight(0);
+  while (attnLines.children.length) attnLines.remove(attnLines.children[0]);
+}
+
+async function loadTrace() {
+  const res = await fetch('trace_secreto_felicidad.json?v=' + Date.now().toString(36).slice(-3));
+  if (!res.ok) throw new Error(String(res.status));
+  const data = await res.json();
+  const seq = data.sequence.filter(s => s.phase === 'prompt' && s.token !== '<s>');
+  anim.genPreview = data.sequence.filter(s => s.phase === 'gen').slice(0, 8);
+  anim.prompt = data.prompt;
+  anim.generated = data.generated_text || '';
+
+  tokens = seq.map((s, i) => ({
+    token: s.token, id: s.id, x: s.x, y: s.y, phase: 'prompt',
+    color: '#6ea8fe',
+    pos: new THREE.Vector3(),
+    target: new THREE.Vector3(),
+    mesh: null, i,
+  }));
+  tokens.forEach(tk => {
+    tk.mesh = makeTokenMesh(tk.token, tk.color);
+    building.add(tk.mesh);
+  });
+  anim._baseTokenCount = tokens.length;
+  layoutTokensOnFloor(-1, 3.0);
+  tokens.forEach(tk => {
+    tk.pos.copy(tk.target);
+    tk.mesh.position.copy(tk.pos);
+  });
+  el.status.textContent = 'Prompt: «' + data.prompt + '» · seed ' + data.seed + ' · prefill por 22 plantas…';
+  updatePromptHighlight(0);
+  setPhaseUI(0, -1);
+  highlightFloor(-1);
+}
+
+document.getElementById('btn-play').onclick = () => {
+  anim.playing = !anim.playing;
+  document.getElementById('btn-play').textContent = anim.playing ? '❚❚ Pausa' : '▶ Play';
+};
+document.getElementById('btn-restart').onclick = restart;
+document.getElementById('btn-auto-cam').onclick = () => {
+  anim.autoCam = !anim.autoCam;
+  controls.autoRotate = anim.autoCam;
+  document.getElementById('btn-auto-cam').textContent = anim.autoCam ? '🎥 Auto-cámara' : '🎥 Cámara libre';
+};
+
+window.addEventListener('keydown', e => {
+  if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-play').click(); }
+  if (e.key === 'r' || e.key === 'R') restart();
+  if (e.key === 'ArrowUp') {
+    anim.floor = Math.min(22, anim.floor + 1);
+    anim.sub = 0; anim.subT = 0;
+    if (anim.floor <= 21) layoutTokensOnFloor(anim.floor);
+  }
+  if (e.key === 'ArrowDown') {
+    anim.floor = Math.max(-1, anim.floor - 1);
+    anim.sub = 0; anim.subT = 0;
+    layoutTokensOnFloor(Math.min(21, anim.floor));
+  }
+});
+
+let last = performance.now();
+let pulse = 0;
+
+function tick(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  pulse += dt;
+
+  if (anim.playing && tokens.length) {
+    anim.subT += dt / SUB_DUR[anim.sub];
+    if (anim.subT >= 1) {
+      anim.subT = 0;
+      anim.sub += 1;
+      if (anim.sub > 3) {
+        anim.sub = 0;
+        if (anim.floor < 22) {
+          anim.floor += 1;
+          if (anim.floor <= 21) {
+            layoutTokensOnFloor(anim.floor, 3.0 + anim.floor * 0.015);
+          } else {
+            // roof gather
+            tokens.forEach((tk, i) => {
+              if (tk.phase === 'gen') return;
+              const ang = (i / anim._baseTokenCount) * Math.PI * 2;
+              tk.target.set(Math.cos(ang) * 2.1, (23) * FLOOR_H + 0.3, Math.sin(ang) * 2.1);
+            });
+            if (!anim._spawnedGen) {
+              anim._spawnedGen = true;
+              anim.genPreview.forEach((s, j) => {
+                const tk = {
+                  token: s.token, id: s.id, x: s.x, y: s.y, phase: 'gen',
+                  color: '#3dd68c',
+                  pos: new THREE.Vector3(0, 24 * FLOOR_H + 1.5, 0),
+                  target: new THREE.Vector3((j - 3.5) * 0.65, 23 * FLOOR_H + 0.5, 2.9),
+                  mesh: null, i: tokens.length,
+                };
+                tk.mesh = makeTokenMesh(tk.token, tk.color);
+                building.add(tk.mesh);
+                tokens.push(tk);
+              });
+              el.status.textContent = 'Sample: «' + (anim.generated || '').slice(0, 64) + '…»';
+            }
+          }
+        } else {
+          anim._hold++;
+          if (anim._hold > 2) {
+            anim._hold = 0;
+            clearGenTokens();
+            anim.floor = -1;
+            layoutTokensOnFloor(-1, 3.0);
+          }
+        }
+      }
+    }
+
+    const floor = anim.floor;
+    const sub = anim.sub;
+    const u = Math.min(1, anim.subT);
+    setPhaseUI(sub, floor);
+    highlightFloor(Math.min(22, Math.max(-1, floor)));
+
+    tokens.forEach((tk, i) => {
+      if (!tk.mesh) return;
+      tk.pos.lerp(tk.target, 1 - Math.pow(0.0008, dt * 60));
+      let ox = 0, oy = 0, oz = 0;
+      if (floor >= 0 && floor <= 21) {
+        if (sub === 1 && i > 0 && tk.phase !== 'gen') {
+          const prev = tokens[Math.max(0, i - 1)].pos;
+          const pull = 0.18 * Math.sin(u * Math.PI);
+          ox += (prev.x - tk.pos.x) * pull;
+          oz += (prev.z - tk.pos.z) * pull;
+          tk.mesh.userData.glow.material.opacity = 0.12 + 0.28 * Math.abs(Math.sin(pulse * 5 + i));
+        } else if (sub === 2 && tk.phase !== 'gen') {
+          oy = 0.14 * Math.sin(u * Math.PI * 2 + i * 0.7);
+          tk.mesh.userData.ball.scale.setScalar(1 + 0.18 * Math.sin(u * Math.PI));
+        } else if (sub === 3 && tk.phase !== 'gen') {
+          const nextY = (Math.min(floor + 1, 22) + 1) * FLOOR_H + 0.25;
+          tk.pos.y = THREE.MathUtils.lerp(tk.pos.y, nextY, u * 0.4);
+          tk.mesh.userData.ball.scale.setScalar(1);
+        } else {
+          tk.mesh.userData.ball.scale.setScalar(1);
+          tk.mesh.userData.glow.material.opacity = 0.16;
+        }
+      }
+      if (tk.phase === 'gen') {
+        tk.pos.lerp(tk.target, 1 - Math.pow(0.001, dt * 60));
+        tk.mesh.userData.glow.material.opacity = 0.2 + 0.2 * Math.sin(pulse * 4 + i);
+      }
+      tk.mesh.position.set(tk.pos.x + ox, tk.pos.y + oy, tk.pos.z + oz);
+    });
+
+    // attention ribbons
+    while (attnLines.children.length) attnLines.remove(attnLines.children[0]);
+    if (floor >= 0 && floor <= 21 && sub === 1) {
+      const n = anim._baseTokenCount;
+      for (let i = 1; i < n; i++) {
+        for (let j = Math.max(0, i - 4); j < i; j++) {
+          const a = tokens[j].mesh.position;
+          const b = tokens[i].mesh.position;
+          const geo = new THREE.BufferGeometry().setFromPoints([a.clone(), b.clone()]);
+          const alpha = (0.06 + 0.22 * (j + 1) / i) * Math.sin(u * Math.PI);
+          attnLines.add(new THREE.Line(geo, new THREE.LineBasicMaterial({
+            color: 0xf0c674, transparent: true, opacity: Math.max(0.03, alpha),
+          })));
+        }
+      }
+    }
+
+    const focus = Math.min(anim._baseTokenCount - 1, Math.floor(u * anim._baseTokenCount));
+    if (sub === 1 && floor >= 0 && floor <= 21) updatePromptHighlight(focus);
+    else if (floor <= 21) updatePromptHighlight(anim._baseTokenCount - 1);
+
+    if (anim.autoCam) {
+      const ty = (Math.min(22, Math.max(-1, floor)) + 1) * FLOOR_H;
+      controls.target.y += (ty - controls.target.y) * (1 - Math.pow(0.001, dt * 60 * 0.05));
+    }
+  }
+
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+loadTrace()
+  .then(() => { restart(); requestAnimationFrame(tick); })
+  .catch(e => {
+    el.status.textContent = 'Error: ' + e.message;
+    requestAnimationFrame(tick);
+  });
+</script>
+</body>
+</html>
