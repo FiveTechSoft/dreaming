@@ -2,11 +2,29 @@
 
 ## L'histoire de TinyLlama
 
-TinyLlama est un modèle de langage petit mais puissant. Il a été entraîné avec 1,13 milliard de paramètres répartis en 22 couches transformantes.
+TinyLlama est un modèle de langage **ouvert** de
+**~1,1 milliard de paramètres** (1.1B), avec
+l'architecture et le tokenisateur de la famille **Llama 2**,
+réduits à une taille qui tient dans un labo modeste :
+**22 couches**, dimension résiduelle de **2048**,
+vocabulaire de **32 000** tokens.
+
+Il n'est pas né dans un grand laboratoire technologique fermé.
+Il est né en tant que **projet ouvert** du groupe **StatNLP** de
+l'**Université de Technologie et de Design de Singapour (SUTD)** :
+pré-entraîner un « petit Llama » sur un corpus massif
+(de l'ordre du **milliard de tokens**, ~3 époques dans le
+rapport technique) et publier **code + points de contrôle**.
+
+Pour Dreaming, c'est le **microcosme** idéal : assez petit
+pour l'ouvrir entièrement, assez riche pour avoir une voix,
+une géométrie et des perspectives distinctes.
 
 ## L'équipe derrière le modèle
 
-L'équipe de TinyLlama a créé un modèle qui démontre qu'il n'est pas nécessaire de milliards de paramètres pour produire des résultats intéressants.
+L'équipe de TinyLlama a créé un modèle qui démontre
+qu'il n'est pas nécessaire de milliards de paramètres pour
+produire des résultats intéressants.
 
 ## Pourquoi il est spécial
 

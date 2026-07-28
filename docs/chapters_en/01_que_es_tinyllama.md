@@ -2,9 +2,23 @@
 
 ## The story of TinyLlama
 
-TinyLlama is a small but powerful language model.
-It was trained with 1.13 billion parameters distributed
-across 22 transformer layers.
+TinyLlama is an **open** language model with
+**~1.1 billion parameters** (1.1B), using the
+architecture and tokenizer of the **Llama 2** family,
+reduced to a size that fits a modest lab:
+**22 layers**, residual dimension of **2048**,
+vocabulary of **32,000** tokens.
+
+It was not born in a big-tech closed lab. It was born as an
+**open project** from the **StatNLP** group at
+**Singapore University of Technology and Design (SUTD)**:
+pre-training a "small Llama" on a massive corpus
+(on the order of **one billion tokens**, ~3 epochs in the
+technical report) and publishing **code + checkpoints**.
+
+For Dreaming, it is the ideal **microcosmos**: small enough
+to open it entirely, rich enough to have a voice,
+geometry, and distinct perspectives.
 
 ## The team behind the model
 
