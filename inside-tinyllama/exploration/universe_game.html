@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TinyLlama Universe — capas + teletransporte</title>
+<style>
+  :root {
+    --bg: #07090f; --panel: #121722; --line: #2a3344;
+    --text: #e8ecf4; --muted: #8b95a8; --accent: #6ea8fe;
+    --good: #3dd68c; --warn: #ffc857; --hot: #ff6b8a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #0e1320, #0a0d14);
+  }
+  header h1 { margin: 0; font-size: 1.02rem; font-weight: 650; }
+  header .sub { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+  .hud { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.8rem; }
+  .chip {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 10px; color: var(--muted);
+  }
+  .chip b { color: var(--accent); }
+  .chip.zone b { color: var(--good); }
+  .chip.warp b { color: var(--warn); }
+  main {
+    flex: 1; display: grid; grid-template-columns: 1fr 340px; min-height: 0;
+  }
+  @media (max-width: 920px) {
+    main { grid-template-columns: 1fr; }
+  }
+  #stage-wrap { position: relative; overflow: hidden; background: #07090f; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #toast {
+    position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+    background: rgba(18,23,34,0.94); border: 1px solid var(--line);
+    padding: 8px 14px; border-radius: 10px; font-size: 0.84rem;
+    max-width: min(560px, 94%); text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity .2s; z-index: 5;
+  }
+  #toast.show { opacity: 1; }
+  #warp-flash {
+    position: absolute; inset: 0; pointer-events: none; z-index: 4;
+    background: radial-gradient(circle at 50% 50%, rgba(180,210,255,0.55), transparent 55%);
+    opacity: 0; transition: opacity .15s;
+  }
+  #warp-flash.on { opacity: 1; }
+  aside {
+    border-left: 1px solid var(--line); background: var(--panel);
+    padding: 14px; overflow: auto; font-size: 0.85rem;
+  }
+  aside h2 { margin: 0 0 6px; font-size: 0.95rem; color: var(--accent); }
+  aside h3 {
+    margin: 14px 0 6px; font-size: 0.75rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  p { margin: 0 0 8px; line-height: 1.45; color: #c9d0dc; }
+  .dual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 10px;
+  }
+  .dual .box {
+    background: #0a0e16; border: 1px solid var(--line); border-radius: 10px; padding: 8px;
+  }
+  .dual .box .k { color: var(--muted); font-size: 0.72rem; }
+  .dual .box .v { color: var(--text); font-weight: 650; margin-top: 2px; font-size: 0.88rem; }
+  .meter {
+    height: 8px; background: #0a0e16; border-radius: 99px; overflow: hidden;
+    border: 1px solid var(--line); margin: 6px 0 10px;
+  }
+  .meter > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--good));
+  }
+  .force {
+    display: flex; justify-content: space-between; gap: 8px;
+    padding: 3px 0; border-bottom: 1px dashed #1c2433; color: var(--muted);
+  }
+  .force span:last-child { color: var(--warn); font-variant-numeric: tabular-nums; }
+  .keys {
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 10px;
+    color: var(--muted); font-size: 0.78rem;
+  }
+  kbd {
+    background: #0a0e16; border: 1px solid var(--line); border-radius: 5px;
+    padding: 1px 6px; color: var(--text); font-size: 0.72rem;
+  }
+  .btnrow { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  button {
+    background: #1a2233; color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 0.78rem;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: #1e3a5f; border-color: #3d6ea8; }
+  .log {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.72rem;
+    background: #0a0e16; border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px; max-height: 140px; overflow: auto; color: #9fb0c8;
+  }
+  .log div { margin: 2px 0; }
+  .path {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.7rem;
+    color: var(--good); word-break: break-word;
+  }
+  .warp-list { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+  .warp-list b { color: #cde; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>TinyLlama Universe · capas + teletransporte</h1>
+    <div class="sub">Al cruzar un portal subes de capa y te warp-eas a otra zona del universo</div>
+  </div>
+  <div class="hud">
+    <div class="chip">Capa <b id="hud-layer">vestíbulo</b></div>
+    <div class="chip zone">Zona <b id="hud-zone">—</b></div>
+    <div class="chip warp">Warp <b id="hud-warp">0</b></div>
+    <div class="chip">Coherencia <b id="hud-coh">100%</b></div>
+    <div class="chip">Tokens <b id="hud-tok">0</b></div>
+    <div class="chip">Lente <b id="hud-persp">baseline</b></div>
+  </div>
+</header>
+<main>
+  <div id="stage-wrap">
+    <canvas id="c"></canvas>
+    <div id="warp-flash"></div>
+    <div id="toast"></div>
+  </div>
+  <aside>
+    <h2 id="title">—</h2>
+    <p id="blurb">—</p>
+    <div class="dual">
+      <div class="box"><div class="k">Profundidad (capa)</div><div class="v" id="box-layer">—</div></div>
+      <div class="box"><div class="k">Zona del universo</div><div class="v" id="box-zone">—</div></div>
+    </div>
+    <div class="meter"><i id="coh-bar"></i></div>
+
+    <h3>Fuerzas aquí</h3>
+    <div id="forces"></div>
+
+    <h3>Itinerario de warps</h3>
+    <div class="warp-list" id="warp-itinerary"></div>
+
+    <h3>Controles</h3>
+    <div class="keys">
+      <kbd>WASD</kbd><span>mover residual</span>
+      <kbd>E</kbd><span>isla (lore) o portal (capa+warp)</span>
+      <kbd>T</kbd><span>teletransporte manual a isla cercana</span>
+      <kbd>1–5</kbd><span>lente de perspectiva</span>
+      <kbd>Space</kbd><span>sample en Softmax</span>
+      <kbd>R</kbd><span>reiniciar</span>
+    </div>
+    <div class="btnrow">
+      <button class="primary" id="btn-enter">Portal / E</button>
+      <button id="btn-warp">Warp isla / T</button>
+      <button id="btn-reset">Reiniciar</button>
+    </div>
+
+    <h3>Bitácora</h3>
+    <div class="log" id="log"></div>
+    <h3>Ruta del run</h3>
+    <div class="path" id="path"></div>
+  </aside>
+</main>
+<script>
+/* Dual navigation: layer depth + universe zone teleport */
+
+const W = 1200, H = 800;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const toastEl = document.getElementById('toast');
+const flashEl = document.getElementById('warp-flash');
+const logEl = document.getElementById('log');
+
+const PERSPECTIVES = [
+  { id: 'baseline', name: 'baseline', tint: null, drain: 0 },
+  { id: 'mystical', name: 'mystical', tint: [140, 80, 200], drain: 0.02 },
+  { id: 'academic', name: 'académica', tint: [80, 140, 220], drain: 0.015 },
+  { id: 'practical', name: 'práctica', tint: [40, 180, 140], drain: 0.015 },
+  { id: 'noise', name: 'noise ⚠', tint: [200, 60, 60], drain: 0.09 },
+];
+
+/** Universe zones — where you land when warping while climbing layers */
+const ZONES = {
+  sky: {
+    id: 'sky', name: 'Cielo de tokens',
+    bg: ['#0a1020', '#15102a'],
+    blurb: 'ℝ²⁰⁴⁸ · islas semánticas casi ortogonales. Naces aquí como embedding.',
+    forces: { atención: 5, ffn: 5, residual: 20, norm: 30, softmax: 0, semántica: 90 },
+    islands: [
+      { x: 260, y: 240, r: 50, label: 'emotion+', color: '#2ecc71', lore: 'Atractor afectivo: smile, love, hope.' },
+      { x: 600, y: 500, r: 50, label: 'spiritual', color: '#9b59b6', lore: 'Constelación Mago/místico · soul, divine.' },
+      { x: 920, y: 250, r: 48, label: 'tech', color: '#16a085', lore: 'Isla técnica: code, data, model.' },
+      { x: 900, y: 560, r: 46, label: 'abstract', color: '#3498db', lore: 'truth, beauty, justice · cerca de mind.' },
+    ],
+  },
+  gravity: {
+    id: 'gravity', name: 'Campo gravitatorio · Atención',
+    bg: ['#061018', '#0a1a30'],
+    blurb: 'Q·K/√d · GQA 32/4. Acoplamiento causal entre tokens del pasado. ~19% masa, máximo alcance.',
+    forces: { atención: 95, ffn: 25, residual: 70, norm: 65, softmax: 10, semántica: 30 },
+    islands: [
+      { x: 300, y: 300, r: 44, label: 'Q', color: '#6ea8fe', lore: 'Query: qué busca esta posición.' },
+      { x: 600, y: 250, r: 44, label: 'K', color: '#8ab4ff', lore: 'Key: qué ofrece cada pasado (4 cabezas KV).' },
+      { x: 900, y: 300, r: 44, label: 'V', color: '#a8c7ff', lore: 'Value: información que se mezcla.' },
+      { x: 600, y: 520, r: 42, label: 'O', color: '#c5d9ff', lore: 'Output: reintegra al residual.' },
+    ],
+  },
+  matter: {
+    id: 'matter', name: 'Materia ordinaria · FFN',
+    bg: ['#061410', '#0c2018'],
+    blurb: 'SwiGLU 2048→5632→2048. ~69% de la masa. Física local de cada token.',
+    forces: { atención: 25, ffn: 95, residual: 70, norm: 65, softmax: 10, semántica: 25 },
+    islands: [
+      { x: 320, y: 320, r: 46, label: 'Gate', color: '#3dd68c', lore: 'SiLU(gate): qué se deja pasar.' },
+      { x: 600, y: 240, r: 46, label: 'Up', color: '#2ecc71', lore: 'Expansión al espacio 5632.' },
+      { x: 880, y: 320, r: 46, label: 'Down', color: '#27ae60', lore: 'Compresión de vuelta a 2048.' },
+      { x: 600, y: 540, r: 40, label: 'acción', color: '#a3e635', lore: 'Regla de Oro: tocar FFN → voz práctica.' },
+    ],
+  },
+  mage: {
+    id: 'mage', name: 'Constelación · Mago / Místico',
+    bg: ['#12081c', '#1a0a28'],
+    blurb: 'Alineación Mago↔voz mística (+0.39). Alma, spirit, silence, being.',
+    forces: { atención: 50, ffn: 55, residual: 75, norm: 60, softmax: 15, semántica: 85 },
+    islands: [
+      { x: 350, y: 280, r: 48, label: 'soul', color: '#9b59b6', lore: 'Ancla del mito del alma.' },
+      { x: 700, y: 260, r: 48, label: 'spirit', color: '#8e44ad', lore: 'Espíritu · transformación.' },
+      { x: 500, y: 480, r: 46, label: 'divine', color: '#a855f7', lore: 'Sagrado / divino.' },
+      { x: 850, y: 500, r: 44, label: 'silence', color: '#c084fc', lore: 'Silencio · ego disuelto.' },
+    ],
+  },
+  sage: {
+    id: 'sage', name: 'Constelación · Sabio / Académico',
+    bg: ['#081018', '#0c1a2e'],
+    blurb: 'Alineación Sabio↔voz académica (+0.29). Theory, analysis, evidence.',
+    forces: { atención: 80, ffn: 40, residual: 70, norm: 60, softmax: 20, semántica: 70 },
+    islands: [
+      { x: 300, y: 300, r: 46, label: 'theory', color: '#3498db', lore: 'Marco teórico.' },
+      { x: 600, y: 250, r: 46, label: 'study', color: '#2980b9', lore: 'Estudio / scholar.' },
+      { x: 900, y: 320, r: 46, label: 'evidence', color: '#60a5fa', lore: 'Evidencia y crítica.' },
+      { x: 600, y: 520, r: 42, label: 'mind', color: '#93c5fd', lore: 'Mente · cerca de abstract.' },
+    ],
+  },
+  drama: {
+    id: 'drama', name: 'Eje Héroe ↔ Sombra',
+    bg: ['#140808', '#1c1010'],
+    blurb: 'Polaridad clásica (cos ≈ −0.06). Drama sin antipodalidad total.',
+    forces: { atención: 60, ffn: 55, residual: 75, norm: 55, softmax: 25, semántica: 75 },
+    islands: [
+      { x: 320, y: 360, r: 52, label: 'Héroe', color: '#e74c3c', lore: 'Courage, quest, victory.' },
+      { x: 880, y: 360, r: 52, label: 'Sombra', color: '#2c3e50', lore: 'Fear, hate, demon, sin.' },
+      { x: 600, y: 220, r: 38, label: 'límite', color: '#ff6b8a', lore: 'El residual se tensa entre polos.' },
+    ],
+  },
+  surface: {
+    id: 'surface', name: 'Superficie de coherencia · pesos',
+    bg: ['#0c0c10', '#16161c'],
+    blurb: 'ℝ^N · solo trayectorias tangentes (amplify) mantienen el habla. Noise = eyección.',
+    forces: { atención: 40, ffn: 40, residual: 50, norm: 50, softmax: 20, semántica: 20 },
+    islands: [
+      { x: 400, y: 320, r: 50, label: '𝒞', color: '#3dd68c', lore: 'Región habitable: texto coherente.' },
+      { x: 800, y: 320, r: 50, label: 'vacío', color: '#ff6b8a', lore: 'Fuera de 𝒞: basura, glitter de tokens.' },
+      { x: 600, y: 520, r: 42, label: 'rank-1', color: '#ffc857', lore: 'w′=(I+εvvᵀ)w · mystical.' },
+    ],
+  },
+  event: {
+    id: 'event', name: 'Horizonte de eventos · Softmax',
+    bg: ['#100810', '#1a0c18'],
+    blurb: 'Colapso ℝ²⁰⁴⁸ → 1 de 32000. Temperatura y top-k definen la excentricidad.',
+    forces: { atención: 15, ffn: 15, residual: 35, norm: 90, softmax: 100, semántica: 40 },
+    islands: [
+      { x: 380, y: 340, r: 48, label: 'T', color: '#ffc857', lore: 'Temperatura del sample.' },
+      { x: 820, y: 340, r: 48, label: 'top-k', color: '#ff6b8a', lore: 'Horizonte de destinos.' },
+      { x: 600, y: 520, r: 40, label: 'EOS', color: '#c084fc', lore: 'A veces el pozo del fin se traga la frase.' },
+    ],
+  },
+};
+
+/**
+ * Itinerary: each step advances ONE transformer layer
+ * and teleports the stage to a universe zone.
+ * layer: -1 lobby, 0..21 transformer, 22 collapse
+ */
+const ITINERARY = [
+  { layer: -1, zone: 'sky', portalLabel: '→ Capa 0 · warp Gravedad' },
+  { layer: 0, zone: 'gravity', portalLabel: '→ Capa 1 · sigue en Atención' },
+  { layer: 1, zone: 'gravity', portalLabel: '→ Capa 2 · warp Materia FFN' },
+  { layer: 2, zone: 'matter', portalLabel: '→ Capa 3 · FFN' },
+  { layer: 3, zone: 'matter', portalLabel: '→ Capa 4 · FFN' },
+  { layer: 4, zone: 'matter', portalLabel: '→ Capa 5 · warp Mago' },
+  { layer: 5, zone: 'mage', portalLabel: '→ Capa 6 · ideas medias' },
+  { layer: 6, zone: 'mage', portalLabel: '→ Capa 7 · warp Sabio' },
+  { layer: 7, zone: 'sage', portalLabel: '→ Capa 8 · Sabio' },
+  { layer: 8, zone: 'sage', portalLabel: '→ Capa 9 · Sabio' },
+  { layer: 9, zone: 'sage', portalLabel: '→ Capa 10 · warp Drama' },
+  { layer: 10, zone: 'drama', portalLabel: '→ Capa 11 · Drama' },
+  { layer: 11, zone: 'drama', portalLabel: '→ Capa 12 · warp Superficie 𝒞' },
+  { layer: 12, zone: 'surface', portalLabel: '→ Capa 13 · integración' },
+  { layer: 13, zone: 'surface', portalLabel: '→ Capa 14 · 𝒞' },
+  { layer: 14, zone: 'gravity', portalLabel: '→ Capa 15 · Atención tardía' },
+  { layer: 15, zone: 'matter', portalLabel: '→ Capa 16 · FFN tardío' },
+  { layer: 16, zone: 'mage', portalLabel: '→ Capa 17 · Místico profundo' },
+  { layer: 17, zone: 'sage', portalLabel: '→ Capa 18 · Análisis final' },
+  { layer: 18, zone: 'drama', portalLabel: '→ Capa 19 · Tensión' },
+  { layer: 19, zone: 'surface', portalLabel: '→ Capa 20 · Filo de 𝒞' },
+  { layer: 20, zone: 'surface', portalLabel: '→ Capa 21 · prep. colapso' },
+  { layer: 21, zone: 'event', portalLabel: '→ Softmax · sample' },
+  { layer: 22, zone: 'event', portalLabel: '→ Emitir token & reentrar', collapse: true },
+];
+
+const SAMPLE = {
+  baseline: ['to', 'be', 'present', 'and', 'alive', 'in', 'the', 'world'],
+  mystical: ['to', 'dissolve', 'into', 'the', 'eternal', 'silence', 'of', 'being'],
+  academic: ['a', 'function', 'of', 'structured', 'inquiry', 'and', 'critique'],
+  practical: ['to', 'set', 'goals', 'take', 'steps', 'and', 'act', 'daily'],
+  noise: ['§', '??', 'null', '██', '…', 'err', '###', '∅'],
+};
+
+const state = {
+  step: 0,
+  x: 600, y: 680,
+  r: 14,
+  coh: 100,
+  tokens: 0,
+  persp: 0,
+  path: [],
+  warps: 0,
+  keys: {},
+  utterance: [],
+  warpAnim: 0,
+};
+
+function cur() { return ITINERARY[state.step]; }
+function zone() { return ZONES[cur().zone]; }
+function persp() { return PERSPECTIVES[state.persp]; }
+
+function log(msg) {
+  const d = document.createElement('div');
+  d.textContent = msg;
+  logEl.prepend(d);
+}
+function toast(msg, ms = 2400) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove('show'), ms);
+}
+function flashWarp() {
+  flashEl.classList.add('on');
+  state.warpAnim = 1;
+  setTimeout(() => flashEl.classList.remove('on'), 180);
+}
+
+function layerLabel() {
+  const L = cur().layer;
+  if (L < 0) return 'vestíbulo';
+  if (L <= 21) return String(L);
+  return 'Ω';
+}
+
+function updateHUD() {
+  const z = zone();
+  const it = cur();
+  document.getElementById('hud-layer').textContent = layerLabel();
+  document.getElementById('hud-zone').textContent = z.name;
+  document.getElementById('hud-warp').textContent = String(state.warps);
+  document.getElementById('hud-coh').textContent = Math.round(state.coh) + '%';
+  document.getElementById('hud-tok').textContent = String(state.tokens);
+  document.getElementById('hud-persp').textContent = persp().name;
+  document.getElementById('title').textContent =
+    (it.layer < 0 ? 'Vestíbulo' : it.layer <= 21 ? `Capa ${it.layer}` : 'Colapso Softmax')
+    + '  ·  ' + z.name;
+  document.getElementById('blurb').textContent = z.blurb;
+  document.getElementById('box-layer').textContent =
+    it.layer < 0 ? 'embeddings' : it.layer <= 21 ? `ℓ = ${it.layer} / 21` : 'sample';
+  document.getElementById('box-zone').textContent = z.name;
+  document.getElementById('coh-bar').style.width = Math.max(0, state.coh) + '%';
+  document.getElementById('path').textContent = state.path.join(' → ') || '—';
+
+  const box = document.getElementById('forces');
+  box.innerHTML = '';
+  for (const [k, v] of Object.entries(z.forces)) {
+    const row = document.createElement('div');
+    row.className = 'force';
+    row.innerHTML = `<span>${k}</span><span>${v}%</span>`;
+    box.appendChild(row);
+  }
+
+  // itinerary peek
+  const wit = document.getElementById('warp-itinerary');
+  const from = Math.max(0, state.step - 1);
+  const to = Math.min(ITINERARY.length, state.step + 4);
+  let html = '';
+  for (let i = from; i < to; i++) {
+    const s = ITINERARY[i];
+    const mark = i === state.step ? '→ ' : '   ';
+    const ll = s.layer < 0 ? 'emb' : s.layer <= 21 ? `L${s.layer}` : 'Ω';
+    html += `${mark}<b>${ll}</b> ⇢ ${ZONES[s.zone].name}<br/>`;
+  }
+  wit.innerHTML = html;
+}
+
+function setPersp(i) {
+  state.persp = Math.max(0, Math.min(PERSPECTIVES.length - 1, i));
+  log(`Lente → ${persp().name}`);
+  toast(`Perspectiva: ${persp().name}`);
+  updateHUD();
+}
+
+function dist(ax, ay, bx, by) { return Math.hypot(ax - bx, ay - by); }
+
+function portalPos() {
+  return { x: 600, y: 130, r: 40, label: cur().portalLabel };
+}
+
+function nearest() {
+  const z = zone();
+  let best = null, bd = 1e9;
+  for (const is of z.islands) {
+    const d = dist(state.x, state.y, is.x, is.y) - is.r;
+    if (d < bd) { bd = d; best = { type: 'island', obj: is, d }; }
+  }
+  const p = portalPos();
+  const d = dist(state.x, state.y, p.x, p.y) - p.r;
+  if (d < bd) best = { type: 'portal', obj: p, d };
+  return best && best.d < 30 ? best : null;
+}
+
+function warpToIsland(is) {
+  // local teleport inside current zone
+  flashWarp();
+  state.x = is.x;
+  state.y = is.y + is.r + 28;
+  state.warps += 1;
+  log(`↯ teletransporte local → isla “${is.label}”`);
+  toast(`Warp · ${is.label}: ${is.lore}`);
+  state.coh = Math.min(100, state.coh + 0.8);
+  updateHUD();
+}
+
+function advancePortal() {
+  if (state.coh <= 0) {
+    toast('Incoherencia total. R reinicia.', 3500);
+    return;
+  }
+
+  const it = cur();
+  const drain = 1.2 + persp().drain * 35 + (it.layer >= 18 ? 1.2 : 0);
+  state.coh = Math.max(0, state.coh - drain);
+
+  if (it.collapse) {
+    const bag = SAMPLE[persp().id] || SAMPLE.baseline;
+    const w = bag[state.tokens % bag.length];
+    state.utterance.push(w);
+    state.tokens += 1;
+    log(`sample → “${w}” · ${state.utterance.join(' ')}`);
+    toast(`Token: ${w}`);
+    flashWarp();
+    state.warps += 1;
+
+    if (state.tokens >= 8) {
+      log('★ Run completo: ' + state.utterance.join(' '));
+      toast('8 tokens emitidos. R para otra órbita.', 4500);
+      state.path.push('done');
+      updateHUD();
+      return;
+    }
+    // re-enter mid-stack: jump itinerary to layer 6 / mage zone
+    state.step = ITINERARY.findIndex(s => s.layer === 6);
+    state.x = 600; state.y = 680;
+    state.path.push(`token${state.tokens}→L6+${zone().id}`);
+    log(`Reentrada residual · capa 6 · zona ${zone().name}`);
+    toast(`Nuevo token orbitando · ${zone().name}`);
+    updateHUD();
+    return;
+  }
+
+  // dual advance: next layer + new zone
+  const prevZone = zone().id;
+  state.step = Math.min(ITINERARY.length - 1, state.step + 1);
+  const next = cur();
+  const nextZone = zone();
+  state.warps += 1;
+  flashWarp();
+  state.x = 600;
+  state.y = 680;
+  state.path.push(`L${next.layer < 0 ? 'e' : next.layer}+${next.zone}`);
+
+  if (prevZone !== nextZone) {
+    log(`Portal capa ${next.layer} + ↯ WARP ${ZONES[prevZone].name} → ${nextZone.name}`);
+    toast(`Capa ${layerLabel()} · teletransporte a ${nextZone.name}`, 3200);
+  } else {
+    log(`Portal → capa ${next.layer} (misma zona ${nextZone.name})`);
+    toast(`Capa ${layerLabel()} · ${nextZone.name}`);
+  }
+  updateHUD();
+}
+
+function layerLabel() {
+  const L = cur().layer;
+  if (L < 0) return 'vestíbulo';
+  if (L <= 21) return String(L);
+  return 'Ω';
+}
+
+function interact() {
+  const n = nearest();
+  if (!n) {
+    toast('Acércate a una isla o al portal (anillo azul).');
+    return;
+  }
+  if (n.type === 'island') {
+    log(`※ ${n.obj.label}: ${n.obj.lore}`);
+    toast(`${n.obj.label} — ${n.obj.lore}`, 3200);
+    state.coh = Math.min(100, state.coh + 0.4);
+    updateHUD();
+  } else {
+    advancePortal();
+  }
+}
+
+function tryLocalWarp() {
+  const z = zone();
+  // nearest island always warps to it
+  let best = null, bd = 1e9;
+  for (const is of z.islands) {
+    const d = dist(state.x, state.y, is.x, is.y);
+    if (d < bd) { bd = d; best = is; }
+  }
+  if (best) warpToIsland(best);
+}
+
+function reset() {
+  Object.assign(state, {
+    step: 0, x: 600, y: 680, coh: 100, tokens: 0, persp: 0,
+    path: ['start·sky'], warps: 0, utterance: [],
+  });
+  log('— nueva run: capas + warps —');
+  toast('Vestíbulo · cielo de tokens');
+  updateHUD();
+}
+
+window.addEventListener('keydown', e => {
+  state.keys[e.key.toLowerCase()] = true;
+  if (e.key === 'e' || e.key === 'E') interact();
+  if (e.key === 't' || e.key === 'T') tryLocalWarp();
+  if (e.key === ' ') { e.preventDefault(); if (cur().collapse) advancePortal(); else interact(); }
+  if (e.key === 'r' || e.key === 'R') reset();
+  if (e.key >= '1' && e.key <= '5') setPersp(+e.key - 1);
+  if (e.key === 'n' || e.key === 'N') advancePortal();
+});
+window.addEventListener('keyup', e => { state.keys[e.key.toLowerCase()] = false; });
+document.getElementById('btn-enter').onclick = interact;
+document.getElementById('btn-warp').onclick = tryLocalWarp;
+document.getElementById('btn-reset').onclick = reset;
+
+function resize() {
+  const wrap = document.getElementById('stage-wrap');
+  const dpr = devicePixelRatio || 1;
+  canvas.width = wrap.clientWidth * dpr;
+  canvas.height = wrap.clientHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resize);
+
+function cam() {
+  const wrap = document.getElementById('stage-wrap');
+  const sw = wrap.clientWidth, sh = wrap.clientHeight;
+  const scale = Math.min(sw / W, sh / H) * 0.98;
+  return { scale, ox: (sw - W * scale) / 2, oy: (sh - H * scale) / 2, sw, sh };
+}
+function w2s(x, y, c) { return [c.ox + x * c.scale, c.oy + y * c.scale]; }
+
+function drawBg(c) {
+  const z = zone();
+  const g = ctx.createLinearGradient(0, 0, c.sw, c.sh);
+  g.addColorStop(0, z.bg[0]);
+  g.addColorStop(1, z.bg[1]);
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, c.sw, c.sh);
+  // stars
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  for (let i = 0; i < 60; i++) {
+    const sx = ((i * 97) % c.sw);
+    const sy = ((i * 53) % c.sh);
+    ctx.fillRect(sx, sy, 1.5, 1.5);
+  }
+  const t = persp().tint;
+  if (t) {
+    ctx.fillStyle = `rgba(${t[0]},${t[1]},${t[2]},0.07)`;
+    ctx.fillRect(0, 0, c.sw, c.sh);
+  }
+}
+
+function drawWorld(c) {
+  const z = zone();
+  const p = portalPos();
+  // islands
+  for (const is of z.islands) {
+    const [sx, sy] = w2s(is.x, is.y, c);
+    const r = is.r * c.scale;
+    const rg = ctx.createRadialGradient(sx, sy, r * 0.15, sx, sy, r * 1.5);
+    rg.addColorStop(0, is.color + 'dd');
+    rg.addColorStop(1, is.color + '00');
+    ctx.fillStyle = rg;
+    ctx.beginPath(); ctx.arc(sx, sy, r * 1.5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = is.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = `600 ${Math.max(11, 12.5 * c.scale)}px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.fillText(is.label, sx, sy + 4);
+  }
+  // portal dual: layer + zone
+  const pulse = 1 + 0.1 * Math.sin(performance.now() / 180);
+  const [px, py] = w2s(p.x, p.y, c);
+  const pr = p.r * c.scale * pulse;
+  ctx.strokeStyle = '#6ea8fe';
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.stroke();
+  ctx.strokeStyle = 'rgba(255,200,87,0.55)';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(px, py, pr * 1.28, 0, Math.PI * 2); ctx.stroke();
+  // twin rings = dual navigation
+  ctx.setLineDash([6, 4]);
+  ctx.strokeStyle = 'rgba(61,214,140,0.5)';
+  ctx.beginPath(); ctx.arc(px, py, pr * 1.5, 0, Math.PI * 2); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#cfe3ff';
+  ctx.font = `650 ${Math.max(11, 13 * c.scale)}px system-ui`;
+  ctx.textAlign = 'center';
+  ctx.fillText(p.label, px, py + 4);
+
+  // player residual
+  const [sx, sy] = w2s(state.x, state.y, c);
+  const prr = state.r * c.scale;
+  const near = nearest();
+  if (near) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(sx, sy, prr + 9, 0, Math.PI * 2); ctx.stroke();
+  }
+  const pg = ctx.createRadialGradient(sx - 4, sy - 4, 2, sx, sy, prr);
+  pg.addColorStop(0, '#d0e4ff');
+  pg.addColorStop(1, '#3d6ea8');
+  ctx.fillStyle = pg;
+  ctx.beginPath(); ctx.arc(sx, sy, prr, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#0b0d12';
+  ctx.font = `700 ${Math.max(9, 10 * c.scale)}px system-ui`;
+  ctx.fillText('x', sx, sy + 3);
+
+  // corner labels
+  ctx.textAlign = 'left';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '12px system-ui';
+  ctx.fillText(`capa ${layerLabel()}  ·  zona: ${zone().name}`, 12, 22);
+}
+
+function physics(dt) {
+  const speed = 230;
+  let ax = 0, ay = 0;
+  const k = state.keys;
+  if (k['arrowleft'] || k['a']) ax -= 1;
+  if (k['arrowright'] || k['d']) ax += 1;
+  if (k['arrowup'] || k['w']) ay -= 1;
+  if (k['arrowdown'] || k['s']) ay += 1;
+  if (ax || ay) { const n = Math.hypot(ax, ay); ax /= n; ay /= n; }
+  state.x = Math.max(40, Math.min(W - 40, state.x + ax * speed * dt));
+  state.y = Math.max(40, Math.min(H - 40, state.y + ay * speed * dt));
+  if (persp().id === 'noise') state.coh = Math.max(0, state.coh - 3.5 * dt);
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  physics(dt);
+  const c = cam();
+  drawBg(c);
+  // grid
+  ctx.strokeStyle = 'rgba(100,120,160,0.08)';
+  for (let x = 0; x <= W; x += 40) {
+    const [x1, y1] = w2s(x, 0, c), [x2, y2] = w2s(x, H, c);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+  for (let y = 0; y <= H; y += 40) {
+    const [x1, y1] = w2s(0, y, c), [x2, y2] = w2s(W, y, c);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+  drawWorld(c);
+  if (state.coh < 28) {
+    ctx.fillStyle = `rgba(255,70,90,${0.07 + 0.05 * Math.sin(now / 120)})`;
+    ctx.fillRect(0, 0, c.sw, c.sh);
+  }
+  requestAnimationFrame(frame);
+}
+
+function cam() {
+  const wrap = document.getElementById('stage-wrap');
+  const sw = wrap.clientWidth, sh = wrap.clientHeight;
+  const scale = Math.min(sw / W, sh / H) * 0.98;
+  return { scale, ox: (sw - W * scale) / 2, oy: (sh - H * scale) / 2, sw, sh };
+}
+
+resize();
+reset();
+log('Doble navegación: cada portal = +1 capa + warp de zona.');
+log('T = teletransporte local a isla · E = portal dual.');
+toast('WASD mover · E portal (capa+zona) · T warp isla · 1-5 lentes');
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

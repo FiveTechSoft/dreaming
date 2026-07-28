@@ -101,6 +101,38 @@
   }
   body.has-focus .focus-bar { display: block; }
   .focus-bar b { color: var(--force); font-family: ui-monospace, Consolas, monospace; }
+
+  /* --- generation path / trace --- */
+  body.trace-mode #overview-panel { display: none; }
+  body.trace-mode #space-panel { display: none; }
+  body.trace-mode #force-panel { display: none; }
+  body.trace-mode #trace-panel { display: block; }
+  #trace-panel { display: none; }
+  .trace-step {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 6px 8px; border-radius: 6px; cursor: pointer;
+    border: 1px solid transparent; font-size: 0.8rem; margin: 2px 0;
+  }
+  .trace-step:hover, .trace-step.hl { background: #1a2233; border-color: #3a4a66; }
+  .trace-step.prompt { border-left: 3px solid #6ea8fe; }
+  .trace-step.gen { border-left: 3px solid #3dd68c; }
+  .trace-step .idx {
+    min-width: 1.6em; color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .trace-step .tok { font-family: ui-monospace, Consolas, monospace; flex: 1; word-break: break-all; }
+  .trace-step .tag {
+    font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; white-space: nowrap;
+  }
+  .trace-step .tag.map { background: #2a4a30; color: #9fdfb0; }
+  .trace-step .tag.new { background: #1a3050; color: #8ab4ff; }
+  .trace-controls { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .trace-controls .btn.primary { background: #243048; border-color: #3a5078; }
+  #trace-text {
+    font-size: 0.82rem; line-height: 1.45; padding: 8px 10px; border-radius: 8px;
+    background: #0e1219; border: 1px solid var(--line); margin: 8px 0;
+  }
+  #trace-text b.cur { color: #3dd68c; background: #1a3020; padding: 0 3px; border-radius: 3px; }
+
   .force-note { font-size: 0.72rem; color: #887a50; margin: 0 0 8px; line-height: 1.4; }
 </style>
 </head>
@@ -121,6 +153,7 @@
     </div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button type="button" class="btn" id="btn-trace-demo" title="Trazar generación">▶ Trazar prompt</button>
     <a class="backlink" href="../index.html">Libro</a>
     <a class="backlink" href="map_3d_orbit.html">Mapa 3D</a>
     <a class="backlink" href="universe_game.html">Juego</a>
@@ -151,6 +184,22 @@
       <h2>Expansión (coseno) <span class="section-count" id="n-exp"></span></h2>
       <ul class="token-list" id="list-exp"></ul>
     </div>
+
+    <div id="trace-panel">
+      <h2 style="color:#6ea8fe">Trayectoria de generación</h2>
+      <p class="hint" id="trace-meta">—</p>
+      <div id="trace-text"></div>
+      <div class="trace-controls">
+        <button type="button" class="btn" id="trace-prev">←</button>
+        <button type="button" class="btn primary" id="trace-play">▶ Play</button>
+        <button type="button" class="btn" id="trace-next">→</button>
+        <button type="button" class="btn" id="trace-stop">Detener</button>
+      </div>
+      <p class="hint">Azul = prompt · Verde = generados · Puntos nuevos = tokens fuera del atlas proyectados al PCA del mapa.</p>
+      <h2>Secuencia <span class="section-count" id="trace-n"></span></h2>
+      <div id="trace-list"></div>
+    </div>
+
     <div id="force-panel">
       <h2 style="color:var(--force)">Fuerzas gravitacionales <span class="section-count">· top 10</span></h2>
       <p class="force-note">
@@ -868,6 +917,252 @@ buildLegend();
 window.addEventListener('resize', resize);
 resize();
 bootFromHash();
+
+
+/* ===== Generation path tracer ===== */
+let traceData = null;
+let traceStep = 0;
+let traceTimer = null;
+let tracePlaying = false;
+
+function cleanTokT(t) {
+  return String(t).replace(/\u2581/g, '▁');
+}
+
+function startTrace(data) {
+  traceData = data;
+  traceStep = 0;
+  document.body.classList.add('trace-mode');
+  document.body.classList.remove('space-mode');
+  document.body.classList.remove('has-focus');
+  focusPoint = null;
+  activeArea = null;
+  updateFocusUI();
+
+  const meta = document.getElementById('trace-meta');
+  meta.innerHTML = '<b>' + escapeHtml(data.prompt) + '</b><br/>' +
+    'seed=' + data.seed + ' · T=' + data.temp + ' · top-k=' + data.top_k +
+    ' · modelo ' + escapeHtml(data.model || 'TinyLlama');
+
+  document.getElementById('trace-n').textContent = '· ' + data.sequence.length + ' tokens';
+  renderTraceList();
+  renderTraceText();
+  fitTrace();
+  goTrace(0, false);
+  history.replaceState(null, '', '#/trace/' + encodeURIComponent(data.id || 'path'));
+  draw();
+}
+
+function stopTrace() {
+  if (traceTimer) { clearInterval(traceTimer); traceTimer = null; }
+  tracePlaying = false;
+  document.getElementById('trace-play').textContent = '▶ Play';
+  document.body.classList.remove('trace-mode');
+  traceData = null;
+  scale = 0.42; ox = 0; oy = 0;
+  history.replaceState(null, '', location.pathname + location.search);
+  draw();
+}
+
+function fitTrace() {
+  if (!traceData) return;
+  const list = traceData.sequence.map(function (s) { return { x: s.x, y: s.y }; });
+  fitToPoints(list, 1.15);
+}
+
+function renderTraceList() {
+  const box = document.getElementById('trace-list');
+  box.innerHTML = '';
+  if (!traceData) return;
+  traceData.sequence.forEach(function (s, i) {
+    const d = document.createElement('div');
+    d.className = 'trace-step ' + s.phase + (i === traceStep ? ' hl' : '');
+    d.dataset.i = String(i);
+    const tag = s.on_map
+      ? '<span class="tag map">mapa</span>'
+      : '<span class="tag new">PCA</span>';
+    const phase = s.phase === 'prompt' ? 'prompt' : 'gen';
+    d.innerHTML = '<span class="idx">' + i + '</span><span class="tok">' +
+      escapeHtml(cleanTokT(s.token)) + '</span>' + tag +
+      '<span class="tag" style="opacity:.7">' + phase + '</span>';
+    d.onclick = function () { goTrace(i, true); };
+    box.appendChild(d);
+  });
+}
+
+function renderTraceText() {
+  const el = document.getElementById('trace-text');
+  if (!traceData) { el.textContent = ''; return; }
+  // rebuild readable text with current token highlighted
+  let html = '';
+  traceData.sequence.forEach(function (s, i) {
+    if (s.token === '<s>' || s.token.indexOf('<0x') === 0) {
+      if (s.token === '<0x0A>') html += (i === traceStep ? '<b class="cur">↵</b>' : '↵');
+      return;
+    }
+    let t = cleanTokT(s.token).replace(/^▁/, ' ');
+    if (i === 0) t = t.replace(/^\s+/, '');
+    if (i === traceStep) html += '<b class="cur">' + escapeHtml(t) + '</b>';
+    else html += escapeHtml(t);
+  });
+  el.innerHTML = html || escapeHtml(traceData.full_text || '');
+}
+
+function goTrace(i, pause) {
+  if (!traceData) return;
+  if (pause && tracePlaying) {
+    clearInterval(traceTimer); traceTimer = null; tracePlaying = false;
+    document.getElementById('trace-play').textContent = '▶ Play';
+  }
+  traceStep = Math.max(0, Math.min(traceData.sequence.length - 1, i));
+  const s = traceData.sequence[traceStep];
+  // center camera gently on current
+  ox = -s.x; oy = -s.y;
+  scale = Math.max(scale, 1.8);
+  renderTraceList();
+  renderTraceText();
+  // scroll list item into view
+  const item = document.querySelector('.trace-step[data-i="' + traceStep + '"]');
+  if (item) item.scrollIntoView({ block: 'nearest' });
+  draw();
+}
+
+function drawTracePath(ctx) {
+  if (!traceData || !traceData.sequence.length) return;
+  const seq = traceData.sequence;
+  // full path
+  ctx.beginPath();
+  for (let i = 0; i < seq.length; i++) {
+    const s = toScreen(seq[i].x, seq[i].y);
+    if (i === 0) ctx.moveTo(s[0], s[1]);
+    else ctx.lineTo(s[0], s[1]);
+  }
+  ctx.strokeStyle = '#3a5080';
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.55;
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // walked path up to current
+  if (traceStep > 0) {
+    ctx.beginPath();
+    for (let i = 0; i <= traceStep; i++) {
+      const s = toScreen(seq[i].x, seq[i].y);
+      if (i === 0) ctx.moveTo(s[0], s[1]);
+      else ctx.lineTo(s[0], s[1]);
+    }
+    const grd = ctx.createLinearGradient(0, 0, W, H);
+    grd.addColorStop(0, '#6ea8fe');
+    grd.addColorStop(1, '#3dd68c');
+    ctx.strokeStyle = grd;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  // points
+  for (let i = 0; i < seq.length; i++) {
+    const p = seq[i];
+    const s = toScreen(p.x, p.y);
+    const isCur = i === traceStep;
+    const isPast = i < traceStep;
+    const r = isCur ? 8 : (p.phase === 'prompt' ? 4.5 : 4);
+    ctx.beginPath();
+    ctx.arc(s[0], s[1], r, 0, 6.28);
+    if (p.phase === 'prompt') ctx.fillStyle = isCur ? '#9ec1ff' : '#6ea8fe';
+    else ctx.fillStyle = isCur ? '#7dffb0' : '#3dd68c';
+    ctx.globalAlpha = isPast || isCur ? 1 : 0.45;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (isCur) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(s[0], s[1], r + 4, 0, 6.28);
+      ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 13px system-ui';
+      ctx.fillText(cleanTokT(p.token), s[0] + 10, s[1] - 8);
+      // next arrow label
+      if (i + 1 < seq.length) {
+        const n = seq[i + 1];
+        ctx.fillStyle = '#3dd68c';
+        ctx.font = '11px system-ui';
+        ctx.fillText('→ ' + cleanTokT(n.token), s[0] + 10, s[1] + 10);
+      }
+    } else if (i <= traceStep + 2 || p.on_map) {
+      ctx.fillStyle = '#c8d0e0';
+      ctx.font = '10px system-ui';
+      ctx.fillText(cleanTokT(p.token), s[0] + 7, s[1] + 3);
+    }
+  }
+}
+
+// hook into existing draw()
+const _drawOrig = draw;
+draw = function () {
+  _drawOrig();
+  if (traceData) drawTracePath(ctx);
+};
+
+async function loadDemoTrace() {
+  try {
+    const res = await fetch('trace_secreto_felicidad.json?v=' + Date.now().toString(36).slice(-4));
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    startTrace(data);
+  } catch (e) {
+    alert('No se pudo cargar la traza: ' + e.message);
+  }
+}
+
+document.getElementById('btn-trace-demo').onclick = loadDemoTrace;
+document.getElementById('trace-prev').onclick = function () { goTrace(traceStep - 1, true); };
+document.getElementById('trace-next').onclick = function () { goTrace(traceStep + 1, true); };
+document.getElementById('trace-stop').onclick = stopTrace;
+document.getElementById('trace-play').onclick = function () {
+  if (!traceData) return;
+  if (tracePlaying) {
+    clearInterval(traceTimer); traceTimer = null; tracePlaying = false;
+    document.getElementById('trace-play').textContent = '▶ Play';
+    return;
+  }
+  tracePlaying = true;
+  document.getElementById('trace-play').textContent = '❚❚ Pausa';
+  if (traceStep >= traceData.sequence.length - 1) goTrace(0, false);
+  traceTimer = setInterval(function () {
+    if (traceStep >= traceData.sequence.length - 1) {
+      clearInterval(traceTimer); traceTimer = null; tracePlaying = false;
+      document.getElementById('trace-play').textContent = '▶ Play';
+      return;
+    }
+    goTrace(traceStep + 1, false);
+  }, 700);
+};
+
+// extend bootFromHash
+const _bootFromHash = bootFromHash;
+bootFromHash = function () {
+  const h = (location.hash || '').replace(/^#\/?/, '');
+  if (h === 'trace' || h.indexOf('trace/') === 0) {
+    loadDemoTrace();
+    return;
+  }
+  _bootFromHash();
+};
+
+// Escape still exits trace
+window.addEventListener('keydown', function (e) {
+  if (!traceData) return;
+  if (e.key === 'Escape') stopTrace();
+  if (e.key === 'ArrowRight') goTrace(traceStep + 1, true);
+  if (e.key === 'ArrowLeft') goTrace(traceStep - 1, true);
+  if (e.key === ' ') { e.preventDefault(); document.getElementById('trace-play').click(); }
+});
+
+// re-boot hash after tracer hooks
+if ((location.hash || '').indexOf('trace') >= 0) loadDemoTrace();
+
+
 </script>
 </body>
 </html>
