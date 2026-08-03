@@ -1,5 +1,7 @@
 # dreaming
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/FiveTechSoft/dreaming)
+
 A 500MB synthetic LLM built **from scratch** using reverse engineering techniques on existing LLM architectures — DeepSeek-V2 Lite — combined with dream-inspired weight generation and a pure C inference engine with zero external dependencies.
 
 ## What We Discovered
