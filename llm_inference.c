@@ -310,6 +310,7 @@ typedef struct {
     /* Temp buffers */
     float *buf;      /* large contiguous buffer for all temp storage */
     int buf_cap;
+    int trace_heads;
 } Model;
 
 static int cfg_int(GGUFReader *r, const char *key, int default_val) {
@@ -522,26 +523,52 @@ static void model_forward(Model *m, int *tokens, int seq_len, float *logits) {
             }
         }
 
-        /* Attention for LAST token only (most efficient for generation) */
+        /* Attention for LAST token over ALL heads */
         int cur = seq_len - 1;
-        float *cur_Q = Q_reshaped + cur * NUM_HEADS * HEAD_DIM;
-
-        float attn_w[MAX_SEQ];
-        float attn_logits[MAX_SEQ];
-        for (int k = 0; k < seq_len; k++) {
-            float *cur_K = K_reshaped + k * NUM_HEADS * HEAD_DIM;
-            double dot = 0.0;
-            for (int d = 0; d < HEAD_DIM; d++) dot += (double)cur_Q[d] * cur_K[d];
-            attn_logits[k] = dot / sqrtf((float)HEAD_DIM);
-        }
-        masked_softmax(attn_w, attn_logits, seq_len, cur);
-
         float attn_result[HIDDEN_DIM] = {0.0f};
-        for (int k = 0; k < seq_len; k++) {
-            float wt = attn_w[k];
-            float *cur_V = V_reshaped + k * NUM_HEADS * HEAD_DIM;
-            for (int d = 0; d < HIDDEN_DIM; d++) {
-                attn_result[d] += wt * cur_V[d];
+
+        for (int h = 0; h < NUM_HEADS; h++) {
+            float *cur_Q_h = Q_reshaped + cur * NUM_HEADS * HEAD_DIM + h * HEAD_DIM;
+            float attn_w[MAX_SEQ];
+            float attn_logits[MAX_SEQ];
+
+            for (int k = 0; k < seq_len; k++) {
+                float *cur_K_h = K_reshaped + k * NUM_HEADS * HEAD_DIM + h * HEAD_DIM;
+                double dot = 0.0;
+                for (int d = 0; d < HEAD_DIM; d++) dot += (double)cur_Q_h[d] * cur_K_h[d];
+                attn_logits[k] = (float)(dot / sqrt((double)HEAD_DIM));
+            }
+            masked_softmax(attn_w, attn_logits, seq_len, cur);
+
+            /* Output per-head trace if requested */
+            if (m->trace_heads && cur > 0) {
+                int max_k = 0;
+                float max_w = attn_w[0];
+                float entropy = 0.0f;
+                for (int k = 0; k <= cur; k++) {
+                    if (attn_w[k] > max_w) { max_w = attn_w[k]; max_k = k; }
+                    if (attn_w[k] > 1e-8f) {
+                        entropy -= attn_w[k] * (log2f(attn_w[k]));
+                    }
+                }
+                const char *cls = "Distributed";
+                if (attn_w[0] > 0.55f) cls = "Sink/BOS";
+                else if (cur > 0 && attn_w[cur - 1] > 0.45f) cls = "Previous Token";
+                else if (entropy < 1.0f) cls = "Selective/Focused";
+                else if (entropy > 1.2f) cls = "Long-Range";
+
+                if (l % 4 == 0 && h % 8 == 0) {
+                    printf("    [L%02d H%02d] -> Target:#%d (peso: %.2f) | Entropia: %.2f | Tipo: %s\n",
+                           l, h, max_k, max_w, entropy, cls);
+                }
+            }
+
+            for (int k = 0; k < seq_len; k++) {
+                float wt = attn_w[k];
+                float *cur_V_h = V_reshaped + k * NUM_HEADS * HEAD_DIM + h * HEAD_DIM;
+                for (int d = 0; d < HEAD_DIM; d++) {
+                    attn_result[h * HEAD_DIM + d] += wt * cur_V_h[d];
+                }
             }
         }
 
@@ -659,6 +686,8 @@ int main(int argc, char **argv) {
     float temp = 0.8f;
     int top_k = 25;
 
+    int trace_mode = 1;
+
     if (argc >= 2) model_path = argv[1];
     if (argc >= 3) prompt = argv[2];
     if (argc >= 4) max_new = atoi(argv[3]);
@@ -666,12 +695,13 @@ int main(int argc, char **argv) {
     if (argc >= 6) top_k = atoi(argv[5]);
 
     printf("========================================\n");
-    printf("  LLM ONIRICO - Motor C Puro\n");
-    printf("  DeepSeek-V2 Lite | %d layers | %d heads\n", NUM_LAYERS, NUM_HEADS);
+    printf("  LLM ONIRICO - Motor C Puro + Trazador de Cabezas\n");
+    printf("  DeepSeek-V2 / TinyLlama | %d layers | %d heads\n", NUM_LAYERS, NUM_HEADS);
     printf("========================================\n\n");
 
     Model model;
     memset(&model, 0, sizeof(model));
+    model.trace_heads = trace_mode;
     model_load(&model, model_path);
 
     printf("\n--- Generation ---\n");
