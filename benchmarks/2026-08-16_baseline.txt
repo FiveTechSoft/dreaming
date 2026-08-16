@@ -1,0 +1,20 @@
+BASELINE — 2026-08-16
+=====================
+Model: TinyLlama-1.1B F16 (2.2 GB)
+Engine: llm_inference.c (unmodified, with debug prints)
+Platform: Windows x64, GCC -O2
+
+Results:
+  - 50 tokens in 59.62s
+  - Speed: 0.8 tok/s
+  - Output: "at the helm. The 2018-19 season will be the 100th season of the NHL..."
+  - Quality: Coherent, factual
+
+Bottleneck analysis:
+  1. Debug printf in hot path (lines 738-803) — prints embedding values, NaN counts, 
+     layer stats EVERY token. ~15 printfs per layer = 330+ printfs per forward pass.
+  2. Naive matmul O(n³) — no cache blocking, no SIMD
+  3. malloc/free per token — ~15 heap allocations per forward pass
+  4. No parallelism — single-threaded
+
+First target: Remove debug prints (beam #4, debug-cleanup)
