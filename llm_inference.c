@@ -42,6 +42,22 @@ static void __attribute__((constructor)) set_threads(void) {
 #define MAX_TOKENS    512
 
 /* ================================================================
+ *  QUANTIZED TYPE CONSTANTS
+ * ================================================================ */
+#define Q6_K_BLOCK_ELEMS 256
+#define Q6_K_BLOCK_BYTES 210
+#define Q4_K_BLOCK_ELEMS 256
+#define Q4_K_BLOCK_BYTES 144
+#define Q4_0_BLOCK_ELEMS 32
+#define Q4_0_BLOCK_BYTES 18
+#define Q4_NL_BLOCK_ELEMS 32
+#define Q4_NL_BLOCK_BYTES 18
+static const int8_t kvalues_iq4nl[16] = {
+    -127, -104, -83, -65, -49, -35, -22, -10,
+       1,   13,  25,  38,  53,  69,  89, 113
+};
+
+/* ================================================================
  *  HALF-PRECISION FLOAT (F16 -> F32)
  *  IEEE 754 half-precision manual decoder
  * ================================================================ */
@@ -343,16 +359,153 @@ static int ggufr_find(GGUFReader *r, const char *name) {
     return -1;
 }
 
+/* get_scale_min_k4: extract 6-bit scale/min from 12-byte scales array. */
+static inline void get_scale_min_k4(int j, const uint8_t *scales,
+                                    uint8_t *d, uint8_t *m) {
+    if (j < 4) {
+        *d = scales[j] & 0x3F;
+        *m = scales[j + 4] & 0x3F;
+    } else {
+        *d = (scales[j + 4] & 0xF) | ((scales[j - 4] >> 6) << 4);
+        *m = (scales[j + 4] >> 4)  | ((scales[j]     >> 6) << 4);
+    }
+}
+
+/* Dequantize a Q4_K block: 256 elements from 144 bytes.
+ * Layout: d(f16) | dmin(f16) | scales[12] | qs[128] */
+static void dequant_q4_k(float *out, const uint8_t *raw, int n) {
+    int nb = n / Q4_K_BLOCK_ELEMS;
+    for (int b = 0; b < nb; b++) {
+        const uint8_t *blk = raw + b * Q4_K_BLOCK_BYTES;
+        float d    = f16_to_f32(*(const uint16_t *)(blk + 0));
+        float dmin = f16_to_f32(*(const uint16_t *)(blk + 2));
+        const uint8_t *scales = blk + 4;
+        const uint8_t *qs     = blk + 16;
+        float *y = out + b * Q4_K_BLOCK_ELEMS;
+        int q_idx = 0;
+        int is = 0;
+        for (int j = 0; j < Q4_K_BLOCK_ELEMS; j += 64) {
+            uint8_t sc1, m1, sc2, m2;
+            get_scale_min_k4(is + 0, scales, &sc1, &m1);
+            get_scale_min_k4(is + 1, scales, &sc2, &m2);
+            float d1 = d * sc1;  float m1v = dmin * m1;
+            float d2 = d * sc2;  float m2v = dmin * m2;
+            for (int l = 0; l < 32; l++)
+                y[j + l]      = d1 * (qs[q_idx + l] & 0xF) - m1v;
+            for (int l = 0; l < 32; l++)
+                y[j + 32 + l] = d2 * (qs[q_idx + l] >> 4)   - m2v;
+            q_idx += 32;
+            is += 2;
+        }
+    }
+}
+
+/* Dequantize Q6_K block: 256 elements from 210 bytes */
+static void dequant_q6_k(float *out, const uint8_t *raw, int n) {
+    int nb = n / Q6_K_BLOCK_ELEMS;
+    for (int b = 0; b < nb; b++) {
+        const uint8_t *blk = raw + b * Q6_K_BLOCK_BYTES;
+        const uint8_t *ql = blk;
+        const uint8_t *qh = blk + 128;
+        const int8_t  *sc = (const int8_t *)(blk + 192);
+        float d = f16_to_f32(*(const uint16_t *)(blk + 208));
+        for (int sub = 0; sub < 2; sub++) {
+            const uint8_t *ql_s = ql + sub * 64;
+            const uint8_t *qh_s = qh + sub * 32;
+            const int8_t  *sc_s = sc + sub * 8;
+            float *y = out + b * 256 + sub * 128;
+            for (int l = 0; l < 32; l++) {
+                int is = l / 16;
+                int q1 = (int)((ql_s[l] & 0xF) | (((qh_s[l] >> 0) & 3) << 4)) - 32;
+                int q2 = (int)((ql_s[l + 32] & 0xF) | (((qh_s[l] >> 2) & 3) << 4)) - 32;
+                int q3 = (int)((ql_s[l] >> 4) | (((qh_s[l] >> 4) & 3) << 4)) - 32;
+                int q4 = (int)((ql_s[l + 32] >> 4) | (((qh_s[l] >> 6) & 3) << 4)) - 32;
+                y[l      ] = d * sc_s[is    ] * q1;
+                y[l + 32 ] = d * sc_s[is + 2] * q2;
+                y[l + 64 ] = d * sc_s[is + 4] * q3;
+                y[l + 96 ] = d * sc_s[is + 6] * q4;
+            }
+        }
+    }
+}
+
+/* Dequantize Q4_0 block: 32 elements from 18 bytes
+ * Layout: d(f16) | qs[16] (8 values per byte, 4-bit each)
+ * Scale: d = f16(scale), values = (q - 8) * d
+ */
+static void dequant_q4_0(float *out, const uint8_t *raw, int n) {
+    int nb = n / Q4_0_BLOCK_ELEMS;
+    for (int b = 0; b < nb; b++) {
+        float d = f16_to_f32(*(const uint16_t *)(raw + b * 18));
+        const uint8_t *qs = raw + b * 18 + 2;
+        for (int j = 0; j < 16; j++) {
+            int q0 = (qs[j] & 0x0F) - 8;
+            int q1 = (qs[j] >> 4) - 8;
+            out[b * 32 + j      ] = d * q0;
+            out[b * 32 + j + 16 ] = d * q1;
+        }
+    }
+}
+
+/* Dequantize IQ4_NL block: 32 elements from 18 bytes */
+static void dequant_iq4_nl(float *out, const uint8_t *raw, int n) {
+    int nb = n / Q4_NL_BLOCK_ELEMS;
+    for (int b = 0; b < nb; b++) {
+        float d = f16_to_f32(*(const uint16_t *)(raw + b * 18));
+        const uint8_t *qs = raw + b * 18 + 2;
+        for (int j = 0; j < 16; j++) {
+            out[b * 32 + j       ] = d * kvalues_iq4nl[qs[j] & 0xF];
+            out[b * 32 + j + 16  ] = d * kvalues_iq4nl[qs[j] >> 4];
+        }
+    }
+}
+
+/* Compute raw bytes needed for a quantized tensor.
+ * GGML type IDs: 0=F32, 1=F16, 2=Q4_0, 12=Q4_K, 14=Q6_K */
+static int64_t raw_bytes_for_tensor(int64_t nelem, uint32_t ttype) {
+    if (ttype == 0) return nelem * 4;       /* F32 */
+    if (ttype == 1) return nelem * 2;       /* F16 */
+    if (ttype == 2) return (nelem / Q4_0_BLOCK_ELEMS) * Q4_0_BLOCK_BYTES;   /* Q4_0 */
+    if (ttype == 12) return (nelem / Q4_K_BLOCK_ELEMS) * Q4_K_BLOCK_BYTES;  /* Q4_K */
+    if (ttype == 14) return (nelem / Q6_K_BLOCK_ELEMS) * Q6_K_BLOCK_BYTES;  /* Q6_K */
+    return nelem * 2;  /* fallback: assume F16 */
+}
+
 static float *ggufr_load_tensor(GGUFReader *r, int idx) {
-    float *out = malloc(r->tensors[idx].nelem * sizeof(float));
-    const uint8_t *raw = r->data + r->tensors[idx].offset;
     int64_t n = r->tensors[idx].nelem;
     uint32_t ttype = r->tensors[idx].type;
+    int64_t off = r->tensors[idx].offset;
+    int64_t need = raw_bytes_for_tensor(n, ttype);
+    int64_t avail = r->size - off;
+
+    if (need > avail) {
+        fprintf(stderr, "TENSOR OOB: '%s' type=%u nelem=%lld need=%lld avail=%lld\n",
+                r->tensors[idx].name, ttype, (long long)n, (long long)need, (long long)avail);
+        /* Fall back to zeroed output */
+        float *out = calloc(n, sizeof(float));
+        return out;
+    }
+
+    float *out = malloc(n * sizeof(float));
+    if (!out) { fprintf(stderr, "OOM for tensor '%s' (%lld floats)\n", r->tensors[idx].name, (long long)n); exit(1); }
+    const uint8_t *raw = r->data + off;
+
     if (ttype == 0) {
-        /* F32: 4 bytes per element */
         memcpy(out, raw, n * sizeof(float));
+    } else if (ttype == 1) {
+        for (int64_t i = 0; i < n; i++) {
+            uint16_t h;
+            memcpy(&h, raw + i * 2, 2);
+            out[i] = f16_to_f32(h);
+        }
+    } else if (ttype == 2) {
+        dequant_q4_0(out, raw, (int)n);
+    } else if (ttype == 12) {
+        dequant_q4_k(out, raw, (int)n);
+    } else if (ttype == 14) {
+        dequant_q6_k(out, raw, (int)n);
     } else {
-        /* F16 (or other): 2 bytes per element, convert to F32 */
+        fprintf(stderr, "WARNING: unsupported tensor type %u for '%s'\n", ttype, r->tensors[idx].name);
         for (int64_t i = 0; i < n; i++) {
             uint16_t h;
             memcpy(&h, raw + i * 2, 2);
