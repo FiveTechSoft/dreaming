@@ -70,10 +70,12 @@ static inline float f16_to_f32(uint16_t h) {
     if (exp == 0) {
         if (man == 0) { result = sign << 31; }
         else {
-            exp = 1;
-            while ((man & 0x400) == 0 && exp > 0) { man <<= 1; exp--; }
+            /* Subnormal: value = 2^-24 * man. Normalize by shifting
+             * man left until bit 10 set, tracking exponent (may go negative). */
+            int e = -14;
+            while ((man & 0x400) == 0) { man <<= 1; e--; }
             man &= 0x3FF;
-            result = (sign << 31) | ((exp + 127 - 15) << 23) | (man << 13);
+            result = (sign << 31) | ((uint32_t)(e + 127) << 23) | (man << 13);
         }
     } else if (exp == 31) {
         result = (sign << 31) | (0xFF << 23) | (man << 13);
