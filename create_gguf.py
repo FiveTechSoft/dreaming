@@ -317,7 +317,7 @@ with open(OUTPUT, 'wb') as f:
 
 final_size = os.path.getsize(OUTPUT)
 print(f"\n{'='*60}")
-print(f"FICHERO ONIRICO CREADO: {OUTPUT}")
+print(f"FICHERO CREADO: {OUTPUT}")
 print(f"Tamaño real:     {final_size:,} bytes ({final_size/1024**3:.2f} GB)")
 print(f"Tensores:        {num_tensors}")
 print(f"Peso F16:        {total_weight_bytes/1024**3:.2f} GB")
